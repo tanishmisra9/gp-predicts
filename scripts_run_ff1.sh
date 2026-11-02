@@ -8,5 +8,5 @@ for line in open(sys.argv[1]):
     if k in ('F1_USERNAME', 'F1_PASSWORD'):
         os.environ[k] = v.strip().strip('"').strip("'")
 sys.argv = ['ff1'] + sys.argv[2:]
-runpy.run_module('f1.ff1', run_name='__main__')
+runpy.run_module(os.environ.get("F1_MODULE", "f1.ff1"), run_name="__main__")
 PY

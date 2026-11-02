@@ -132,3 +132,28 @@ first-lap incidents and retirements cap it. A forecast made before the weekend c
 Hypothesis "accuracy improves across the season": pooled slope -0.0018/round (p=0.64). By stage R1-5 .60 / R6-11 .58 / R12+ .56.
 2023-25 show no gain (2025 flat at .667). 2026 (new regulations) does rise: R1-5 .40 -> R6-11 .56 -> R12+ .63 (n=19; noisy but
 consistent with the idea that in-season data matters when the car pecking order is reshuffled).
+
+## E9 — User-directed information expansion (pre-weekend only; all from PAST weekends/sessions)
+Built (all leak-tested by tests/test_profile_leak.py, which replaces every target-weekend telemetry/session/strategy/circuit row with noise):
+- f1/telemetry.py: fastest-quali-lap telemetry -> per-driver CORNER PROFILES. A reference lap defines corners (speed minima); every lap is resampled
+  onto the same track-position grid. Per corner: apex speed, braking decel into the corner, distance to full throttle after apex, speed gained over the
+  next 150 m, top speed on the following straight; gaps vs best car averaged by corner class (slow<130, med<220, fast km/h).
+  ENGINE proxy: full-throttle acceleration at 200-280 km/h with DRS closed, plus straight-end speed gaps. Circuit layout traits from the reference lap.
+- f1/sessions.py: all sessions (FP1-3, Q, SQ, S, R): best/long-run pace, sector gaps, speed-trap gaps, tyre-degradation slope.
+- f1/strategy.py + f1/pits.py: per race stops/stint length/compound mix/wet share/safety-car share; pit-lane time per driver.
+- f1/profile.py: CAR profile (team mean, decayed hl=6 races -> follows in-season development), DRIVER STYLE (driver minus teammate in the same car, portable
+  across teams), circuit character from PAST visits (layout, typical stops, SC share, DNF/collision rate, podium "chaos"), car x track "fit" scalars,
+  strategy-execution residual (finish rank vs race-pace rank), pit-lane time, power-unit-pooled reliability/power (supplier map hand-entered: ASSUMPTION).
+First look (dev 2023-25): adding the 99-feature profile block did not improve anything: pace-order Spearman 0.70-0.72 for every variant, podium 0.50-0.55 vs
+standings 0.59. Ridge got worse (0.682).
+
+## E10 — Does the premise ("tracks favour different cars") exist in the data?  (diagnostics, 2019-26)
+- A team's deviation from its own season-average race pace = 32% of pace variance, BUT the same team at the same circuit one year later: corr(dev) = +0.044
+  (n=1234); consecutive races: -0.007. Cars change too much year to year for "team X is good at track Y" to carry over.
+- Within a season, deviation correlation by circuit-trait similarity (z-scored layout/straight/vmax/low-speed share): most similar +0.055, similar +0.080,
+  different -0.025, most different -0.089 (the common negative offset is a mean-zero artifact). A real but weak gradient (~0.12 vs ~-0.04 after offset).
+- As a forecaster, track-similarity-weighted team form is WORSE than plain recency-weighted form: team pace-order Spearman 0.774 (recency) vs 0.766 (tau=2.5)
+  vs 0.709 (tau=0.7). The signal is too weak to pay for the data it discards.
+- Pace -> podium mapping (corrupt TRUE race pace with noise): rho 1.00 -> podium 0.746; 0.96 -> 0.66; 0.86 -> 0.60; 0.76 -> 0.50.
+  => even a PERFECT race-pace forecast gives 0.746 (<75%). Our pre-weekend pace forecasts reach ~0.72 driver-level / 0.77 team-level.
+  Reaching 75% would need pace forecast better than perfect, i.e. predicting retirements, safety cars and strategy luck as well.
