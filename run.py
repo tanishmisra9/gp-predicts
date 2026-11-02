@@ -7,6 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy import stats
 
 import f1.walkforward as W
 from f1.data import load_results, DATA
@@ -77,12 +78,26 @@ def main_pre(seasons=None):
     R, P = W.walk_forward(X, seasons, models, ens={"ens": ["standings", "pre_logit"]})
     R.to_csv(OUT / "preweekend_per_round.csv", index=False)
     orc = oracle(pace, seasons)
+    L = []
+    pr = lambda *a: (L.append(" ".join(str(x) for x in a)), print(*a))
+    final = "ens"
     for s in seasons:
         Rs = R[R.season == s]
-        print(f"\n### PRE-WEEKEND season {s} ({Rs['round'].nunique()} races): podium accuracy per model + oracle ceiling")
-        print(W.summarize(Rs)[["winner", "podium", "top10", "pairwise", "mae"]].assign(
-            oracle_podium=np.nan).to_markdown())
-        print(f"oracle (true race pace known; diagnostic upper bound): podium {orc.loc[s].mean():.3f}")
+        pr(f"\n### PRE-WEEKEND (no target-weekend data) - season {s}, {Rs['round'].nunique()} races")
+        pr(W.summarize(Rs)[["winner", "podium", "top10", "pairwise", "mae"]].to_markdown())
+        a = Rs[Rs.model == final].podium.values; lo, hi = W.boot_ci(a)
+        pr(f"final model ({final}) podium = {a.mean():.3f}  95% CI [{lo:.3f}, {hi:.3f}];  races >= 75%: {(a >= .75).sum()}/{len(a)};"
+           f"  ORACLE ceiling (true race pace known, diagnostic) = {orc.loc[s].mean():.3f}")
+    pr("\n### Does accuracy improve across the season? (final model, pooled over evaluated seasons)")
+    d = R[R.model == final]
+    by = d.groupby("round").podium.mean(); sl = stats.linregress(by.index, by.values)
+    st = d.assign(stage=pd.cut(d["round"], [0, 5, 11, 30], labels=["R1-5", "R6-11", "R12+"])).groupby("stage", observed=True).podium.agg(["mean", "size"]).round(3)
+    pr(st.to_markdown()); pr(f"slope of podium accuracy per round = {sl.slope:+.4f} (p={sl.pvalue:.2f}); per-season stage means:")
+    pr(d.assign(stage=pd.cut(d["round"], [0, 5, 11, 30], labels=["R1-5", "R6-11", "R12+"])).groupby(["season", "stage"], observed=True).podium.mean().unstack().round(3).to_markdown())
+    t = R[(R.season == seasons[-1]) & R.model.isin([final, "standings"])].pivot(index="round", columns="model", values="podium").round(3)
+    t["cum_" + final] = t[final].expanding().mean().round(3)
+    pr(f"\n### {seasons[-1]} per round"); pr(t.to_markdown())
+    (OUT / "preweekend_summary.md").write_text("\n".join(L))
     return R, X
 
 

@@ -108,3 +108,27 @@ Argument for feasibility: pre-weekend info is (roughly) a subset of what the pos
 less information beating a better-informed one by 6-10 pts would be surprising => prior says 75% is unlikely. To be tested, not assumed.
 The user's hypothesis (accuracy improves across a season as in-season data accumulates) is tested explicitly via accuracy-by-round curves.
 Telogify's FastF1 cache covers only 14 weekends of 2026 (3.6 GB, mostly telemetry) -> reused for those; everything else downloaded.
+
+## E8 — Pre-weekend (no target-weekend data) models, FastF1 race-pace features (dev 2022-25, then ONE look at 2026)
+Data: FastF1 is now used for race pace (clean green-flag lap median gap, 2018-2026; corr 0.993 with the OpenF1 version on 1,718 driver-races).
+Official results stay on Jolpica: FastF1's grid/points/status come from Jolpica internally (NaN when rate-limited, observed in many races when
+4 fetchers ran in parallel) and its timing-based positions ignore post-race penalties (e.g. 2019 Canada), so it is a worse label source.
+Leak tests: tests/test_preweekend.py wipes ALL target-weekend data and asserts the pre-weekend features are bit-identical; mutation-checked.
+
+Dev 2022-25 (92 races), podium: standings 0.583 | logit(pace-aware, 34 feats) 0.554 | lgbm ~0.53 | pace-only scores 0.51-0.54 | **rank-avg(standings, logit) 0.583**.
+Frozen: `ens` = rank-average(standings, logit). Held-out 2026 (19 races), single look:
+
+| 2026 pre-weekend | ens | standings | logit | lgbm | prev podium |
+|---|---|---|---|---|---|
+| podium | **0.544** [0.439, 0.632] | 0.526 | 0.561 | 0.579 | 0.509 |
+| winner | 0.368 | 0.368 | 0.263 | 0.316 | 0.368 |
+| pairwise | 0.771 | 0.755 | 0.770 | 0.756 | 0.683 |
+
+Races >= 75% podium: 1/19 (2023-25: 0/22, 2/24, 3/24). **75% is NOT reached; best pooled pre-weekend podium accuracy ~0.57.**
+ORACLE UPPER BOUND (diagnostic, uses post-race info): knowing each driver's TRUE race pace in the target race gives podium overlap
+0.74 (2022-25: .742/.742/.736/.736; 2026: .789). So the target is at/above what perfect pace knowledge delivers; strategy, safety cars,
+first-lap incidents and retirements cap it. A forecast made before the weekend cannot beat that bound.
+
+Hypothesis "accuracy improves across the season": pooled slope -0.0018/round (p=0.64). By stage R1-5 .60 / R6-11 .58 / R12+ .56.
+2023-25 show no gain (2025 flat at .667). 2026 (new regulations) does rise: R1-5 .40 -> R6-11 .56 -> R12+ .63 (n=19; noisy but
+consistent with the idea that in-season data matters when the car pecking order is reshuffled).
