@@ -526,3 +526,21 @@ The swap changed the top-three set in only **2/61 inner** and **4/70 outer** rac
 The measurement itself transfers better than E104's degradation slope: past/current matched-gap correlation was 0.438 inner (516 driver rows) and 0.380 outer (548 rows). On the 567/655 covered teammate pairs, its faster-driver call was 0.621/0.666 correct, versus frozen `ens` 0.596/0.648 on the same pairs. For pairs with an actual podium finisher (an **evaluation-only** subset, not a feature), it was 0.735/0.768 versus `ens` 0.723/0.723 on 136/164 pairs. The race-bootstrap difference in pair accuracy was +0.019 outer overall (95% CI [-0.014,+0.052]) and +0.036 on outer podium-involved race averages ([-0.019,+0.093]); these do not establish a reliable teammate-order gain. A first bootstrap attempt produced impossible differences because boolean/object values were subtracted; the comparison was converted to numeric and rerun before logging these numbers. `tests/test_teammate_segments_leak.py` scrambles target-and-later source gaps on synthetic and cached data. Existing leak, pre-weekend, profile, guard, and metric tests passed. No new 2026 evaluation was run.
 
 **Verdict:** promising measurement repeatability, **no outer podium gain**. The hard teammate swap rarely changes which driver occupies the third podium slot. Larger claims about driver skill or a path to 0.750 are unsupported; traffic estimates, tyre state, and sparse paired-lap selection remain limitations. Any next use of this feature should show how it changes marginal podium probabilities at the P3/P4 boundary, rather than optimizing teammate accuracy in isolation.
+
+### E109 — Matched-teammate gap as one podium-model feature (A5/A8 follow-up)
+
+**Strict podium overlap**, walk-forward over the complete development windows:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` (standings + fixed logit) | 0.6284 | 0.5857 |
+| fixed logit + E108 prior teammate gap | 0.6448 | 0.5714 |
+| standings + augmented logit rank average | 0.6339 | 0.5857 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/a5_podium_feature.py` merged E108's strictly past, same-team/same-teammate pace gap into the existing feature table. It added **one** feature to the frozen regularized podium logit, keeping `C=0.03`, 100-race half-life, the same training rows, and the existing equal-rank standings blend. Missing gaps were handled by the logit's existing median imputer; all races remained scored. The prior gap was present for 92.95% of inner and 93.71% of outer driver-races. The augmented blend changed the top-three set in 2/61 inner and 7/70 outer races. Its strict-overlap difference versus frozen `ens` was +0.0055 inner (paired race bootstrap 95% CI [0,+0.0164]) and **0.0000 outer** ([-0.0238,+0.0238]); outer difference versus standings was -0.0048 ([-0.0239,+0.0143]). No weight, imputation, or feature variant was selected on the outer result. These repeatedly inspected development races cannot establish a small gain.
+
+The new gap modestly changed the logit's probabilities: driver-race Brier/log-loss were 0.07719/0.24968 to 0.07690/0.24942 inner, and 0.08314/0.26293 to 0.08261/0.26140 outer. The race-paired outer Brier difference was -0.000531 (95% CI [-0.001212,+0.000210]); log-loss difference -0.001532 ([-0.003140,+0.000192]). Both intervals include zero. `tests/test_teammate_segments_leak.py` now also scrambles the target-and-later raw gaps and target outcomes through the final feature merge; the feature remains unchanged. All existing pre-weekend leak, profile, guard, and metric checks passed. No new 2026 evaluation was run.
+
+**Verdict: no strict podium gain.** A repeatable teammate-race measurement carries weak probabilistic information but does not displace standings at the third-place boundary. It does not advance the 0.750 gate. Do not promote this augmented model as the new frozen predictor.

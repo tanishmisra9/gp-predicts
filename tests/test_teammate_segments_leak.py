@@ -3,6 +3,7 @@
 import pandas as pd
 
 from experiments.a5_teammate_segments import PART, prior_pair
+from experiments.a5_podium_feature import feature_table
 from experiments.common import table
 
 
@@ -37,7 +38,27 @@ def test_cached_source_ignores_target_and_later():
         pd.testing.assert_series_equal(target(base), target(got), check_exact=True)
 
 
+def test_model_feature_ignores_target_and_later():
+    X = table()
+    X = X[X.season <= 2025].copy()
+    source = pd.read_csv(PART)
+    base = feature_table(X, source)
+    year, round_ = 2024, 12
+    changed = source.copy()
+    later = (changed.season > year) | ((changed.season == year) & (changed["round"] >= round_))
+    changed.loc[later, "gap"] = 99
+    got = feature_table(X, changed)
+    target = lambda d: d[(d.season == year) & (d["round"] == round_)].sort_values("code").prior_gap.reset_index(drop=True)
+    pd.testing.assert_series_equal(target(base), target(got), check_exact=True)
+    changed_x = X.copy()
+    later_x = (changed_x.season > year) | ((changed_x.season == year) & (changed_x["round"] >= round_))
+    changed_x.loc[later_x, ["order", "podium", "win"]] = 0
+    got = feature_table(changed_x, source)
+    pd.testing.assert_series_equal(target(base), target(got), check_exact=True)
+
+
 if __name__ == "__main__":
     test_synthetic_history()
     test_cached_source_ignores_target_and_later()
+    test_model_feature_ignores_target_and_later()
     print("teammate segments leak test passed")
