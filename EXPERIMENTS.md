@@ -487,3 +487,23 @@ The strict podium reference remains standings 0.5905 and frozen `ens` 0.5857 on 
 Raw first-two-versus-last-three-lap profile correlations were 0.990–0.997, and 2023-versus-2024 correlations were 0.971–0.985. These mostly reflect the circuit's common speed curve. After subtracting the four-driver field median at each bin, within-race split-half correlations ranged from **-0.077 to 0.706** (mean approximately 0.374); same-driver cross-year correlations were **0.462, -0.097, 0.006, 0.323** (mean 0.174). Among all 24 permutations matching 2024 driver identities to 2023, four had a mean residual correlation at least as large as the true identity matching (exact permutation tail 4/24 = 0.167). The four-driver field reference is small and team-skewed, and seasonal car changes, fuel, tyre wear, and traffic were not controlled. This is a feasibility sample, not a reliable estimate of signal across the grid.
 
 **Verdict: technically feasible, no predictive evidence yet.** Position alignment and many laps do not by themselves establish a persistent car-specific signature. Do not build a podium feature from these correlations. A larger, prespecified multi-circuit measurement and next-event residual test would be required before A1 merits a walk-forward podium backtest; the lack of 2020–22 race telemetry makes model selection on an untouched inner period especially difficult.
+
+### E107 — Past on-track passing conversion (B2)
+
+**Hypothesis:** a driver's past conversion of close, on-track passing opportunities may add execution information to standings and the frozen podium model. `experiments/b2_passing.py` extracted from existing offline FastF1 race timing. An opportunity is a follower within 1.5 seconds of the immediately preceding car at a lap line; both must have accurate, green-flag, non-pit laps at that line and the next. A pass is a reversal of their relative race positions at the next line. The source contains 42,700 opportunities and 3,809 inferred passes across 171 races in 2018–25 (one 2018 race unavailable). For each target race, a beta-smoothed driver rate `(past passes + 2)/(past opportunities + 20)` used only strictly earlier races. An initial extraction failed because FastF1 was using its empty default cache; importing the project's cache initializer fixed it before scoring. A later merge/`k` implementation error also failed loudly and was fixed before results were recorded.
+
+**Strict podium overlap**, walk-forward, all races included with the prior fallback for drivers with no opportunities:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| past passing rate alone | 0.2186 | 0.3524 |
+| `ens` plus 10% passing-rate rank, fixed 45/45/10 weights | 0.6339 | 0.5810 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+The passing blend changed the equivalent of one correct podium pick in each split: +0.0055 versus `ens` inner (paired race bootstrap 95% CI [0,+0.0164]) and -0.0048 outer ([-0.0238,+0.0143]). Its outer difference from standings was -0.0095 ([-0.0381,+0.0190]). The weight is one fixed exploratory choice, **not** a tuned optimum; both development eras have already been inspected repeatedly. The approximately ±5-point detection limit still applies to broad model comparisons.
+
+At the opportunity level (60 inner races with opportunities, 70 outer), the driver-specific prior versus a strictly past global pass-rate prior had race-averaged Brier **0.087982 vs 0.087756** inner (driver minus global +0.000226, 95% CI [-0.000213,+0.000758]) and **0.082730 vs 0.083138** outer (-0.000408, [-0.000726,-0.000090]). Log-loss was 0.319823 vs 0.319134 inner and 0.303608 vs 0.306063 outer. These tiny, era-dependent gains could reflect team pace and changing exposure, not an intrinsic driver passing skill. Spot-checked Bahrain 2023 swaps include plausible Pérez–Leclerc and Alonso–Hamilton moves, but timing alone cannot independently verify every event or correct for all lapped-car effects. `tests/test_passing_leak.py` scrambles target-and-later pass outcomes on synthetic and cached data; all existing pre-weekend leak, profile, guard, and metric checks passed. No 2026 evaluation was run.
+
+**Verdict: no podium gain.** The event-level signal is interesting for probabilities but does not overcome standings at the podium boundary in this test. Stop this simple attacker-rate feature; a future B2 variant would need validated pair-level exposure and pace advantage before another podium backtest.
