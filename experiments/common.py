@@ -22,7 +22,8 @@ warnings.filterwarnings("ignore")
 
 def table(cache=True):
     f = DATA / "cache_X.pkl"
-    if cache and f.exists():
+    src = [*DATA.glob("*.csv"), *DATA.glob("parts/*.csv"), *(DATA.parent / "f1").glob("*.py")]
+    if cache and f.exists() and f.stat().st_mtime >= max(p.stat().st_mtime for p in src):   # stale-cache guard: any newer data/code => rebuild
         return pd.read_pickle(f)
     df = load_results(); pace = pd.read_csv(DATA / "racepace_ff1.csv")
     X = add_profile(build_features(df, pace), df)

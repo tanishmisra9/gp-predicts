@@ -311,3 +311,75 @@ race's own pace labels (y_pace, y_q). Fixed at the root: in pre-weekend mode (`t
 3. Model flexibility hurts: the inner-outer gap grows with flexibility. With ~130 races the dominant error is variance, so simpler is better; E35/E55 (smooth target / few features) are the least bad learned models.
 4. The model's confidence is uninformative (E57), so there is no safe subset of races where 75% is reached.
 5. Even a hypothetical perfect team order gives only 0.743 (E56): 75% strict podium is above the oracle for every single-source pre-race information I could construct.
+
+# ROUND 4 — 35 more experiments (E58-E92), following the Opus audit routes, plus web research and new data sources
+Protocol unchanged (pre-weekend only, harness guard on). Reference podium (outer 2023-25 / pooled 2019-25): standings .590 / .596, ens .586 / .607, logit .557 / .599.
+Statistical context discovered this round: with 131 races the smallest detectable real gain is ~4.5 pts (70 races: ~6 pts) -> "no gain" means "no gain larger than ~5 pts".
+
+## A. Yardstick and regime (audit route A)
+| # | Experiment | Result | Verdict |
+|---|---|---|---|
+| E58 | Regime shift vs overfitting: per-season (learned - standings) | 2020 +.039, 2021 +.076, 2022 -.016, 2023 -.030, 2024 -.028, 2025 -.042; corr with training size -0.84 | Learned models WIN in dominant-team eras and LOSE in competitive eras: a regime effect, not classic overfitting |
+| E59 | Equal-length rolling training windows (last 44/66/110 races) | outer .552/.543/.557 (all-history .557); standings .590 | Window length is not the cause (supports E58) |
+| E60 | Power analysis | MDE (80% power): ~0.085 @70 races unpaired / ~0.061 paired; ~0.045 paired @131 | All "no gain" claims are bounded at ~±5 pts |
+| E61 | Polymarket "Driver Podium Finish" markets: coverage + price quality | 20 completed races have markets (3 in 2025, 17 in 2026). Resolved markets return EMPTY price history for most races; pre-weekend price exists for only 3 races and long-shot quotes are untraded placeholders (sum 6-8.6 instead of 3) | BLOCKED: no usable historical benchmark/feature |
+| E62 | Polymarket LIVE quotes for Brazil/Las Vegas 2026 | Brazil: volume 0, bid .51 / ask .99; mids Antonelli .75, Verstappen .75, Leclerc .645, Hamilton .645; Las Vegas: no quotes | Thin, but the quoted four equal my model's top four |
+| E63 | Pooled evaluation 2019-25 (152 races, train from 2018) | ens .607, logit .599, standings .596, rank-prior .566 | Same ordering with 21 more races |
+| E64 | Brier / log-loss of P(podium) (selection metric) | logit Brier .0758 (19-22) / .0832 (23-25) vs standings-rank prior .0831 / .0900; log-loss .244/.264 vs .298/.296 | **Learned model carries real probabilistic information the top-3 overlap hides** |
+| E65 | Reversed windows: tune on 2023-25, test on 2019-22 | best-outer setting inner .646 vs standings .602 | learned beats standings in the early window, loses in the late one (mirror of E58) |
+| E66 | Metric unit tests (ties, tiny fields, perfect/reversed) | pass (`tests/test_metrics.py`) | Harness verified |
+| E67 | Stale-cache guard on the feature table | table() now rebuilds when any data/code file is newer | engineering fix |
+| E68 | Season-block bootstrap of (ens - standings) podium | +0.011, 95% CI [-0.009, +0.032] | Statistical tie |
+
+## B. New information blocks (logit and extra-trees variants; dOuter vs ens)
+| # | Block | outer logit / ET | Verdict |
+|---|---|---|---|
+| E69 | Championship context (gap to leader, margin, rounds left, title pressure) | .557 / .562 | nothing |
+| E70 | Rookie flag, experience, team-prior imputation | .557 / .552 | nothing |
+| E71 | Calendar (days since last race, back-to-back) | .557 / .567 | nothing |
+| E72 | Within-team strength share | .557 / .562 | nothing |
+| E73 | Season-stage blend of short/long-run form (+ all blocks together .562) | .557 / .538 | nothing |
+
+## C. Models
+| # | Experiment | outer / inner podium | Verdict |
+|---|---|---|---|
+| E74 | Gaussian process, team race pace, time kernel vs time x circuit-trait kernel (2022-25, team-level Spearman) | recency .747; GP time-only .739; **GP time x traits .732** | adding the track kernel makes the forecast WORSE |
+| E75 | Monte Carlo with team-shared shock (strategy/reliability luck), 3 settings | .548 / .634 | no gain over independent noise |
+| E76 | Online Hedge ensemble (regime adaptive; weights from past races only) | .552-.581 / .623-.628 | no better than equal weights (.586) |
+| E77 | Dominance-conditioned model choice (threshold from inner) | inner .661 -> outer .557 | overfits the threshold |
+| E78 | Multinomial position bins -> P(P1)+P(P2-3) | .548 / .639 | no gain |
+| E79 | Circuit-cluster-conditioned team form (k-means on layout traits) | .562 / .645 | no gain |
+| E80 | Two-layer Kalman (team + driver offset) ranked by forecast pace | .576 / .612; ndcg3 outer .639 vs standings .643 | ties standings; best pure-pace model |
+| E81 | Race-trim strength (race pace minus quali gap, decayed) | .562 / .623 | no gain |
+| E82 | Sprint races as extra labelled training races | .562 / .639 | no gain |
+
+## D. Telemetry done better, and pre-season testing
+| # | Experiment | Result | Verdict |
+|---|---|---|---|
+| E83 | Telemetry v2 (mean of each driver's 3 fastest laps) reliability audit | median persistence .04 -> .07, validity .19 -> .29, between-team share .08 -> .08 | better, still mostly noise |
+| E84 | v2 full profile as features (2022-25) | ET .562 vs base .543; logit .536 vs .554; ridge .514 vs .554 | no robust gain |
+| E85 | v2 persistent-only metrics (persistence>.15: apex_slow, apex_med, gain_slow, gain_med, acc_gap) | ET .540, logit .558, ridge .547 (base .543/.554/.554) | no gain |
+| E86 | Pre-season testing pace vs actual rounds 1-3 team race pace (2022-26) | team-order Spearman: testing best-lap .716, long-run .562, last-year pace .752, **testing + last-year .813**; in 2026 (new regs) testing .855/.882 vs last-year .750 | **A real signal, only for the first rounds** |
+| E87 | Blend testing strength into ens for rounds 1-3 | podium .648 -> .685 at weight .25 (n=18 races, 12 with testing data) | suggestive, underpowered; affects ~12% of races |
+
+## E. Backward / analysis
+| # | Experiment | Result |
+|---|---|---|
+| E88 | Target family with 95% CIs (131 races): strict overlap ens .606 [.565,.646]; >=2 of 3 .702 [.618,.786]; top-4 cover .697; top-5 cover .791 [.751,.830]; winner in top-2 .679; per-driver binary .882 (always-no .850) | ens and standings indistinguishable on every variant; no variant of "podium accuracy" reaches 75% except top-5 coverage |
+| E89 | Can pre-race descriptors predict which races go well? (leave-one-season-out AUC) | AUC .531 -> not predictable |
+| E90 | Leave-one-block-out ablation of the logit (outer): -prev_order +.024, circuit stats 0, era/field 0, t10 0, t3 -.010, d10 -.014, d3 -.014, **season standings -.019** | Season standings is the most informative block; last-race result is slightly harmful (but inner -.005: not robust) |
+| E91 | Sign test ens vs standings per race | ens better in 10, standings in 7, tied in 114 of 131 (p=.63) | the two pick the SAME podium in 87% of races |
+| E92 | Stickiness: consecutive-race podium Jaccard | predicted .88 vs actual .39; corr of changes +.116 | reality is volatile; a persistent-state model cannot track it |
+
+## WHAT WORKED
+- Statistically supported: (1) Brier/log-loss shows the learned logit beats a standings-rank prior (E64): real but small probabilistic information; (2) pre-season testing pace improves the early-round team order (.752 -> .813; clearly better in the 2026 reset) (E86), with a suggestive podium lift (E87, n=18).
+- Everything else tied standings/ens within noise: the two-layer Kalman filter (E80) and top-8/log-position models (E55/E35) were the closest.
+## WHAT DID NOT WORK
+- All new information blocks (E69-E73, E79, E81, E82), track-aware GP (E74, worse), telemetry v2 (E84/E85), team-shock Monte Carlo (E75), regime-adaptive ensembles (E76/E77), multinomial bins (E78), market data (blocked: illiquid, no history).
+## OVERALL OBSERVATIONS (round 4)
+1. The learned-vs-standings gap flips with the competitive regime (E58/E65): learned models gain 4-8 pts in dominant eras (2020-21) and lose 3-4 in competitive ones (2022-25). A fixed pipeline cannot be uniformly better than standings; regime detection (E77) overfit.
+2. ens and standings choose the same podium in 87% of races (E91). The remaining differences are small and are not statistically resolvable at ~131 races (E60, E68).
+3. Probabilistic metrics see more than overlap (E64). If a score must be optimized, Brier/log-loss is the sharper selection tool than podium overlap.
+4. Track/car-specific structure keeps failing in the cleanest tests (GP E74, hindsight E14, similarity E10): the physical premise is plausible, but its signal is small relative to race-to-race noise.
+5. The one genuine information gain found is temporal: before the season starts, testing pace carries information (E86), most valuable after regulation changes. Its ceiling is limited to ~3 of ~23 races per season.
+6. Volatility (E92): real podiums share only 39% of members from one race to the next; 75% would require predicting exactly the part of that churn that is luck.

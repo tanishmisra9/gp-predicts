@@ -47,6 +47,11 @@ Even a perfect team order only reaches 0.743 (E56). Then 30+ models/labels/featu
 trend/start-skill/laps-led/Q1/sprint/circuit-continuity features, SVM/kNN/NB/RF/GBM/monotone-GBM, selective prediction): **none beat plain championship standings out of sample (outer 0.590)**.
 A harness default once leaked target-weekend columns into two models (bogus 0.71); fixed at the root and guarded by a test (`tests/test_guard.py`). Full tables: EXPERIMENTS.md.
 
+## Round 4 (E58-E92): 35 more experiments (audit routes + web research + new data)
+Regime effect: learned models beat standings by 4-8 pts in dominant-team eras (2020-21) and lose 3-4 pts in competitive eras (2022-25) (E58/E65); rolling windows don't change it. Power analysis: smallest detectable gain ~4.5 pts at 131 races (E60).
+Brier/log-loss shows the learned model carries real probabilistic information over a standings-rank prior (E64). Prediction markets (Polymarket F1 driver-podium markets exist for 20 races) are unusable: resolved markets have no price history and quotes are untraded (E61/E62).
+New information (championship context, rookies, calendar, within-team share, telemetry v2, GP with track kernel, regime-adaptive ensembles, team-shock Monte Carlo): no gain. **Pre-season testing pace is the one genuine signal**: team-order correlation for rounds 1-3 rises 0.752 -> 0.813, and testing clearly beats last-year pace after the 2026 reset (E86). Full tables: EXPERIMENTS.md.
+
 ## What was tried for the no-weekend-data goal (E9-E11, all from PAST sessions only)
 Corner-by-corner telemetry profiles per car and driver (approach/braking, apex, exit/throttle pickup, following straight), an engine proxy
 (full-throttle acceleration + straight-end speed, plus power-unit-pooled reliability), driver style (teammate-relative, portable across teams), circuit
