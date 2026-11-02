@@ -1,62 +1,53 @@
-# gp-predicts — F1 race outcome predictor (walk-forward, season-cycle evaluated)
+# gp-predicts — F1 podium predictor (walk-forward, season-cycle evaluated)
 
-**Status: the 75% target was NOT reached on the (pre-registered) non-trivial metric.** Held-out 2026 podium accuracy is
-**64.9%** (95% CI 52.6–75.4) vs 61.4% for "just use the starting grid". Details and why below. Nothing here was tuned on 2026.
+**Status: the 75% podium target is NOT reached — and for the "no weekend data" setting it cannot be, by a measured bound.**
+
+| setting | held-out 2026 podium accuracy | grid / best baseline | dev 2023-25 |
+|---|---|---|---|
+| **A. Pre-weekend** (no practice/quali/grid of the target race) | **0.544** (95% CI 0.44–0.63) | standings 0.526 | 0.53 / 0.56 / 0.67 |
+| B. Post-qualifying (grid known) | 0.649 (95% CI 0.53–0.75) | grid 0.614 | 0.67 / 0.67 / 0.74 |
+| *Oracle: true race pace of the target race known (diagnostic, post-race info)* | *0.79 (2022-25: 0.74)* | | |
+
+Podium accuracy = mean over races of |predicted top-3 ∩ actual top-3| / 3 (defined before any model was run; EXPERIMENTS.md E0, E7).
+The oracle row is the key: even *perfect knowledge of every driver's race pace* yields only ~74% podium overlap on 2022-25, because strategy,
+safety cars, first-lap incidents and retirements scramble the order. A forecast made before the weekend has to estimate pace **and** survive that
+noise, so 75% sits at/above the ceiling. Nothing tried (E2-E8) beat "championship standings" by more than noise.
 
 ## Run it
 ```
 python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python run.py          # full walk-forward 2023-2026 -> results/{summary.md,per_round.csv,predictions.csv}
-.venv/bin/python run.py --dev    # dev seasons only (never touches 2026)
-.venv/bin/python predict.py      # next race, once its qualifying is on Jolpica (e.g. after Saturday)
-.venv/bin/python predict.py 2026 19   # as-of replay of a finished race (outcomes hidden)
-.venv/bin/python -m tests.test_no_leak
+.venv/bin/python predict.py               # NEXT race from earlier races only (no weekend data needed)
+.venv/bin/python predict.py 2026 19       # as-of replay of a finished race (weekend hidden), actual podium shown after
+.venv/bin/python predict.py --post        # post-qualifying variant, once qualifying is on Jolpica
+.venv/bin/python run.py --pre             # pre-weekend walk-forward 2023-2026 -> results/preweekend_summary.md
+.venv/bin/python run.py                   # post-qualifying walk-forward        -> results/summary.md
+.venv/bin/python -m tests.test_preweekend && .venv/bin/python -m tests.test_no_leak
 ```
-`data/results.csv` and `data/laps.csv` are committed so reruns are offline; HTTP caches (`data/*.sqlite`) are not.
-To refetch: delete the CSVs and run `python -m f1.data` then `python -m f1.laps`.
+`data/results.csv`, `data/racepace_ff1.csv`, `data/laps.csv` are committed so everything reruns offline. To refresh: `python -m f1.data`, and for
+race pace `./scripts_run_ff1.sh <path-to-.env-with-F1_USERNAME/F1_PASSWORD> [first last]` then `python -m f1.ff1 merge` (needs FastF1>=3.9 and an F1 account).
 
-## What "accuracy" means here (and why)
-Prediction time: after qualifying/sprint and all practice, before the start. Metric defined **before** any model was run (EXPERIMENTS.md E0):
+## Data (and why it is split this way)
+- **Jolpica-F1 (Ergast successor)**: official results, grid, qualifying, sprints, status, 2018-2026. Source of truth for labels.
+- **FastF1**: race laps -> clean-lap race pace per driver, 2018-2026 (validated: corr 0.993 vs. OpenF1 on 1,718 driver-races). I tried FastF1 for
+  results too and rejected it: its grid/points/status come from Jolpica internally (NaN for many races when rate-limited) and its timing-based
+  finishing order ignores post-race penalties (e.g. 2019 Canada), so it is a worse label source.
+- **OpenF1** (`data/laps.csv`): practice/quali lap gaps, used only by the post-quali experiments (they did not help, E4).
 
-**Podium accuracy = mean over races of |predicted top-3 ∩ actual top-3| / 3.**
+## Method
+- Walk-forward: for each race, train only on strictly earlier races, predict, then roll forward. Dev = 2023-25 (2022 for some tests); 2026 = held out,
+  looked at once per setting and logged.
+- Features (`f1/features.py`): exponentially decayed driver/team form (half-lives 3 and 10 races) over finish, qualifying, points, DNF, grid-to-finish
+  gain, race pace; in-season standings share; circuit-specific team/driver residuals; regulation-era down-weighting.
+- Pre-weekend model: rank-average of (a) championship-standings order and (b) a regularised logistic podium model. Post-quali model: 16-feature logistic.
+- Leak control: `tests/test_no_leak.py` (scrambles race K+ outcomes) and `tests/test_preweekend.py` (wipes *all* target-weekend data) assert features are
+  bit-identical; both were mutation-checked (they fail when a leak is injected).
 
-Why this one: the grid-order baseline already scores **75–78% on top-10 overlap and pairwise ordering**, so a 75% target on those
-is trivially met by doing nothing. Podium overlap (baseline 61–69%) and winner accuracy (55–67%) are the metrics where 75% needs real skill.
-All of winner / exact-podium / top-5 / top-10 / pairwise / MAE are reported too (`results/summary.md`).
-
-## Approach
-- **Data**: Jolpica-F1 (results, qualifying, sprint, 2018–2026) and OpenF1 (lap times → practice best/top-5/long-run gaps, race clean-lap pace, 2023–2026).
-  FastF1 was the intended primary but is unusable here: v3.9 needs F1-account credentials for live timing, v3.3.8 can't parse 2026 sessions. OpenF1 serves the same timing feed.
-- **Features** (`f1/features.py`): grid & quali gaps (incl. team/teammate), exponentially-decayed driver and team form (half-lives 3 and 10 races),
-  DNF rates, in-season standings share, circuit grid-vs-finish correlation, optional lap-pace features. Older regulation eras (2017–21, 2022–25) are down-weighted (×0.3 driver, ×0.1 team).
-- **Model** (`f1/walkforward.py`): 16-feature standardised logistic regression for P(podium), recency-weighted; rank by probability. Chosen because nothing fancier did better.
-- **Protocol**: for each race, train only on strictly earlier races, predict, then roll forward. Dev = 2023–25; 2026 = one held-out look.
-- **Leakage control**: `tests/test_no_leak.py` scrambles every outcome (results and race-lap pace) of race K and later and asserts race K's features are bit-identical;
-  it was mutation-checked (fails when a leak is injected).
-
-## Results (per-race means; full tables in results/summary.md)
-| 2026, 19 races | model | grid | standings | prev. finish |
-|---|---|---|---|---|
-| **podium (target)** | **0.649** | 0.614 | 0.544 | 0.509 |
-| winner | 0.684 | 0.684 | 0.474 | 0.368 |
-| top-10 overlap | 0.768 | 0.753 | 0.763 | 0.674 |
-| pairwise ordering | 0.792 | 0.775 | 0.763 | 0.683 |
-| MAE (positions) | 3.33 | 3.44 | 3.77 | 4.61 |
-
-Podium vs grid: +3.5 pts (bootstrap CI 0.0 to +8.8). Dev seasons (model/grid podium): 2023 .667/.636, 2024 .667/.667, 2025 .736/.750.
-
-## Season-cycle analysis
-- Accuracy does **not** rise with in-season data: podium by stage, pooled 2023–26: R1–5 0.73, R6–11 0.72, R12+ 0.64 (grid: 0.70/0.71/0.64). Qualifying already encodes current car pace from round 1, and late-season races were not easier.
-- The model's edge over the grid is ~1–3 points and shows mostly in rank-quality (MAE, pairwise), not in who stands on the podium.
-- Single-season standard error on podium accuracy is ≈ ±6 pts (≈19–24 races), so season-to-season swings (0.65–0.74) are mostly noise.
-
-## Why 75% podium was not reached
-Plateau at ≈ +1 pt over grid across every family tried (EXPERIMENTS.md E2–E5): history window/decay, practice and race lap-pace features, finisher-only labels,
-reliability model, rank features, pairwise Bradley–Terry, GBMs/LambdaRank. Grid slots already give expected podium hits of P1 0.80, P2 0.74, P3 0.48, P4 0.37;
-28% of wrong podium picks were retirements, the rest strategy/safety-car/first-lap variance, none of which is knowable pre-race. My estimate (not proven) is that the achievable ceiling with public pre-race data is ~70–72%.
+## Season-cycle findings (pre-weekend, pooled 2023-26)
+- Podium accuracy by stage: R1-5 0.60, R6-11 0.58, R12+ 0.56; slope -0.002/round (p=0.64). **No across-season improvement in normal seasons.**
+- **2026 (new regulations) does improve**: R1-5 0.40 → R6-11 0.56 → R12+ 0.63 (n=19, noisy). In-season data matters when the pecking order is reshuffled.
+- Single-season standard error is about ±6 pts (19-24 races), so season-to-season swings (0.53-0.67) are largely noise.
 
 ## Limitations
-- 2026 sample is 19 races; every 2026 conclusion has wide CIs. 2026 is a new regulation era with little history.
-- Grid after penalties is used when the race row exists; for a not-yet-run race `predict.py` uses qualifying order (penalties unknown).
-- Weather forecasts, tyre allocation, and strategy are not modelled; lap features come from OpenF1 (2023+ only) and did not help.
-- Winner accuracy over one season depends heavily on how dominant the leading car is (e.g. 2023 standings baseline 0.86).
+- 2026 sample is 19 races. Entry list for an upcoming race is assumed equal to the last race's line-up.
+- No weather forecast, tyre allocation, strategy or reliability-by-part data. Race pace is a proxy (fuel/tyre/traffic effects not removed).
+- The oracle bound uses clean-lap median pace, an imperfect pace measure, so the true ceiling is somewhat uncertain — but not 20 points higher.
