@@ -544,3 +544,21 @@ The measurement itself transfers better than E104's degradation slope: past/curr
 The new gap modestly changed the logit's probabilities: driver-race Brier/log-loss were 0.07719/0.24968 to 0.07690/0.24942 inner, and 0.08314/0.26293 to 0.08261/0.26140 outer. The race-paired outer Brier difference was -0.000531 (95% CI [-0.001212,+0.000210]); log-loss difference -0.001532 ([-0.003140,+0.000192]). Both intervals include zero. `tests/test_teammate_segments_leak.py` now also scrambles the target-and-later raw gaps and target outcomes through the final feature merge; the feature remains unchanged. All existing pre-weekend leak, profile, guard, and metric checks passed. No new 2026 evaluation was run.
 
 **Verdict: no strict podium gain.** A repeatable teammate-race measurement carries weak probabilistic information but does not displace standings at the third-place boundary. It does not advance the 0.750 gate. Do not promote this augmented model as the new frozen predictor.
+
+### E110 — Forecast strategy exposure from team stop tendency × circuit pit cost (B3)
+
+**Strict podium overlap**, all races in walk-forward order:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| logit + strategy exposure | 0.6393 | 0.5619 |
+| standings + augmented logit rank average | 0.6284 | 0.5857 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/b3_strategy_exposure.py` used existing pit-stop records, not target-weekend inputs. On each completed earlier race it calculated the team's average stop count among drivers who completed at least 90% of race distance, relative to the field median, and the circuit's median pit-lane time. For each target race, `prior_team_stops` was a 10-race-half-life forecast from strictly earlier team results, and `prior_pit_cost` was the median of up to three earlier visits to the circuit (past global median fallback). Their product was the sole added feature to the frozen regularized logit; `C=0.03`, the 100-race training half-life, and the equal-rank standings ensemble stayed fixed. The original broad strategy/profile blocks in E9/E11 used average stop, pit, and circuit features; this specifically tests whether the **interaction of team stop tendency and circuit pit cost** is forecastable and useful. Missing feature values used the existing median imputer, with no race dropped.
+
+The track cost itself was forecastable: prior-versus-actual pit-lane-time correlation was 0.824 inner and 0.879 outer. The team-specific stop tendency was not: correlation **0.088 inner, -0.015 outer**, despite 99.51%/99.86% target team coverage. The augmented ensemble's race-paired strict-overlap difference from frozen `ens` was **0 in both splits** (bootstrap interval [0,0]); outer difference from standings was -0.0048 (95% CI [-0.0381,+0.0238]). The standalone logit gained one equivalent correct podium pick in the outer split but remained below standings. A persistent circuit cost alone cannot separate teams if the strategy exposure does not persist. `tests/test_strategy_exposure_leak.py` scrambles target-and-later stop tendencies and pit costs on synthetic and cached data; the target features are unchanged. Existing pre-weekend leak, profile, guard, and metric tests passed. No new 2026 evaluation was run.
+
+**Verdict: no podium gain; stop this historical stop-count interaction.** It does not support a path to the 0.750 strict target. It does not rule out a genuinely earlier-issued, race-specific strategy forecast, but no such target-weekend document or feed is used here.
