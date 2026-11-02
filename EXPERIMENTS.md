@@ -71,3 +71,23 @@ Learned: **plateau at ~0.685 (+~1 pt over grid) regardless of model class, label
 Four independent families (E2/E3 history, E4 lap pace, E5 labels/ranks/pairwise) all land inside the +-0.03 noise band.
 The residual is race-day randomness (28% of false podium picks are retirements; strategy/safety cars/first-lap incidents).
 Decision: freeze the simplest model (`compact_logit`) as FINAL before touching 2026; further tinkering would only fit noise.
+
+## E6 — HELD-OUT 2026 walk-forward (single look; model frozen from E5; no tuning afterwards)
+`python run.py` -> results/summary.md. 19 rounds, each trained only on strictly earlier races.
+
+| 2026 (19 races) | compact_logit | grid | standings | prev_finish |
+|---|---|---|---|---|
+| **podium (target)** | **0.649** [0.526, 0.754] | 0.614 | 0.544 | 0.509 |
+| winner | 0.684 | 0.684 | 0.474 | 0.368 |
+| exact podium set | 0.263 | 0.211 | 0.053 | 0.053 |
+| top-10 overlap | 0.768 | 0.753 | 0.763 | 0.674 |
+| pairwise ordering | 0.792 | 0.775 | 0.763 | 0.683 |
+| MAE (positions) | 3.33 | 3.44 | 3.77 | 4.61 |
+
+Podium minus grid: +0.035, bootstrap CI [0.000, +0.088]. Races >= 75% podium: 5/19.
+Dev seasons for context (podium, model vs grid): 2023 .667/.636, 2024 .667/.667, 2025 .736/.750.
+
+**Outcome: the 75% podium target is NOT reached** (0.649 on 2026; 0.69 on 2023-25). Pairwise ordering is >75% (0.792) but the
+grid alone gets 0.775, so that number reflects the metric, not the model (see E0).
+Season-cycle: accuracy does not climb with more in-season data; early rounds (R1-5) are no worse than late (R12+),
+because quali position already encodes the current car pace from round 1. In-season rounds help model vs grid only marginally.
