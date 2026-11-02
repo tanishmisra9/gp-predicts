@@ -41,6 +41,12 @@ FastF1 extractors (need FastF1>=3.9 and an F1 account): `F1_MODULE=f1.<ff1|sessi
 - Telemetry corner/engine metrics from one quali lap are mostly noise (week-to-week persistence 0.04): E20 explains why they never helped.
 - Looser questions the same predictions answer: >=2 of 3 podium drivers right 70%; real podium covered by top-5 picks 79%; per-driver yes/no accuracy 88% (always-"no" gets 85%). These are NOT the pre-registered metric.
 
+## Round 3 (E22-E57): 36 more experiments, reasoned backward from the result
+Start from the real podiums and ask what information was missing. Oracle ladder (E22): knowing retirers +4.0 pts, true teammate order +5.0, **true team order +13.7 (-> 0.743)**.
+Even a perfect team order only reaches 0.743 (E56). Then 30+ models/labels/features/algorithms built around that (Plackett-Luce, Elo, team-then-driver, diversity correction, pace labels,
+trend/start-skill/laps-led/Q1/sprint/circuit-continuity features, SVM/kNN/NB/RF/GBM/monotone-GBM, selective prediction): **none beat plain championship standings out of sample (outer 0.590)**.
+A harness default once leaked target-weekend columns into two models (bogus 0.71); fixed at the root and guarded by a test (`tests/test_guard.py`). Full tables: EXPERIMENTS.md.
+
 ## What was tried for the no-weekend-data goal (E9-E11, all from PAST sessions only)
 Corner-by-corner telemetry profiles per car and driver (approach/braking, apex, exit/throttle pickup, following straight), an engine proxy
 (full-throttle acceleration + straight-end speed, plus power-unit-pooled reliability), driver style (teammate-relative, portable across teams), circuit
