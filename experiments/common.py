@@ -54,7 +54,7 @@ def pace_corr(P, X):
 
 
 def run(X, models, seasons, ens=None):
-    R, P = W.walk_forward(X, seasons, models, ens=ens)
-    s = W.summarize(R)[["winner", "podium", "top10", "pairwise", "mae"]]
+    R, P = W.walk_forward(X, seasons, models, ens=ens, tie=None)  # tie=None: never break ties with the target-weekend grid
+    s = W.summarize(R)[["winner", "podium", "ndcg3", "top10", "pairwise", "mae"]]
     s["pace_rho"] = pace_corr(P, X)
     return s.sort_values("podium", ascending=False), R, P

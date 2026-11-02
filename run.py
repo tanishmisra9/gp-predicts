@@ -75,7 +75,7 @@ def main_pre(seasons=None):
         pre_logit=lambda tr, te, F, **kw: W.m_logit_pod(tr, te, PRE, C=0.03, hl=100),
         pre_lgb=lambda tr, te, F, **kw: W.m_lgb_pod(tr, te, PRE, hl=100))
     models = ["prev_podium", "standings", "form_d3", "pre_logit", "pre_lgb"]
-    R, P = W.walk_forward(X, seasons, models, ens={"ens": ["standings", "pre_logit"]})
+    R, P = W.walk_forward(X, seasons, models, ens={"ens": ["standings", "pre_logit"]}, tie=None)
     R.to_csv(OUT / "preweekend_per_round.csv", index=False)
     orc = oracle(pace, seasons)
     L = []

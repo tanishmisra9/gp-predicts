@@ -18,10 +18,11 @@ def feature_cols(X):
     return [c for c in X if c not in ID]
 
 
-def metrics(g, score):
+def metrics(g, score, tie="gridn"):
     """g: one race's rows; score: lower = predicted to finish better. Ties broken by grid."""
     s = pd.Series(np.asarray(score, float), index=g.index)
-    order = s.to_frame("s").join(g.gridn).sort_values(["s", "gridn"]).index
+    tb = g[tie] if tie else g.driver.rank()  # tie=None: deterministic by driver name; NEVER the target-weekend grid in pre-weekend mode
+    order = s.to_frame("s").join(tb.rename("tb")).sort_values(["s", "tb"]).index
     pred = list(g.loc[order, "driver"]); true = list(g.sort_values("order").driver)
     rk = g.order.values; sc = s.values
     c = n = 0
@@ -29,7 +30,9 @@ def metrics(g, score):
         if rk[i] != rk[j] and sc[i] != sc[j]:
             n += 1; c += (rk[i] < rk[j]) == (sc[i] < sc[j])
     prank = pd.Series(range(1, len(order) + 1), index=order).reindex(g.index).values
-    return dict(winner=float(pred[0] == true[0]), podium=len(set(pred[:3]) & set(true[:3])) / 3,
+    gain = {d: 3 - i for i, d in enumerate(true[:3])}  # graded relevance 3,2,1 for P1..P3
+    dcg = sum(gain.get(d, 0) / np.log2(i + 2) for i, d in enumerate(pred[:3])); idcg = sum(v / np.log2(i + 2) for i, v in enumerate(sorted(gain.values(), reverse=True)))
+    return dict(ndcg3=dcg / idcg, winner=float(pred[0] == true[0]), podium=len(set(pred[:3]) & set(true[:3])) / 3,
                 exact_podium=float(set(pred[:3]) == set(true[:3])), top5=len(set(pred[:5]) & set(true[:5])) / 5,
                 top10=len(set(pred[:10]) & set(true[:10])) / 10, pairwise=c / max(n, 1), mae=np.abs(prank - rk).mean())
 
@@ -80,7 +83,7 @@ def _rank01(x):  # within-race rank -> [0,1], so heterogeneous model scores can 
     return pd.Series(x).rank(method="average").values / len(x)
 
 
-def walk_forward(X, seasons, models, F=None, min_train_season=2019, ens=None, **kw):
+def walk_forward(X, seasons, models, F=None, min_train_season=2019, ens=None, tie="gridn", **kw):
     """Returns per-race metric table (long): season, round, model, metrics...; ens = {name: [model names]} rank-averaged."""
     F = F or feature_cols(X)
     rows, preds = [], []
@@ -92,16 +95,22 @@ def walk_forward(X, seasons, models, F=None, min_train_season=2019, ens=None, **
         for name, parts in (ens or {}).items():
             sc[name] = np.mean([_rank01(sc[p]) for p in parts], axis=0)
         for name, v in sc.items():
-            rows.append(dict(season=s, round=r, model=name, **metrics(te, v)))
+            rows.append(dict(season=s, round=r, model=name, **metrics(te, v, tie)))
             preds.append(te[["season", "round", "driver"]].assign(model=name, score=v))
     return pd.DataFrame(rows), pd.concat(preds)
 
 
 def summarize(R, by="model"):
-    return R.groupby(by)[["winner", "podium", "exact_podium", "top5", "top10", "pairwise", "mae"]].mean().round(3)
+    return R.groupby(by)[["winner", "podium", "ndcg3", "exact_podium", "top5", "top10", "pairwise", "mae"]].mean().round(3)
 
 
 def boot_ci(x, n=4000, seed=0):
     rng = np.random.default_rng(seed); x = np.asarray(x)
     b = rng.choice(x, (n, len(x))).mean(1)
     return np.percentile(b, [2.5, 97.5])
+
+
+def paired_boot(a, b, n=5000, seed=0):
+    """paired bootstrap of mean(a-b) over races -> (mean diff, 95% CI, P(diff<=0))"""
+    d = np.asarray(a) - np.asarray(b); rng = np.random.default_rng(seed); m = rng.choice(d, (n, len(d))).mean(1)
+    return d.mean(), np.percentile(m, [2.5, 97.5]), (m <= 0).mean()

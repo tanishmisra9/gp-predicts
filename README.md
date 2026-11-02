@@ -33,6 +33,14 @@ FastF1 extractors (need FastF1>=3.9 and an F1 account): `F1_MODULE=f1.<ff1|sessi
   finishing order ignores post-race penalties (e.g. 2019 Canada), so it is a worse label source.
 - **OpenF1** (`data/laps.csv`): practice/quali lap gaps, used only by the post-quali experiments (they did not help, E4).
 
+## Round 2 (E12-E21): exhaustive audit-driven search - result: the ceiling is closed from three sides
+- **Yardstick fixed** (tie-break leak found and removed; null test: shuffled labels -> 0.18 podium, random 0.17). Dev widened to 131 races (2020-25).
+- **Hindsight headroom** for "persistent form" forecasting is only +1.5 pts of team-order correlation (0.760 legal vs 0.775 with future races) - E13.
+- **Information-stage curve** (E17): history-only 0.595 -> +practice 0.585 -> +grid/qualifying 0.687 -> +this weekend's quali telemetry 0.679. **Even with everything known pre-race, ~0.69.**
+- Weather (true rain as oracle), Monte Carlo race simulation + retirement model, stacking, nested tuning, dedicated teammate model, longer history, state-space models: none beat plain championship standings out of sample.
+- Telemetry corner/engine metrics from one quali lap are mostly noise (week-to-week persistence 0.04): E20 explains why they never helped.
+- Looser questions the same predictions answer: >=2 of 3 podium drivers right 70%; real podium covered by top-5 picks 79%; per-driver yes/no accuracy 88% (always-"no" gets 85%). These are NOT the pre-registered metric.
+
 ## What was tried for the no-weekend-data goal (E9-E11, all from PAST sessions only)
 Corner-by-corner telemetry profiles per car and driver (approach/braking, apex, exit/throttle pickup, following straight), an engine proxy
 (full-throttle acceleration + straight-end speed, plus power-unit-pooled reliability), driver style (teammate-relative, portable across teams), circuit

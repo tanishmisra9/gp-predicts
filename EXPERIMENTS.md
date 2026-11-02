@@ -184,3 +184,58 @@ Tried: history windows/decay, practice+race lap pace, label handling, reliabilit
 telemetry corner profiles, engine/power proxies, power-unit pooling, driver-style x track, strategy typicality, attrition/SC, pit execution, track-similarity forecasting.
 Best pre-weekend podium accuracy stays ~0.57-0.58 (dev) / 0.544 (2026). Pace-forecast quality is the binding constraint (rho~0.72) AND the pace-based ceiling is
 0.746 (E10), so 75% is not reachable from pace information alone, and the remaining outcome variance (incidents, SC, strategy luck, DNFs) has no pre-weekend predictor in the data.
+
+# ROUND 2 — audit-driven exhaustive search (E12-E21). Dev window widened to 2020-2025 (131 races); inner = 2020-22, outer = 2023-25.
+
+## E12 — Yardstick fixes (audit A)
+- FOUND: pre-weekend evaluation broke ties using the TARGET-WEEKEND GRID (`metrics()` sorted by [score, gridn]). Measured impact: 22/89 races had a tie at the 3rd/4th cut but podium
+  accuracy was identical (0.577 grid-tie vs 0.577 name-tie). Fixed anyway: `tie=None` (driver-name tie-break) for every pre-weekend run; results regenerated (2026 unchanged at 0.544).
+- Added NDCG@3, paired bootstrap, label-shuffle NULL test and random baseline. NULL (shuffled labels) podium 0.181, random 0.165 -> pipeline is not leaking labels.
+- Frozen ens vs standings on 131 races: podium 0.606 vs 0.598, paired diff +0.008 [-0.013, +0.028] (not significant).
+
+## E13 — State-space (Kalman) team pace + hindsight headroom
+KF (tuned q,qs,r) team race-pace order Spearman 0.760 vs recency 0.759 (quali gap 0.618 vs 0.583). ORACLE with hindsight (team's leave-one-race-out SEASON mean, uses future races): 0.775.
+=> at most +1.5 pts of team-order correlation is available from ANY "persistent level" model. Better form-tracking is a dead end.
+
+## E14 — Do circuit traits predict team pace deviations? (hindsight-generous, LOO within season incl. future races)
+Ridge per team-season on 9 circuit traits, no intercept (an earlier version with an intercept gave spurious negative correlations: demeaned-LOO artifact, my test bug, fixed).
+corr(pred, actual deviation): race pace +0.09..+0.12, quali +0.02..+0.06; out-of-sample R^2 vs zero -0.01..-0.11. Real but tiny with this trait vector. (Limit: crude 9-number trait vector.)
+
+## E15 — Where do podium errors come from? (131 races, 393 podium slots, frozen ens)
+Team-order Spearman 0.78; teammate head-to-head accuracy 0.64. 157 missed slots: predicted rank of the missed driver was 4-6 for 104 of them (near misses).
+157 false picks: 54% finished P4-6, 23% P7+, 23% RETIRED. Retirements cost ~9.2 pts of podium accuracy.
+
+## E16 — Weather (Open-Meteo): ORACLE test
+Forecast archive (Previous Runs API, 3-day lead) exists only from 2024 (67 races); actual race-day rain/temp/wind pulled for all 192 races (f1/weather.py).
+Giving the model the TRUE rain (+temp, wind, a past-only driver wet-skill rating and interactions): logit podium 0.595 -> 0.593-0.595; lgbm 0.570 -> 0.570-0.583. No gain even with perfect weather knowledge.
+Wet (>1 mm, n=31) races did not show more upsets (4.5% vs 4.7% of podium slots from outside the top-3 grid). Forecast-based features therefore cannot help; dropped.
+
+## E17 — INFORMATION-STAGE CURVE (logit podium, 131 races): how much is each kind of information worth?
+history only (the user's no-weekend-data setting) 0.595 | + practice pace 0.585 | + grid & qualifying 0.687 | + this weekend's own quali corner/engine telemetry 0.679 | grid alone 0.679.
+Even with EVERYTHING known before the start, podium accuracy is ~0.69. Only grid/qualifying moves it; practice and telemetry add nothing. => 75% exceeds the best achievable at ANY pre-race stage.
+
+## E18 — Monte Carlo race simulation with retirement model (4,000 sims/race; pace noise sigma x spread of predicted pace; Bernoulli retirement)
+Retirement model (logistic on team/driver/PU/circuit attrition): modelled DNF rate 14.7% vs actual 15.0%. Podium 0.585-0.590 (sigma 0.3-1.5) vs logit 0.595, standings 0.598. Brier of P(podium) best at sigma=0.6
+(0.0773 inner / 0.0853 outer). Better probabilities, same top-3.
+
+## E19 — Learners, tuning, stacking (outer window = honest)
+12 logit (C x half-life) settings + lgbm podium/rank + ridge/ET/lgbm pace + ET order + standings: INNER 0.60-0.65, OUTER 0.52-0.59. Standings OUTER 0.590 beats every learner.
+Nested tuning: best-on-inner logit (C=0.01,hl=100) inner 0.645 -> outer 0.548 (hand-set 0.557). Stacking: best subsets by inner reach outer 0.567-0.586; across all 98 subsets of up to 4 models
+outer podium median 0.581, 95th pct 0.600, max 0.605; equal-weight average of all 0.586; standings 0.590. Learned models do not beat standings out of sample.
+TabPFN: BLOCKED (weights need a Prior Labs account/licence acceptance; not done on the user's behalf). Packages uninstalled again.
+
+## E20 — Telemetry reliability audit (why E9/E11 found nothing)
+Over 19 corner/engine metrics (2022-26): median week-to-week persistence of a team's value 0.04; between-team share of variance ~10%; median Spearman with race pace 0.17.
+Only apex_med/apex_fast (0.59/0.63, essentially lap speed) relate to pace; the engine proxy acc_gap is the most persistent (0.34) but unrelated to race pace (-0.01).
+=> single-fastest-quali-lap corner metrics are NOT a stable car signature. A better build (many laps, race trim, position-aligned corners) is untested and would need far more telemetry.
+
+## E21 — Remaining routes
+Dedicated teammate head-to-head model: 62.8% accuracy (ens-implied 63.9%); blending lowers podium (outer 0.586 -> 0.581/0.571/0.543 for lambda .1/.2/.4). Longer history (train from 2016 / 2014 instead of 2019): outer ens 0.567/0.562 vs 0.571 - no gain.
+
+## Metric variants for the frozen pre-weekend ensemble (131 races; DIFFERENT, looser questions - not a pass of the pre-registered metric)
+strict podium overlap 0.606 | >=2 of 3 podium drivers 0.702 | all 3 any order 0.160 | podium covered by top-4/5/6 picks 0.697/0.791/0.865 | winner within top-1/2/3 picks 0.473/0.679/0.824 |
+per-driver binary "on podium?" accuracy 0.882 vs always-say-no 0.850 (hobby-project "80-91% podium accuracy" claims are most likely this metric).
+
+## ROUND 2 CONCLUSION
+Plateau ~0.58-0.61 pre-weekend (131 races). The remaining headroom is closed from three independent sides: (1) perfect hindsight "persistent form" adds <=1.5 pts of team-order correlation (E13);
+(2) full pre-race information (practice, qualifying, grid, telemetry) tops out at ~0.69 (E17); (3) even a perfect race-pace forecast gives 0.746 (E10). 75% strict podium overlap is above all three.
