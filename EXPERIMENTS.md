@@ -421,3 +421,20 @@ Observation: team-order forecast quality is bounded by ~0.775 even with hindsigh
 | cause-specific vs generic hazard Brier, named outcomes only | 0.06588 vs 0.06620 (85 events / 1,211 eligible driver-races) | **not estimable:** zero named events |
 
 Both survival variants made the same podium selections as the original logit. Outer difference from standings: -0.0333, paired race bootstrap 95% CI [-0.0714, +0.0048]. **Verdict: no podium gain; stop this cause-specific route with the current labels.** The small inner Brier difference does not validate mechanical-risk forecasting in the target era, and the unclassified `Retired` rows could contain many mechanical failures. This is a source limitation, not evidence that failure risk cannot be forecast in principle. All existing leak/guard/metric tests and the new source-specific leak test passed. No new 2026 evaluation was run.
+
+### E102 — Clean-air, same-lap race-pace measurement (A2 pilot)
+
+**Hypothesis:** past race laps observed in cleaner air and compared with other drivers on the same lap might produce a more useful next-race pace signal than a driver's median lap. `experiments/a2_matchedpace.py` extracted prior-race timing from the existing FastF1 offline cache, requiring green/accurate laps, no pit in/out, at least five usable drivers per lap, and an estimated finish-line gap over 1.5 seconds to the car ahead (or the leader). It used each driver's median lap-time residual against the same-lap field median. Both this measure and the existing clean-lap median were forecast with the **same** 10-race half-life from strictly earlier races. No race car/position telemetry was present in the cache; this is a timing-only first test of A2, without compound/tyre-age matching or position-aligned corners. `tests/test_matchedpace_leak.py` scrambles target-and-later source rows on synthetic and actual cached data.
+
+Offline extraction produced 3,311 driver-race rows from 172 races in 2018–25 (one 2018 race unavailable); 3,112 rows had matched-lap estimates. Target-race matched-forecast coverage was 99.3% on inner and 99.2% on outer scored driver-races. Scoring used all 61 inner and 70 outer races with the same deterministic missing-value fallback and no target-weekend tie-break.
+
+| walk-forward metric | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| standings strict podium overlap | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| past median-pace order | 0.6175 | 0.5429 |
+| past matched-lap-pace order | 0.6557 | 0.5619 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+| predicted vs true next-race pace Spearman, median / matched | 0.7083 / 0.7063 | 0.7004 / 0.6959 |
+
+Matched-lap order beat median-pace order by +0.0383 inner (paired 95% CI [+0.0109,+0.0710]) and +0.0190 outer ([0,+0.0429]), while its outer difference from **standings** was -0.0286 ([-0.0667,+0.0095]). Its pace correlation was slightly worse in both splits. **Verdict:** the timing-only matched-lap filter does not beat standings or improve the general pace forecast; do not promote it to the frozen model. Its apparent improvement over the weak pure-pace ranking is small and may reflect top-contender selection rather than better pace measurement. The estimated clean-air gap uses lap-end timing/position and can misclassify lapped or traffic-affected cars. Raw race telemetry was unavailable in the existing cache, and this process had no F1 credentials, so the many-lap X/Y pilot A1 remains untested. All existing guards and the source-specific leak test passed. No 2026 evaluation was run.
