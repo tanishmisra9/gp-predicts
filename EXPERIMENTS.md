@@ -383,3 +383,10 @@ Statistical context discovered this round: with 131 races the smallest detectabl
 4. Track/car-specific structure keeps failing in the cleanest tests (GP E74, hindsight E14, similarity E10): the physical premise is plausible, but its signal is small relative to race-to-race noise.
 5. The one genuine information gain found is temporal: before the season starts, testing pace carries information (E86), most valuable after regulation changes. Its ceiling is limited to ~3 of ~23 races per season.
 6. Volatility (E92): real podiums share only 39% of members from one race to the next; 75% would require predicting exactly the part of that churn that is luck.
+
+## ROUND 5 (user: "so much of what happened in that race is up to data" - classify the errors, then attack the biggest class)
+| # | Experiment | Result | Verdict |
+|---|---|---|---|
+| E93 | Cause of every podium error, 2023-26 (89 races, 226 errors), using race data (true race-pace rank, retirements, lap-1 gain, stops) | **61% pace-order errors**: missed a driver who HAD podium pace 71 (31%), picked a driver WITHOUT podium pace 67 (30%). **39% execution/luck**: podium without podium pace (strategy/SC/start/attrition ahead) 42 (19%), picked driver lost his pace in the race 25 (11%), picked driver retired 21 (9%). Podiums reached without podium pace: median grid 4 -> finish 3, 81% started top-6, median 0 lap-1 gain, 24% gained >=3 places | The data-addressable error class is race-pace ORDER (needs a better pace forecast); execution is mostly luck near the front |
+| E94 | Race-pace MEASUREMENT variants (median, p25, fuel-corrected, 1st-stint, best 8-lap, tyre-wear-corrected), driver-level, forecasting next race | fuel-corrected is most persistent (.750 vs .710 same-measure) but improves forecast of FINISHING order only .726 -> .733; p25 and best-stint are worse (.700/.691) | tiny gain; not a lever on its own |
+Note: Mexico 2026 race laps (R19) were not yet loadable in FastF1, so its pace is missing from the pace history until it appears.
