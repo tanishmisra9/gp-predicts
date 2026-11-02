@@ -451,3 +451,21 @@ Pre-specified one simple blend after E102: equal rank average of standings, the 
 | podium selections changed versus `ens` | 8/61 races | 15/70 races |
 
 The blend gained +0.0219 over `ens` in the inner window (paired 95% CI [0,+0.0492]), but **zero** in the outer window ([-0.0238,+0.0238]). Outer difference versus standings was -0.0048 ([-0.0335,+0.0238]). **Verdict: no held-out-era gain.** The new measure sometimes reaches the podium boundary, but its outer changes cancel. This is another example of better-looking inner results failing the competitive 2023–25 regime; it does not move the 75% gate. No 2026 evaluation was run.
+
+### E104 — Matched-compound, teammate-relative tyre degradation (A3 measurement pilot)
+
+The strict podium reference remains standings 0.5905 and frozen `ens` 0.5857 on outer 2023–25; **this pilot did not produce a new podium ranking**, so there is no candidate strict-overlap score to compare. The first gate was whether a driver-specific tyre-wear measurement from earlier races predicts later behaviour well enough to justify such a model.
+
+`experiments/a3_tyre_degradation.py` read cached green, accurate, non-pit race laps, removed large lap-time outliers, measured each stint's lap-time residual slope versus tyre age (at least eight laps and six ages), and compared teammate slopes only where both ran a common compound. It excluded implausible absolute slopes over 1 second/lap, then carried the driver's last observed teammate-relative slope into the next race. Source coverage: 2,978 driver-race style rows from 171 races in 2018–25; one 2018 race was unavailable and one 2021 race had no comparable stints. `tests/test_tyre_style_leak.py` verifies target-and-later source edits leave target forecasts unchanged on synthetic and cached data.
+
+| diagnostic | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| usable previous/current driver-race style pairs | 1,030 | 1,217 |
+| previous-vs-current style correlation | 0.0709 | 0.0659 |
+| within-race style Spearman | 0.0767 | 0.0579 |
+| teammate pairs with two style histories | 512 | 604 |
+| lower predicted degradation finished ahead | 0.4785 | 0.4719 |
+| standings picked the teammate who finished ahead, on those same pairs | 0.6094 | 0.6258 |
+| within-pair shuffled-label null | 0.5000 | 0.4996 |
+
+**Verdict: stop this A3 measurement route before fitting a podium model.** Its prior value barely repeats, and the implied teammate call is slightly below chance and far below standings. Lap-end residuals, traffic, pit timing, non-identical car setup, and tyre-use choices still confound the slope; this is not proof that intrinsic tyre-management skill does not exist. The initial extractor run failed because its FastF1 cache path was not initialized, and a first report failed on pandas' `DataFrame.style` property; both were fixed before these numbers. The source-specific leak test and existing guards passed. No 2026 evaluation was run.
