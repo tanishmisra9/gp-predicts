@@ -438,3 +438,16 @@ Offline extraction produced 3,311 driver-race rows from 172 races in 2018–25 (
 | predicted vs true next-race pace Spearman, median / matched | 0.7083 / 0.7063 | 0.7004 / 0.6959 |
 
 Matched-lap order beat median-pace order by +0.0383 inner (paired 95% CI [+0.0109,+0.0710]) and +0.0190 outer ([0,+0.0429]), while its outer difference from **standings** was -0.0286 ([-0.0667,+0.0095]). Its pace correlation was slightly worse in both splits. **Verdict:** the timing-only matched-lap filter does not beat standings or improve the general pace forecast; do not promote it to the frozen model. Its apparent improvement over the weak pure-pace ranking is small and may reflect top-contender selection rather than better pace measurement. The estimated clean-air gap uses lap-end timing/position and can misclassify lapped or traffic-affected cars. Raw race telemetry was unavailable in the existing cache, and this process had no F1 credentials, so the many-lap X/Y pilot A1 remains untested. All existing guards and the source-specific leak test passed. No 2026 evaluation was run.
+
+### E103 — Does matched pace change the third-place boundary? (A8 follow-up)
+
+Pre-specified one simple blend after E102: equal rank average of standings, the frozen logit, and E102's matched-pace order. No weight search or new data extraction. The same source-specific leak test and pre-weekend guard apply. The label-shuffled logit null remained 0.1749 inner / 0.1857 outer.
+
+| strict overlap | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| `ens` plus matched pace, equal three-way rank average | 0.6503 | 0.5857 |
+| podium selections changed versus `ens` | 8/61 races | 15/70 races |
+
+The blend gained +0.0219 over `ens` in the inner window (paired 95% CI [0,+0.0492]), but **zero** in the outer window ([-0.0238,+0.0238]). Outer difference versus standings was -0.0048 ([-0.0335,+0.0238]). **Verdict: no held-out-era gain.** The new measure sometimes reaches the podium boundary, but its outer changes cancel. This is another example of better-looking inner results failing the competitive 2023–25 regime; it does not move the 75% gate. No 2026 evaluation was run.

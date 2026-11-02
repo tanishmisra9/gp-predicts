@@ -94,16 +94,24 @@ def main():
         t["podium"] = np.random.default_rng(0).permutation(t.podium.values)
         return W.m_logit_pod(t, te, base, C=0.03, hl=100)
     W.MODELS["null_shuffled_labels"] = shuffled
-    R, _ = W.walk_forward(X, [2020, 2021, 2022, 2023, 2024, 2025],
+    R, P = W.walk_forward(X, [2020, 2021, 2022, 2023, 2024, 2025],
                           ["standings", "logit", "median_pace", "matched_pace", "null_shuffled_labels"],
-                          ens={"ens": ["standings", "logit"]}, tie=None)
+                          ens={"ens": ["standings", "logit"],
+                               "ens_plus_matched": ["standings", "logit", "matched_pace"]}, tie=None)
     R["split"] = np.where(R.season <= 2022, "inner", "outer")
     print("coverage by year", pace.groupby("season").agg(races=("round", "nunique"), rows=("code", "size"), matched=("matched_gap", "count")).to_string())
     print("strict overlap", R.groupby(["model", "split"]).podium.mean().unstack().round(4).to_string())
+    picks = P[P.model.isin(["ens", "ens_plus_matched"])].sort_values(["model", "season", "round", "score", "driver"]).groupby(["model", "season", "round"]).head(3)
+    picks = picks.groupby(["model", "season", "round"]).driver.apply(frozenset)
     for split, years in (("inner", [2020, 2021, 2022]), ("outer", [2023, 2024, 2025])):
         d = R[R.season.isin(years)].pivot(index=["season", "round"], columns="model", values="podium")
         print(split, "matched - standings", W.paired_boot(d.matched_pace, d.standings)[:2],
               "matched - median pace", W.paired_boot(d.matched_pace, d.median_pace)[:2])
+        changed = sum(picks["ens", year, round_] != picks["ens_plus_matched", year, round_]
+                      for year, round_ in d.index)
+        print(split, "ensemble+matched changes", changed, "of", len(d),
+              "vs ens", W.paired_boot(d.ens_plus_matched, d.ens)[:2],
+              "vs standings", W.paired_boot(d.ens_plus_matched, d.standings)[:2])
         z = X[X.season.isin(years)].dropna(subset=["y_pace"])
         for name in ("median_forecast", "matched_forecast"):
             corr = z.dropna(subset=[name]).groupby(["season", "round"]).apply(
