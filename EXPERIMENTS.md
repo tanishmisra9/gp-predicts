@@ -55,3 +55,19 @@ Learned: **no gain.** Practice pace is noisy (fuel/engine modes/programmes) and 
 Note: fastf1 unusable (3.9 needs F1 credentials; 3.3.8 cannot parse 2026) -> OpenF1 used instead.
 Diagnosis of dev errors (compact logit, 2022-25): 87 of 276 predicted podium slots miss; 28% of false picks were retirements (noise),
 and the true podium drivers we miss mostly started P4-P6 -> the open question is race-trim pace among the front-midfield.
+
+## E5 — Structural changes, dev 2022-25 (92 races). podium / pairwise / MAE
+| variant | podium | pairwise | MAE |
+|---|---|---|---|
+| grid | 0.674 | 0.749 | 3.47 |
+| compact logit (base) | 0.685 | 0.773 | 3.22 |
+| A: train on finishers only, P(podium given finish) | 0.681 | 0.771 | 3.24 |
+| B: A x P(finish) reliability model | 0.681 | 0.771 | 3.24 |
+| C: + within-race rank & form-rank-minus-grid features | 0.688 | 0.773 | 3.22 |
+| D: pairwise Bradley-Terry linear utility | 0.667 | 0.771 | 3.25 |
+| D+rank features | 0.678 | 0.771 | 3.26 |
+
+Learned: **plateau at ~0.685 (+~1 pt over grid) regardless of model class, label handling, features or history window.**
+Four independent families (E2/E3 history, E4 lap pace, E5 labels/ranks/pairwise) all land inside the +-0.03 noise band.
+The residual is race-day randomness (28% of false podium picks are retirements; strategy/safety cars/first-lap incidents).
+Decision: freeze the simplest model (`compact_logit`) as FINAL before touching 2026; further tinkering would only fit noise.
