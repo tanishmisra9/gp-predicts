@@ -20,14 +20,17 @@ def _prep(df, laps=None):
     df["q_gap"] = df.q3_gap.fillna(df.q2_gap).fillna(df.q1_gap)  # deepest stage reached
     df["q_gap_best"] = df.groupby("k").q_gap.transform("min")
     if laps is not None:
-        vals = [c for c in ("best_gap", "top5_gap", "lr_gap") if c in laps]
-        lp = laps.pivot_table(index=["season", "round", "code"], columns="session", values=vals)
-        lp.columns = [f"{a}_{b}" for a, b in lp.columns]
-        df = df.merge(lp.reset_index(), on=["season", "round", "code"], how="left")
-        for kind in ("best", "top5", "lr"):  # sprint weekends only have FP1 -> average whichever FP sessions exist
-            cols = [f"{kind}_gap_{x}" for x in ("FP1", "FP2", "FP3") if f"{kind}_gap_{x}" in df]
-            df[f"fp_{kind}"] = df[cols].mean(axis=1)
-        rp = laps[laps.session == "R"][["season", "round", "code", "pace_gap"]]
+        if "session" in laps:  # OpenF1 table: practice/quali gaps per session + race pace
+            vals = [c for c in ("best_gap", "top5_gap", "lr_gap") if c in laps]
+            lp = laps.pivot_table(index=["season", "round", "code"], columns="session", values=vals)
+            lp.columns = [f"{a}_{b}" for a, b in lp.columns]
+            df = df.merge(lp.reset_index(), on=["season", "round", "code"], how="left")
+            for kind in ("best", "top5", "lr"):  # sprint weekends only have FP1 -> average whichever FP sessions exist
+                cols = [f"{kind}_gap_{x}" for x in ("FP1", "FP2", "FP3") if f"{kind}_gap_{x}" in df]
+                df[f"fp_{kind}"] = df[cols].mean(axis=1)
+            rp = laps[laps.session == "R"][["season", "round", "code", "pace_gap"]]
+        else:  # FastF1 race-pace table: season, round, code, pace_gap
+            rp = laps[["season", "round", "code", "pace_gap"]]
         df = df.merge(rp, on=["season", "round", "code"], how="left")
     # post-race (past-only) quantities -------------------------------------------------
     df["dnf"] = (~(df.status.isin(["Finished", "Lapped"]) | df.status.str.startswith("+"))).astype(float)
@@ -86,12 +89,21 @@ def build_features(df, laps=None, hl=(3, 10), era_mult=(0.3, 0.1)):
             # circuit character: how strongly grid predicted finish here historically (past races only)
             circ = cur.circuit.iloc[0]
             pc = past[past.circuit == circ]
+            # circuit-specific form: how each team/driver ran HERE in past seasons relative to their own season average
+            pcs = pc[pc.season < cur.season.iloc[0]]
+            if len(pcs):
+                for who in ("team", "driver"):
+                    here = pcs.groupby(["season", who]).order.mean()
+                    allr = past[past.season.isin(pcs.season.unique())].groupby(["season", who]).order.mean()
+                    res = (here - allr).dropna().reset_index(name="r").sort_values("season")
+                    res = res.groupby(who).r.apply(lambda x: x.tail(3).mean())
+                    f[("t" if who == "team" else "d") + "_circ_res"] = f[who].map(res)
             if pc.k.nunique():
                 cc = pc.groupby("k").apply(lambda x: x.gridn.corr(x.order, method="spearman"), include_groups=False)
                 f["circ_grid_corr"] = cc.tail(4).mean()
                 f["circ_pole_win"] = pc[pc.gridn == 1].win.mean()
         out.append(f)
-    out = pd.concat(out, ignore_index=True).sort_values(["k", "gridn"]).reset_index(drop=True)
+    out = pd.concat(out, ignore_index=True).sort_values(["k", "driver"]).reset_index(drop=True)
     # previous race's finishing position for the same driver (strictly the race before; NaN if none)
     out["prev_order"] = out.sort_values("k").groupby("driver")["order"].shift(1)
     out["log_grid"] = np.log(out.gridn)
@@ -103,3 +115,12 @@ if __name__ == "__main__":
     from f1.data import load_results
     X = build_features(load_results())
     print(X.shape); print(X.tail(3).T.to_string())
+
+
+# Features usable BEFORE the weekend starts: only decayed history of earlier races + static context.
+# (everything keyed on the target weekend's grid / quali / sprint / practice is excluded by construction)
+def pre_weekend_cols(X):
+    hist = [c for c in X if c.split("_", 1)[0] in ("d3", "d10", "t3", "t10")]
+    extra = ["d_season_pts", "t_season_pts", "season_races", "circ_grid_corr", "circ_pole_win", "era_round", "field",
+             "prev_order", "t_circ_res", "d_circ_res"]
+    return hist + [c for c in extra if c in X]

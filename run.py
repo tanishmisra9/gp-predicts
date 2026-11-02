@@ -10,7 +10,7 @@ import pandas as pd
 
 import f1.walkforward as W
 from f1.data import load_results, DATA
-from f1.features import build_features
+from f1.features import build_features, pre_weekend_cols
 
 warnings.filterwarnings("ignore")
 OUT = Path(__file__).parent / "results"; OUT.mkdir(exist_ok=True)
@@ -53,6 +53,39 @@ def report(R, P, X, seasons, final="compact_logit"):
     (OUT / "summary.md").write_text("\n".join(L))
 
 
+def oracle(pace, seasons):
+    """DIAGNOSTIC UPPER BOUND, not a model: podium overlap if each driver's TRUE race pace in the target race were known."""
+    d = load_results().merge(pace, on=["season", "round", "code"], how="left")
+    d = d[d.season.isin(seasons)]
+    ov = lambda g: len(set(g.nsmallest(3, "pace_gap").driver) & set(g.nsmallest(3, "order").driver)) / 3
+    return d.assign(pace_gap=d.pace_gap.fillna(99)).groupby(["season", "round"]).apply(ov, include_groups=False)
+
+
+def main_pre(seasons=None):
+    """Pre-weekend setting: NO data from the target weekend (no grid/quali/sprint/practice)."""
+    seasons = seasons or DEV + TEST
+    df = load_results(); pace = pd.read_csv(DATA / "racepace_ff1.csv")
+    X = build_features(df, pace); PRE = pre_weekend_cols(X)
+    standings = lambda tr, te, F, **kw: (-te.d_season_pts.fillna(0) * 100 + te.d10_order.fillna(11) * 1e-3).values
+    W.MODELS.update(
+        prev_podium=lambda tr, te, F, **kw: te.prev_order.fillna(22).values,
+        standings=standings,
+        form_d3=lambda tr, te, F, **kw: te.d3_order.fillna(22).values,
+        pre_logit=lambda tr, te, F, **kw: W.m_logit_pod(tr, te, PRE, C=0.03, hl=100),
+        pre_lgb=lambda tr, te, F, **kw: W.m_lgb_pod(tr, te, PRE, hl=100))
+    models = ["prev_podium", "standings", "form_d3", "pre_logit", "pre_lgb"]
+    R, P = W.walk_forward(X, seasons, models, ens={"ens": ["standings", "pre_logit"]})
+    R.to_csv(OUT / "preweekend_per_round.csv", index=False)
+    orc = oracle(pace, seasons)
+    for s in seasons:
+        Rs = R[R.season == s]
+        print(f"\n### PRE-WEEKEND season {s} ({Rs['round'].nunique()} races): podium accuracy per model + oracle ceiling")
+        print(W.summarize(Rs)[["winner", "podium", "top10", "pairwise", "mae"]].assign(
+            oracle_podium=np.nan).to_markdown())
+        print(f"oracle (true race pace known; diagnostic upper bound): podium {orc.loc[s].mean():.3f}")
+    return R, X
+
+
 def main(dev_only=False):
     baselines()
     df = load_results()
@@ -68,4 +101,7 @@ def main(dev_only=False):
 
 
 if __name__ == "__main__":
-    main(dev_only="--dev" in sys.argv)
+    if "--pre" in sys.argv:
+        main_pre()
+    else:
+        main(dev_only="--dev" in sys.argv)

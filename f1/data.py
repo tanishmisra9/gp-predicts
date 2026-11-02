@@ -75,6 +75,7 @@ def fetch_season(year):
 
 
 def load_results(first=2018, last=2026, refresh=False):
+    """Official results/qualifying/sprint (Jolpica-F1, the Ergast successor). Race pace comes from FastF1 (f1/ff1.py)."""
     f = DATA / "results.csv"
     if f.exists() and not refresh:
         return pd.read_csv(f, parse_dates=["date"])
