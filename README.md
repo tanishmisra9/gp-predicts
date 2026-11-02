@@ -1,6 +1,6 @@
 # gp-predicts — F1 podium predictor (walk-forward, season-cycle evaluated)
 
-**Status: the 75% podium target is NOT reached — and for the "no weekend data" setting it cannot be, by a measured bound.**
+**Status: the 75% podium target is NOT reached.** For the "no weekend data" setting the best result is 54-58%; a pace-based ceiling (a *perfect* race-pace forecast) is 74.6%, and my pace forecasts reach rho~0.72, far from perfect.
 
 | setting | held-out 2026 podium accuracy | grid / best baseline | dev 2023-25 |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 Podium accuracy = mean over races of |predicted top-3 ∩ actual top-3| / 3 (defined before any model was run; EXPERIMENTS.md E0, E7).
 The oracle row is the key: even *perfect knowledge of every driver's race pace* yields only ~74% podium overlap on 2022-25, because strategy,
 safety cars, first-lap incidents and retirements scramble the order. A forecast made before the weekend has to estimate pace **and** survive that
-noise, so 75% sits at/above the ceiling. Nothing tried (E2-E8) beat "championship standings" by more than noise.
+noise, so even perfect pace knowledge lands just below 75% (E10: corrupting true pace with noise gives podium 0.75 / 0.66 / 0.60 / 0.50 at rank-correlation 1.0 / 0.96 / 0.86 / 0.76). The 2026-only oracle is higher (0.79), so I do not claim 75% is impossible there, only that no information I could find predicts it. Nothing tried (E2-E11) beat "championship standings" by more than noise.
 
 ## Run it
 ```
@@ -24,7 +24,7 @@ python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m tests.test_preweekend && .venv/bin/python -m tests.test_no_leak
 ```
 `data/results.csv`, `data/racepace_ff1.csv`, `data/laps.csv` are committed so everything reruns offline. To refresh: `python -m f1.data`, and for
-race pace `./scripts_run_ff1.sh <path-to-.env-with-F1_USERNAME/F1_PASSWORD> [first last]` then `python -m f1.ff1 merge` (needs FastF1>=3.9 and an F1 account).
+FastF1 extractors (need FastF1>=3.9 and an F1 account): `F1_MODULE=f1.<ff1|sessions|telemetry|strategy|pits> ./scripts_run_ff1.sh <.env with F1_USERNAME/F1_PASSWORD> <first> <last>`, then `python -m f1.ff1 merge` for race pace. Experiments: `python experiments/e9_profile.py`, `e10_similarity.py`, `e11_blocks.py`.
 
 ## Data (and why it is split this way)
 - **Jolpica-F1 (Ergast successor)**: official results, grid, qualifying, sprints, status, 2018-2026. Source of truth for labels.
@@ -32,6 +32,13 @@ race pace `./scripts_run_ff1.sh <path-to-.env-with-F1_USERNAME/F1_PASSWORD> [fir
   results too and rejected it: its grid/points/status come from Jolpica internally (NaN for many races when rate-limited) and its timing-based
   finishing order ignores post-race penalties (e.g. 2019 Canada), so it is a worse label source.
 - **OpenF1** (`data/laps.csv`): practice/quali lap gaps, used only by the post-quali experiments (they did not help, E4).
+
+## What was tried for the no-weekend-data goal (E9-E11, all from PAST sessions only)
+Corner-by-corner telemetry profiles per car and driver (approach/braking, apex, exit/throttle pickup, following straight), an engine proxy
+(full-throttle acceleration + straight-end speed, plus power-unit-pooled reliability), driver style (teammate-relative, portable across teams), circuit
+character from earlier visits (layout, typical 1-/2-stop strategy, safety-car share, DNF/collision rate, podium chaos), pit-stop and strategy-execution
+skill, and car x track "fit" features that update through the season. Result: **none improved on the base features** (pace-order correlation 0.72 either way).
+Reason, measured (E10): a team's circuit-specific deviation repeats year to year only at r=+0.04, and track-similarity weighting makes team forecasts *worse* (0.774 -> 0.766).
 
 ## Method
 - Walk-forward: for each race, train only on strictly earlier races, predict, then roll forward. Dev = 2023-25 (2022 for some tests); 2026 = held out,

@@ -157,3 +157,30 @@ standings 0.59. Ridge got worse (0.682).
 - Pace -> podium mapping (corrupt TRUE race pace with noise): rho 1.00 -> podium 0.746; 0.96 -> 0.66; 0.86 -> 0.60; 0.76 -> 0.50.
   => even a PERFECT race-pace forecast gives 0.746 (<75%). Our pre-weekend pace forecasts reach ~0.72 driver-level / 0.77 team-level.
   Reaching 75% would need pace forecast better than perfect, i.e. predicting retirements, safety cars and strategy luck as well.
+
+## E11 — Information blocks x learners, dev 2023-25 (70 races), pre-weekend. podium / pace-order Spearman (vs TRUE race-pace order)
+Base = 38 history features. Each block added alone, then all, with logistic-podium / ridge-pace / extra-trees-pace. Standings baseline: 0.590 / 0.691.
+
+| block added to base | logit | ridge | extra-trees | pace rho (best of 3) |
+|---|---|---|---|---|
+| (none: base) | .557 | .548 | .557 | .719 |
+| strategy / attrition / SC / wet | .557 | .548 | .576 | .719 |
+| circuit layout (corner mix, straights, vmax) | .557 | .548 | .567 | .720 |
+| car x track fit | .552 | .519 | .552 | .717 |
+| driver style x track fit | .557 | .538 | .548 | .718 |
+| telemetry car profile (corners + engine proxy) | .543 | .519 | .562 | .716 |
+| driver style (teammate-relative) | .548 | .543 | .548 | .721 |
+| pit / execution / deg / sectors | .543 | .538 | .576 | .717 |
+| power-unit pooled reliability + power | .557 | .533 | .552 | .719 |
+| ALL | .543 | .490 | .571 | .717 |
+
+**No block beats the base; ALL is worse for ridge (overfitting 100+ noisy features on ~2,000 rows). Nothing beats championship standings on podium (.590).**
+Why (E10): the car-x-track effect the features try to capture is a tiny share of variance and does not persist (r=+0.04 year to year at the same circuit),
+so these features add noise faster than signal. Learner type (linear / trees / MLP-free ensembles) did not matter either.
+No new 2026 look was taken: dev showed no gain, so the frozen E8 model (`ens`) stays the deliverable and 2026 stays at 0.544.
+
+## Conclusion of the pre-weekend search (E2-E11)
+Tried: history windows/decay, practice+race lap pace, label handling, reliability model, rank features, pairwise Bradley-Terry, GBM/lambdarank, ridge, extra-trees,
+telemetry corner profiles, engine/power proxies, power-unit pooling, driver-style x track, strategy typicality, attrition/SC, pit execution, track-similarity forecasting.
+Best pre-weekend podium accuracy stays ~0.57-0.58 (dev) / 0.544 (2026). Pace-forecast quality is the binding constraint (rho~0.72) AND the pace-based ceiling is
+0.746 (E10), so 75% is not reachable from pace information alone, and the remaining outcome variance (incidents, SC, strategy luck, DNFs) has no pre-weekend predictor in the data.
