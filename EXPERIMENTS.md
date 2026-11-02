@@ -401,3 +401,23 @@ Note: Mexico 2026 race laps (R19) were not yet loadable in FastF1, so its pace i
 | E99 | Reliability-weighted FUSION of up to 6 weak team-strength indicators (race pace, fuel-corrected pace, Q1 gap, FP long-run, points, finishing position) in a multi-observation Kalman filter; forecast of TEAM finishing order (Spearman vs actual best-car order) | single indicator inner .7546 / outer .7274; fused (noise tuned on inner) inner .7773 / outer .7311; **fused equal weights outer .7403** | small real gain (+1.3 pts) on the biggest unknown (team order) |
 | E100 | Fused strength -> PODIUM: alone / as logit feature / as third member of the ensemble | outer .529 / .557 / .548 (ens .586, standings .590) | the +1.3-pt team-order gain does not reach the podium |
 Observation: team-order forecast quality is bounded by ~0.775 even with hindsight (E13); fusion gets 0.740, i.e. most of the available gain. Every pre-weekend avenue now saturates at team-order ~0.74 and podium ~0.58-0.61.
+
+## ROUND 7 — permitted-source follow-up after E100
+
+### E101 — Cause-specific mechanical-failure exposure (A4 in RESEARCH_AVENUES.md)
+
+**Hypothesis:** driver's and team's prior named mechanical failures per completed racing lap, plus whether the team had a failure in the last three races, might predict another mechanical retirement and improve the pre-weekend podium ranking. This differs from E18's all-cause DNF model. `experiments/a4_mechanical.py` builds three history features from strictly earlier result rows (10-race half-life, fixed prior), fits a regularized cause-specific logistic hazard on earlier races, and multiplies the frozen pre-weekend logit's podium probabilities by predicted survival. A generic-DNF-feature mechanical hazard is the comparator. No target-weekend status/laps are features; `tests/test_mechanical_leak.py` scrambles target-and-later rows and mutation-checks a prior row.
+
+**Data-quality discovery:** Jolpica `status` in this dataset names 85 mechanical failures over 2020–22, but **zero** over 2023–25. In the latter three seasons, 153 rows say only `Retired` and cannot be assigned a cause; 174 rows in total have unknown or otherwise excluded outcomes. Those rows were excluded from hazard training and scoring rather than treated as mechanical negatives. This label regime change makes outer-window mechanical-hazard accuracy unmeasurable from this source. The apparently low outer Brier score on named mechanical events would be meaningless, so it is not reported.
+
+| walk-forward metric | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| standings strict podium overlap | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| frozen logit | 0.6393 | 0.5571 |
+| logit × generic-hazard survival | 0.6393 | 0.5571 |
+| logit × cause-specific-hazard survival | 0.6393 | 0.5571 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+| cause-specific vs generic hazard Brier, named outcomes only | 0.06588 vs 0.06620 (85 events / 1,211 eligible driver-races) | **not estimable:** zero named events |
+
+Both survival variants made the same podium selections as the original logit. Outer difference from standings: -0.0333, paired race bootstrap 95% CI [-0.0714, +0.0048]. **Verdict: no podium gain; stop this cause-specific route with the current labels.** The small inner Brier difference does not validate mechanical-risk forecasting in the target era, and the unclassified `Retired` rows could contain many mechanical failures. This is a source limitation, not evidence that failure risk cannot be forecast in principle. All existing leak/guard/metric tests and the new source-specific leak test passed. No new 2026 evaluation was run.
