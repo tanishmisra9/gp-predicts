@@ -239,3 +239,75 @@ per-driver binary "on podium?" accuracy 0.882 vs always-say-no 0.850 (hobby-proj
 ## ROUND 2 CONCLUSION
 Plateau ~0.58-0.61 pre-weekend (131 races). The remaining headroom is closed from three independent sides: (1) perfect hindsight "persistent form" adds <=1.5 pts of team-order correlation (E13);
 (2) full pre-race information (practice, qualifying, grid, telemetry) tops out at ~0.69 (E17); (3) even a perfect race-pace forecast gives 0.746 (E10). 75% strict podium overlap is above all three.
+
+# ROUND 3 — 36 new experiments, reasoned BACKWARD from the result (the real podiums) to the pipeline (E22-E57)
+Protocol: pre-weekend only; dev 2020-25 (131 races); INNER = 2020-22, OUTER = 2023-25 (the honest number); paired outer diff vs the frozen `ens`. Reference outer podium: standings 0.590, ens 0.586, logit 0.557.
+**INCIDENT (caught by the audit habit):** E30/E31 first showed 0.71 outer podium. Cause: the models used the harness-supplied default feature list, which contained the TARGET WEEKEND's grid/quali gaps and the target
+race's own pace labels (y_pace, y_q). Fixed at the root: in pre-weekend mode (`tie=None`) walk_forward now defaults to history-only columns and RAISES if any forbidden column is passed
+(`W.assert_pre_weekend`, `tests/test_guard.py`). All earlier scripts were audited by grep: they bound feature lists explicitly, so no earlier result was affected. Corrected E30/E31: 0.548 / 0.552.
+
+## A. Result-side (backward diagnostics - what did the true podium need that the pipeline did not know?)
+| # | Experiment | Result | Verdict |
+|---|---|---|---|
+| E22 | Oracle ladder: give the model ONE true fact at a time | ens 0.606 -> knowing retirers 0.646 (+4.0); true teammate order 0.656 (+5.0); true team race PACE 0.669 (+6.3); **true TEAM finishing order 0.743 (+13.7)**; true driver pace 0.740 | Biggest unknown = team order (incl. strategy/reliability luck), then teammate order, then retirements |
+| E23 | Hindsight fixed effects (whole-season mean incl. future, minus the race) | driver season-mean 0.552; team season-mean + ens within team 0.463 (both BELOW the dynamic ens 0.606) | Static strength is worse than recent form: within-season dynamics are real signal the model already uses |
+| E24 | Single-feature within-race AUC for podium | best: d3_q_pos .905/.887 (inner/outer), d10_pts_n .904/.895, d10_order, d_season_pts .899/.892 | Many near-identical correlated features; no hidden single killer feature |
+| E25 | Podium team-pattern | real: 2+1 (two cars of one team) 62%, 1+1+1 38%. Predicted: 2+1 in 85%. Pattern matched 61% | Model over-concentrates on the top team |
+| E27 | Is race difficulty predictable from pre-race descriptors? | corr(podium overlap, x): stops_2plus -0.175, circ_grid_corr +0.135, c_chaos -0.078, season_races -0.087 | Weak: 2-stop tracks and early-season are a bit harder |
+| E56 | How accurate must TEAM-ORDER prediction be? (noise-corrupt the true team order) | perfect 0.743; Spearman 0.97 -> 0.705; 0.89 -> 0.613; 0.79 -> 0.529. Mine: 0.748 | 75% needs a better-than-perfect team order PLUS better teammate/retirement calls |
+| E57 | Selective prediction: abstain when unconfident (confidence = sum of top-3 probs) | accuracy at coverage 100/60/40/25/15%: .606/.616/.597/.566/.550; corr(conf, acc)=+0.10; nested outer confident .583 vs rest .586 | Does NOT work: the model does not know when it is right (first attempt had a NaN-threshold bug; fixed) |
+
+## B. Structure-side (models built around what A showed)
+| # | Experiment | outer / inner podium | dOuter vs ens | Verdict |
+|---|---|---|---|---|
+| E28 | Team-then-driver: predict TEAM best-finish order, within-team order from logit | .543 / .617 | -0.043 | worse (forces a 2+1 pattern) |
+| E29 | Diversity penalty on the weaker teammate (delta .05/.1/.2) | .576/.548/.519 | -0.010/-0.038/-0.067 | fix for over-concentration backfires; monotone worse with delta |
+| E30 | Plackett-Luce top-3 likelihood, linear utility (CORRECTED) | .548 / .634 | -0.038 | no gain |
+| E31 | All-pairs Bradley-Terry, top-6 focus (CORRECTED) | .552 / .617 | -0.033 | no gain |
+| E32 | Within-race rank-transformed features (logit / lgbm) | .557 / .548 | -0.029 / -0.038 | no gain |
+| E33 | Elo, team+driver additive, pairwise updates, K and season-shrink tuned on INNER only (Kt40 Kd10 shrink.8) | .548 / .634 | -0.038 | no gain; ndcg3 .626 |
+
+## C. Label-side (change what the model is trained to predict)
+| # | Experiment | outer / inner | dOuter | Verdict |
+|---|---|---|---|---|
+| E34 | Label = "would-be podium by TRUE race pace" (immune to DNF/strategy), evaluated on real podium | .567 / .634 | -0.019 | no gain |
+| E35 | Ridge on log(finishing position) | .581 / .623 | -0.005 | ties ens; best learned model of the round |
+| E36 | Ridge on log(1+points) | .571 / .628 | -0.014 | no gain |
+| E37 | Down-weight retired rows x0.3 | .548 / .634 | -0.038 | no gain |
+| E38 | Soft labels (P4-5 = 0.4) | .543 / .645 | -0.043 | no gain, highest inner |
+
+## D. Feature-side (new past-only information)
+| # | Experiment | outer / inner | dOuter | Verdict |
+|---|---|---|---|---|
+| E39 | Trend: recent-vs-long form for team and driver (pace and results) | .557 / .634 | -0.029 | identical to base: nothing added |
+| E40 | Cleaner quali history from Q1 gaps (all drivers set a Q1 time) | .557 / .639 | -0.029 | nothing |
+| E41 | Start skill: decayed lap-1 places gained | .557 / .639 | -0.029 | nothing |
+| E42 | Dominance: decayed laps-led share (driver/team) | .557 / .634 | -0.029 | nothing |
+| E43 | Past sprint-race form | .557 / .639 | -0.029 | nothing |
+| E44 | Decayed-points standings family, half-life 2/4/8 races | .552/.552/.567 vs standings .590 | -0.033/-0.033/-0.019 | plain season standings is better than every decayed version |
+| E45 | Circuit continuity: this driver/team's podium at this track last visit | .552 / .634 | -0.033 | nothing |
+| E46 | ALL new features together | .552 / .617 | -0.033 | more features, lower both splits |
+
+## E. Algorithm sweep (BASE features unless noted)
+| # | Experiment | outer / inner | dOuter |
+|---|---|---|---|
+| E47 | SVM (RBF, 10 key features) | .571 / .623 | -0.014 |
+| E48 | kNN k=60 | .557 / .590 | -0.029 |
+| E49 | Gaussian naive Bayes | .571 / .628 | -0.014 |
+| E50 | AdaBoost | .557 / .639 | -0.029 |
+| E51 | HistGradientBoosting | .543 / .579 | -0.043 |
+| E52 | Random forest | .562 / .623 | -0.024 |
+| E53 | Bagged logistic (25 bags) | .571 / .634 | -0.014 |
+| E54 | Monotone-constrained LightGBM | .562 / .601 | -0.024 |
+| E55 | Top-8 features chosen from training data only, logit | .576 / .623 | -0.010 |
+
+## WHAT WORKED / WHAT DIDN'T
+- Worked (relative): championship standings (.590) and the frozen standings+logit ens (.586), ridge on log-position (.581), top-8-feature logit (.576). None statistically separable from each other (paired CIs span 0).
+- Did not work: every one of 30+ alternatives. Not one beat standings on the outer window. Flexible models fit 2020-22 (inner .58-.65) and drop on 2023-25 (outer .54-.58); standings barely moves (.607 -> .590).
+- Falsified ideas: diversity correction, selective prediction, team-then-driver, pace-based labels, retired-row down-weighting, trend/start/laps-led/Q1/sprint features, Elo/PL/BT ranking likelihoods, SVM/kNN/NB/RF/GBM/monotone GBM.
+## OVERALL OBSERVATIONS (backward chain: result -> information gap -> pipeline)
+1. The unknowns that cost accuracy, in order: TEAM ORDER of the race (13.7 pts), teammate order (5.0), retirements (4.0). Pace per se is a smaller piece. Team order includes strategy, safety cars, first-lap and reliability luck, which no pre-weekend feature observed here predicts.
+2. Pipelines can only re-estimate form; E13/E23/E33-E46 all hit the same wall: recent form is already extracted by standings/decayed means, and extra feature classes (start skill, laps led, trend, circuit continuity) carry no marginal information.
+3. Model flexibility hurts: the inner-outer gap grows with flexibility. With ~130 races the dominant error is variance, so simpler is better; E35/E55 (smooth target / few features) are the least bad learned models.
+4. The model's confidence is uninformative (E57), so there is no safe subset of races where 75% is reached.
+5. Even a hypothetical perfect team order gives only 0.743 (E56): 75% strict podium is above the oracle for every single-source pre-race information I could construct.

@@ -58,3 +58,13 @@ def run(X, models, seasons, ens=None):
     s = W.summarize(R)[["winner", "podium", "ndcg3", "top10", "pairwise", "mae"]]
     s["pace_rho"] = pace_corr(P, X)
     return s.sort_values("podium", ascending=False), R, P
+
+
+def report(R, ref="ens", title=""):
+    """inner(2020-22)/outer(2023-25) podium & ndcg3 per model + paired outer diff vs ref (races)."""
+    R = R.assign(sp=np.where(R.season <= 2022, "in", "out"))
+    t = R.groupby(["model", "sp"])[["podium", "ndcg3"]].mean().unstack().round(3); t.columns = [f"{a}_{b}" for a, b in t.columns]
+    if ref in set(R.model):
+        a = R[(R.model == ref) & (R.sp == "out")].set_index(["season", "round"]).podium
+        t["dOuter_vs_" + ref] = [round(W.paired_boot(R[(R.model == m) & (R.sp == "out")].set_index(["season", "round"]).podium, a)[0], 3) for m in t.index]
+    print(t.sort_values("podium_out", ascending=False).to_string())

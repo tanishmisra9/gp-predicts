@@ -18,6 +18,18 @@ def feature_cols(X):
     return [c for c in X if c not in ID]
 
 
+# columns that carry target-weekend information (grid/quali/sprint/practice/telemetry of THIS weekend) or target-race LABELS
+FORBIDDEN_PRE = {"gridn", "q_pos", "q_gap", "q_gap_best", "grid_pen", "s_grid", "s_order", "y_pace", "y_q", "team_qgap", "tm_qgap", "team_grid",
+                 "grid_rank_in_team", "log_grid", "grid_x_corr", "order", "podium", "win", "lap1gain", "pos_lap1", "led_share", "laps_led"}
+FORBIDDEN_PRE_PREFIX = ("best_gap_", "top5_gap_", "lr_gap_", "fp_", "team_fp_", "team_best_gap_", "team_top5_gap_", "team_lr_gap_", "cur_")
+
+
+def assert_pre_weekend(F):
+    bad = [c for c in F if c in FORBIDDEN_PRE or c.startswith(FORBIDDEN_PRE_PREFIX)]
+    if bad:
+        raise ValueError(f"pre-weekend run given target-weekend/label columns: {bad[:8]}")
+
+
 def metrics(g, score, tie="gridn"):
     """g: one race's rows; score: lower = predicted to finish better. Ties broken by grid."""
     s = pd.Series(np.asarray(score, float), index=g.index)
@@ -85,6 +97,9 @@ def _rank01(x):  # within-race rank -> [0,1], so heterogeneous model scores can 
 
 def walk_forward(X, seasons, models, F=None, min_train_season=2019, ens=None, tie="gridn", **kw):
     """Returns per-race metric table (long): season, round, model, metrics...; ens = {name: [model names]} rank-averaged."""
+    if tie is None:  # pre-weekend mode: default features = history-only columns; any forbidden column raises
+        from f1.features import pre_weekend_cols
+        F = F or pre_weekend_cols(X); assert_pre_weekend(F)
     F = F or feature_cols(X)
     rows, preds = [], []
     for (s, r), te in X[X.season.isin(seasons)].groupby(["season", "round"], sort=True):
