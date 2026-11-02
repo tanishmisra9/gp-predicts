@@ -91,3 +91,20 @@ Dev seasons for context (podium, model vs grid): 2023 .667/.636, 2024 .667/.667,
 grid alone gets 0.775, so that number reflects the metric, not the model (see E0).
 Season-cycle: accuracy does not climb with more in-season data; early rounds (R1-5) are no worse than late (R12+),
 because quali position already encodes the current car pace from round 1. In-season rounds help model vs grid only marginally.
+
+## E7 — NEW SETTING (user request): predict the podium with NO data from the target weekend
+Inputs allowed: results/qualifying/laps of all EARLIER races, the entry list (driver->team) and the circuit. Not allowed: grid, qualifying,
+sprint, practice of the target weekend. Metric unchanged (podium overlap, E0). Target: >= 75%. Data source switched to FastF1 (see f1/ff1.py).
+Model-free pre-weekend baselines, measured before any model:
+
+| podium overlap | dev 2023-25 | 2026 |
+|---|---|---|
+| previous race's podium | 0.500 | 0.509 |
+| championship standings top-3 | 0.590 | 0.526 |
+| decayed driver form (hl=3) | 0.557 | 0.491 |
+| decayed team form + driver | 0.552 | 0.509 |
+
+Argument for feasibility: pre-weekend info is (roughly) a subset of what the post-qualifying model used (E6: 0.65-0.69). A model with
+less information beating a better-informed one by 6-10 pts would be surprising => prior says 75% is unlikely. To be tested, not assumed.
+The user's hypothesis (accuracy improves across a season as in-season data accumulates) is tested explicitly via accuracy-by-round curves.
+Telogify's FastF1 cache covers only 14 weekends of 2026 (3.6 GB, mostly telemetry) -> reused for those; everything else downloaded.
