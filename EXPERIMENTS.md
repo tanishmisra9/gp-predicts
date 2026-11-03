@@ -651,3 +651,23 @@ The forecast-grid-only ranking lost **0.0429** outer strict overlap versus stand
 Standalone logit Brier/log-loss were 0.07719/0.24968 to 0.07718/0.24957 inner, and 0.08314/0.26293 to 0.08312/0.26280 outer. The outer race-paired differences were -0.000012 for Brier (95% CI [-0.000068,+0.000045]) and -0.000129 for log-loss ([-0.000265,+0.000020]); neither excludes zero. `tests/test_grid_forecast_leak.py` now checks the nested forecast feature as well: changing the target grid leaves it identical, while changing an earlier grid changes it. The existing pre-weekend feature scramble and guard tests also passed. No 2026 evaluation was run. This is another look at the same repeatedly inspected development windows.
 
 **Verdict: no podium gain from the time-aligned mean-grid forecast.** E114's full-field grid correlation does not translate into a useful third-place decision through this simple conditional model. A calibrated grid distribution remains untested, but the weak contender-specific grid gain in E114 and zero selection changes here do not justify promoting this feature or tuning many variants on these races.
+
+### E116 — Portable driver pace from the matched teammate graph (B6)
+
+**Strict podium overlap**, full walk-forward development windows:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| fixed logit + portable driver pace | 0.6393 | 0.5762 |
+| standings + augmented logit rank average | 0.6339 | 0.5857 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/b6_portable_teammate.py` reused E108's 758 matched-lap teammate comparisons across 42 drivers in 2018–25. For each target race, it fitted one weighted driver graph from **strictly earlier** pair gaps: driver A minus teammate B, with lap-count weights, a fixed 10-race half-life, and ridge anchoring of 50. One resulting driver pace rating was added to the frozen regularized podium logit (`C=0.03`, training half-life 100), then rank-averaged with standings. This differs from E108–E109's exact same-team/same-teammate history: a connected graph can carry a driver's earlier contrasts into a new pairing. Missing ratings used the existing logit median imputer; feature coverage was 98.77% inner / 98.86% outer. The ensemble changed 2/61 and 8/70 top-three sets, but its outer strict-overlap difference from frozen `ens` was effectively **zero** (paired race bootstrap 95% CI [-0.0238,+0.0238]); versus standings it was -0.0048 ([-0.0239,+0.0143]).
+
+The standalone logit's driver-race Brier/log-loss improved from 0.07719/0.24968 to 0.07659/0.24853 inner and from 0.08314/0.26293 to **0.08205/0.26024** outer. The outer race-paired differences were -0.001082 for Brier (95% CI [-0.002013,-0.000132]) and -0.002690 for log-loss ([-0.004847,-0.000447]); inner intervals included zero. The Brier difference was negative in each development season, ranging from -0.00023 to -0.00127. This probabilistic signal remains exploratory after many looks at the same outer races and does **not** pass the strict podium gate. For a narrow transfer check, team lineages were normalized across name changes in local results (e.g. Toro Rosso/AlphaTauri/RB, Renault/Alpine); only **6 inner and 7 outer** first-race team-change pairs had a matched same-race pace gap and prior ratings, and the graph picked the faster driver in 2/6 and 5/7. Those tiny samples cannot establish a transferable driver skill effect, and disconnected teammate graph components are only ridge-anchored, not absolutely comparable.
+
+`tests/test_portable_teammate_leak.py` verifies the graph's sign on a synthetic pair and scrambles target-and-later matched gaps and counts on cached data; target ratings remain unchanged, while changing a prior gap changes the rating. Existing pre-weekend feature, profile, guard, and metric checks passed. No 2026 evaluation was run.
+
+**Verdict: better probability calibration, no podium gain over standings or the frozen ensemble.** Keep the portable pace rating as a research measurement, not a replacement predictor. Before another podium model attempt, show that it separates P3 from P4 on genuinely later races; retuning on the inspected 2023–25 window would overstate the evidence.
