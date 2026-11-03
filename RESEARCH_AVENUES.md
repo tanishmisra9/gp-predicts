@@ -213,6 +213,8 @@ are unverified here, and none should be represented as ready to backtest.
 | C4 | **Structured circuit changes**, such as resurfacing, geometry, DRS-zone or pit-lane changes announced before cutoff. | Verify a permissible structured source and historical availability. Test one prespecified interaction with past measured tyre/drag sensitivity. Do not backfill modern track metadata into older races. If only articles/event notes provide it, it is excluded by the document constraint. |
 | C5 | **Cross-series driver evidence for newcomers.** Compare teammate-relative stint and qualifying performance before F1 using a permissible structured source. | Evaluate on historical entrants, separately from established drivers. No such source was verified for this task. Stop if domain shift or low podium exposure makes it irrelevant. This differs from E70's experience flags but likely has limited aggregate upside. |
 
+**E118 access update (2026-11-02):** Betfair historical exchange files require a registered account and purchase; public material did not establish F1 podium-market coverage or usable pre-weekend volume. F1 Fantasy's terms prohibit automated extraction from the game. C1/C2 remain conditional and supplied no model input or backtest. See `EXPERIMENTS.md` for primary-source links and the strict baseline.
+
 ## Outside-document avenues: recorded, excluded from the current scope
 
 | ID | Originally proposed avenue | Status and possible distinct information |
