@@ -3,7 +3,7 @@
 import pandas as pd
 
 from experiments.a1_2025_team_transfer import PART, prior_team_speed
-from f1.data import load_results
+from f1.data import DATA, load_results
 
 
 def test_source_year_cutoff():
@@ -25,14 +25,16 @@ def test_source_year_cutoff():
 
 
 def test_cached_source_cutoff():
-    source = pd.read_csv(PART)
     results = load_results().query("season <= 2025")
-    expected = prior_team_speed(source, results)
-    later = source.assign(season=2025, speed=source.speed + 100)
-    pd.testing.assert_frame_equal(prior_team_speed(pd.concat([source, later]), results), expected)
-    changed = source.copy()
-    changed.loc[changed.circuit.eq("jeddah") & changed.code.eq("VER"), "speed"] += 10
-    assert not prior_team_speed(changed, results).prior_xy_speed.equals(expected.prior_xy_speed)
+    for part in (PART, DATA / "parts/race_xy_multistint_all_2024.csv"):
+        source = pd.read_csv(part)
+        assert source.season.eq(2024).all()
+        expected = prior_team_speed(source, results)
+        later = source.assign(season=2025, speed=source.speed + 100)
+        pd.testing.assert_frame_equal(prior_team_speed(pd.concat([source, later]), results), expected)
+        changed = source.copy()
+        changed.loc[changed.circuit.eq("jeddah") & changed.code.eq("VER"), "speed"] += 10
+        assert not prior_team_speed(changed, results).prior_xy_speed.equals(expected.prior_xy_speed)
 
 
 if __name__ == "__main__":

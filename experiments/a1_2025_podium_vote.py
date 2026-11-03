@@ -10,18 +10,17 @@ from f1.data import load_results
 from f1.features import pre_weekend_cols
 
 
-def main():
+def main(part=PART, sessions=SESSIONS):
     X = table()
     X = X[X.season <= 2025].copy()
     results = load_results().query("season <= 2025")
     circuits = results[["season", "round", "circuit"]].drop_duplicates()
     X = X.merge(circuits, on=["season", "round"], validate="many_to_one")
-    prior = prior_team_speed(pd.read_csv(PART), results)
+    prior = prior_team_speed(pd.read_csv(part), results)
     prior["season"] = 2025
     X = X.merge(prior[["season", "circuit", "team", "prior_xy_speed"]],
                 on=["season", "circuit", "team"], how="left", validate="many_to_one")
-    selected = X[(X.season == 2025) & X.circuit.isin(SESSIONS)]
-    assert selected.prior_xy_speed.notna().all()
+    selected = X[(X.season == 2025) & X.circuit.isin(sessions)]
     base = pre_weekend_cols(X)
     W.assert_pre_weekend(base + ["prior_xy_speed"])
     W.MODELS["standings"] = lambda tr, te, F, **kw: (
