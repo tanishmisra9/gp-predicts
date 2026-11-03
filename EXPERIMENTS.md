@@ -981,3 +981,23 @@ Before seeking a cross-series feed, I counted how often such evidence could dire
 I did not ingest junior-series results. The [official FIA Formula 2 site terms](https://www.fiaformula2.com/en/latest/article/terms-and-conditions.6XzLrOyLLmDREjs3oMriKp) restrict extraction and copying of its material; a [third-party F2 pipeline](https://github.com/Alarchemn/F2-Data-Pipeline) found in the source check explicitly describes scraping that site. Under the project's rule to ask before restrictive scraping or licence acceptance, that route is excluded for now. Source documentation was read only to assess access, never as a feature.
 
 **Verdict: deprioritize C5 for the 0.750 strict gate.** The incidence count does not prove junior-series skill has no later value, and it is not an upper bound on every possible effect of a newcomer feature. It does show that a direct correction to the first few F1 podium calls has little observed leverage on the full-race metric. A separately licensed, timestamped structured source would still need an incremental test against standings before use.
+
+### E139 — Does a driver adapt after changing F1 teams? (B6 pace gate)
+
+**Strict podium overlap:** no new podium selector was run. The full development references remain plain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and shuffled-label logit null 0.1749 / 0.1857. No 2026 outcome was evaluated; there are no candidate podium picks for a paired podium bootstrap.
+
+The E108 matched-lap teammate table had only **two** transfers with at least three measured races in both the first five and next five entries. For a broader gate, `experiments/b6_adaptation_gate.py` used the existing 2018–25 clean-race-pace table. It measured a switcher's percentage-point pace gap minus the same teammate's, averaged over entries 1–5 and 6–10 at the new team. Eligible transfers required at least three measured races in each window, the same teammate in both, and no prior spell at that team lineage. There were 7 eligible 2019, 8 inner 2020–22, and 11 outer 2023–25 transfers. The observed late-minus-early gap averaged -0.089, -0.221, and -0.065 points, respectively (negative means improvement); 4/7, 5/8, and 7/11 improved. This is weak evidence for a common adaptation effect, not a driver-specific estimate.
+
+For each transfer, the candidate forecast for its entries 6–10 was the first-five relative-pace mean plus a global adaptation adjustment. The adjustment was the sum of completed **earlier** transfers' late-minus-early changes divided by their count plus ten zero pseudo-transfers; its shrinkage was fixed before this run. A transfer contributed to training only when its entry-6–10 window ended strictly before the target's first entry in that window. The baseline forecast was the unadjusted first-five mean. A secondary direction comparator used each teammate's **pre-event season-to-date race points** at that first late-window event, with a driver-name tie, not target-weekend grid or result.
+
+| eligible transfer window | inner (8) | outer (11) |
+|---|---:|---:|
+| unadjusted relative-pace MSE | 0.20772 | 0.46712 |
+| adapted relative-pace MSE | 0.19877 | 0.46595 |
+| adapted minus unadjusted, paired 95% CI | -0.00895 [-0.03739,+0.01755] | -0.00117 [-0.05971,+0.06729] |
+| faster-teammate direction: unadjusted / adapted / prior points | 5/8 / 5/8 / 7/8 | 7/11 / 8/11 / 8/11 |
+| adapted minus prior-points direction, paired 95% CI | -0.250 [-0.625,0] | 0.000 [-0.273,+0.273] |
+
+The outer MSE difference reversed by season: adapted-minus-unadjusted was **+0.00803 in 2023** and **-0.00883 in 2025**; no 2024 transfer met the window filter. `tests.test_adaptation_leak` changes a target switcher's entries 6 onward and confirms its pre-window forecast is unchanged, then changes entries 1–5 and confirms it moves. All standard no-leak, pre-weekend, profile-leak, guard, and metric tests passed. The cohort is **retrospectively conditioned on future pace availability and stable teammate membership**, so these are selected-window diagnostics rather than a full-field prospective performance estimate. Several drivers contribute multiple transfers, which the simple paired bootstrap does not cluster. Race-pace gaps also confound adaptation with upgrades, strategy, and teammate form.
+
+**Verdict: no justified podium promotion.** The fixed adjustment has a negligible, uncertain outer MSE gain and ties the simple prior-points comparator on teammate direction. This pilot neither reaches the 0.750 gate nor rules out all driver adaptation; a new independent measurement or genuinely later transfer cohort would be required before another B6 podium model.
