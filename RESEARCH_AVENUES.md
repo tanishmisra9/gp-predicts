@@ -200,6 +200,8 @@ form proposed here** unless explicitly identified as a follow-up.
 | B8 | **Forecast qualifying variability from earlier sessions.** Estimate each contender's distribution of qualifying performance and integrate its consequence for podium probability, using no target-weekend qualifying data. | Compare with direct podium forecasting using exactly the same past inputs. E17 shows actual qualifying is valuable, not that it is forecastable. This rearranges existing information and has low priority unless better measurements or new supervision improve forecast calibration. |
 | B9 | **Thermal and wind sensitivity from matched historical running.** Estimate car-specific pace responses within previous events, with race/track controls, rather than a broad wet-skill flag. | First check that the interaction repeats in a later event. E16 found no gain even with true weather, so this is a low-priority diagnostic. Any target-event weather input would require a forecast issued before cutoff; actual target weather is forbidden. |
 
+**E121 strategy update:** A fixed team-specific rate of costly pit-lane times from earlier races did not forecast the next costly stop better than a past global rate. This stops that tail-risk statistic before podium modelling; a validated stop-by-stop undercut/rejoin measurement remains untested.
+
 ## Conditional structured-data avenues
 
 These are datasets rather than document extraction. The user's reply does not

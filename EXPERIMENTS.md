@@ -739,3 +739,18 @@ The candidate added **one** past-only short-running feature to a regularized all
 **Bug caught before reporting:** the first feature builder used decaying weights over *all* earlier available practice races. During missing-source years, normalization kept stale 2020/21 observations influential in 2023. The final builder limits source rows to the last three races and returns missing otherwise; only final numbers above are the experiment result. `tests/test_prior_running_leak.py` checks the three-race expiry and scrambles target-and-later source values and outcomes without changing target features. Existing pre-weekend leak, profile, guard, and metric checks passed. No 2026 evaluation was run.
 
 **Verdict: no credible all-cause retirement forecast or strict podium gain.** Practice short running is rare and may reflect programmes, traffic, crashes, or missing timing rather than an unresolved fault. Do not promote this one-indicator A7 variant; cause-specific warnings remain untestable with the current outer status labels.
+
+### E121 — Does a team's costly pit-stop tail persist? (B3 feasibility gate)
+
+**Strict podium overlap:** no new podium selector was run because the source signal failed its next-event forecast gate. The unchanged development references are plain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. No 2026 evaluation was run.
+
+`experiments/b3_pit_tail.py` used the existing pit records from 172 completed races in 2018–25. A driver-race was marked as a costly stop only when its valid median pit-lane time exceeded the **same-race field median by more than three seconds**; missing or unpaired stops were unknown, not negatives. This fixed threshold was chosen from the source's time scale before testing future outcomes. There were 3,180 valid driver-races and 269 costly-stop labels. For each target race, a team's probability was estimated from strictly earlier valid rows with a 10-race half-life and a 20-observation prior centered on the strictly past global rate. This was compared with that global rate on the same observed target rows. The inner/outer evaluation had 1,108/1,306 driver-races and 99/96 costly stops, covering 60/70 races.
+
+| costly-stop forecast, team minus past-global baseline | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| Brier, race-paired difference (95% CI) | +0.000515 [-0.000117,+0.001105] | +0.000168 [-0.000465,+0.000769] |
+| log-loss, race-paired difference (95% CI) | +0.003121 [-0.000765,+0.006860] | +0.001198 [-0.003393,+0.005786] |
+
+Outer Brier/log-loss were 0.068358/0.264613 for the team forecast versus **0.068188/0.263324** for the global rate. `tests/test_pit_tail_leak.py` checks that changing target-and-later pit outcomes leaves the target prior unchanged and a prior edit changes it; the existing pre-weekend leak, profile, guard, and metric tests passed. The records collapse multiple stops into each driver's median and mix crew delay, traffic, repair, and neutralization effects, so this is not a clean crew-performance label. The development races have also been inspected repeatedly.
+
+**Verdict: no forecastable team-specific costly-stop tail from this source.** Stop before a podium ranking or undercut simulator based on this particular tail statistic; it offers no measured incremental execution signal over a global prior. This does not test richer stop-by-stop rejoin states or a race-specific strategy forecast.
