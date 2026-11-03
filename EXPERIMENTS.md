@@ -772,3 +772,18 @@ For B1, the [OpenF1 race-control schema](https://openf1.org/docs/) offers one `d
 For B9, the local 2018–25 FastF1 cache has no weather-data files, and sample historical race sessions did not expose loaded weather. Existing `data/weather.csv` has race-level aggregates and forecast fields, not matched lap-time temperature/wind observations; E16 already tested the aggregate-weather avenue without a podium gain. A matched historical thermal/wind response cannot be measured from the current permitted cache. No weather feed was newly acquired.
 
 **Verdict: park B1 pair-contact and B9 matched-weather modelling until a permitted structured, historically timestamped source exists.** This is a source-availability finding, not evidence that those physical effects are absent.
+
+### E124 — Does pre-season testing mileage warn of early-season attrition? (A6 reliability follow-up)
+
+**Strict podium overlap:** no new podium selector was run because the source failed its attrition-forecast gate. The unchanged development references are standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. No 2026 outcome was evaluated.
+
+`experiments/a6_testing_mileage.py` counted recorded laps in the existing offline FastF1 pre-season testing sessions, then mapped driver codes to each season's round-one team entry list. All three testing days and 20 distinct drivers per year were available for 2023–25. This yielded 30/30 team-years with 267–456 laps per team-year, covering 179 driver-races and 28 all-cause DNFs in rounds 1–3. The one missing driver-race was not imputed. The fixed hypothesis was **lower** testing mileage predicting **more** early DNFs; the comparator was the existing past-only team 10-race DNF feature at round one. One renamed team's comparator was missing and received the same-season mean of the other nine teams' pre-weekend values. No target-race status entered a feature.
+
+| Within-season Spearman with early team DNF rate | 2023 | 2024 | 2025 | Mean |
+|---|---:|---:|---:|---:|
+| low testing mileage as risk | -0.1562 | +0.0730 | +0.4095 | +0.1088 |
+| past team DNF risk | +0.4752 | -0.4439 | +0.4045 | +0.1453 |
+
+The mileage association changed sign across seasons and was below the past DNF comparator on average. A 5,000-draw label shuffle **within each season** had mean correlation +0.0005 and one-sided p=0.2835 for the observed +0.1088. This is only a 30-team-year, repeatedly inspected outer-window diagnostic. Raw 2020–22 testing laps are not present for an inner-period validation, and the all-cause DNF label mixes mechanical, collision, and other failures. `tests/test_testing_mileage_leak.py` verifies target labels and later-season testing edits leave a target year's mileage unchanged, while an earlier testing edit changes it. A paired podium bootstrap is inapplicable without candidate podium predictions.
+
+**Verdict: no credible early-attrition signal from testing lap count.** Do not fit a podium adjustment from this statistic; it cannot establish progress toward 0.750. The pace information in E86 is a distinct finding and is not negated by this mileage result.

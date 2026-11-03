@@ -158,6 +158,8 @@ form proposed here** unless explicitly identified as a follow-up.
   using E86's already-inspected 2026 signal. Stop if benefit depends on one year
   or vanishes after matched coverage; this avenue affects few races per season.
 
+**E124 update:** The existing 2023–25 testing cache also supplied complete pre-season lap counts. Lower team mileage had weak, inconsistent association with rounds 1–3 all-cause DNFs and underperformed the past team DNF feature. This reliability proxy should not be promoted to a podium selector; it does not alter E86's distinct pace finding.
+
 ### A7. Actual failure warnings in earlier-session behaviour
 
 - **Hypothesis/data:** Where historical coverage permits, summarize repeated
