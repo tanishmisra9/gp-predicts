@@ -581,3 +581,21 @@ The track cost itself was forecastable: prior-versus-actual pit-lane-time correl
 The joint forecast's next-race pace Spearman was 0.7139 inner / 0.7028 outer, versus E102 matched pace 0.7063 / 0.6959 on almost identical target coverage (~99%). On common races, the race-paired correlation difference was +0.0076 inner (bootstrap 95% CI [-0.0009,+0.0169]) and +0.0074 outer ([-0.0030,+0.0174]); neither interval excludes zero. The pure joint ranking gained +0.0095 strict overlap over matched pace outer ([-0.0143,+0.0333]) but trailed standings by -0.0190 ([-0.0524,+0.0143]). The three-way blend improved +0.0048 over frozen `ens` outer ([-0.0143,+0.0238]) and tied standings exactly in mean (paired CI [-0.0286,+0.0286]), changing the top-three set in 12/70 races. Its outer season scores were 0.5455, 0.5417, and 0.6806 in 2023, 2024, and 2025; the gains are not uniform. The approximately ±5-point podium detection limit remains relevant. Existing leak, pre-weekend, profile, guard, and metric tests and the new source-specific test passed. No new 2026 evaluation was run.
 
 **Verdict: small, uncertain pace-order improvement; no established podium gain over standings.** This correction moved one equivalent correct pick over the frozen ensemble on outer races, far below the roughly 0.45 additional correct picks per race needed for 0.750. Lap-line gap can misclassify traffic, and compound choice is correlated with car and strategy, so the fitted nuisance effects are not causal estimates. Keep it as a measurement candidate, not as a new frozen predictor or evidence that the gate is reached.
+
+### E112 — Joint pace as one regularized podium feature (A2/A8 follow-up)
+
+**Strict podium overlap**, walk-forward over the same complete development windows:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| fixed logit + E111 past joint-pace forecast | 0.6393 | 0.5571 |
+| standings + augmented logit rank average | 0.6284 | 0.5905 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/a2_jointpace_feature.py` added **one** E111 past-only joint-pace forecast to the frozen logit's feature set, keeping `C=0.03`, the 100-race training half-life, the same rows, and the equal-rank standings blend. The source value was available for 99.26%/99.28% of inner/outer driver-races; existing median imputation handled missing values. This is distinct from E111's separate three-way ranked vote. It changed the ensemble's top-three set in 0/61 inner and 2/70 outer races. The outer ensemble gained one equivalent correct podium pick over frozen `ens`: +0.0048 (paired race bootstrap 95% CI [0,+0.0143]), but merely **tied standings** in mean (paired CI [-0.0286,+0.0286]). The standalone logit's strict overlap did not change in either split.
+
+The added feature did not improve outer probability quality: Brier 0.08314 to 0.08315 (race-paired difference +0.000013, 95% CI [-0.000069,+0.000097]) and log-loss 0.26293 to 0.26306 (+0.000126, [-0.000051,+0.000313]). Inner Brier/log-loss moved slightly downward, with intervals including zero. `tests/test_jointpace_leak.py` checks target-and-later source scrambles through the exact `prior_joint` feature builder; the pre-weekend guard rejects forbidden feature columns. All required leak, pre-weekend, profile, guard, and metric tests passed. No new 2026 evaluation was run. This is another exploratory look on repeatedly inspected development races, not an independent confirmation of the one-pick difference.
+
+**Verdict: no gain over standings and no credible progress toward 0.750.** The modest pace measurement improvement from E111 does not become a material podium-model improvement when used as a regularized feature. Keep the frozen model unchanged.
