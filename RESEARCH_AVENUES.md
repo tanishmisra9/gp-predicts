@@ -89,6 +89,8 @@ form proposed here** unless explicitly identified as a follow-up.
   incremental forecast fails. Check raw sampling/interpolation sensitivity
   before interpreting acceleration or braking features.
 
+**E126 update:** A many-lap, green-flag race SpeedST residual from 171 cached 2018–25 races was tested as one past-only team feature. It gave no strict podium or Brier gain, and its next-race pace-order correlation was slightly negative. Stop that scalar speed-trap route. A full multi-stint, X/Y-aligned corner profile remains a distinct, higher-cost measurement hypothesis; E113 only used five early-stint laps per driver.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps
