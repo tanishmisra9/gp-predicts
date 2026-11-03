@@ -216,6 +216,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E123 source update (2026-11-02 local time):** B1's pair-contact labels are unavailable from the structured OpenF1 race-control fields and the local 2018–25 FastF1 cache; its free-text message is excluded by the no-outside-documents rule. B9's matched lap/weather response is unavailable from the same cache, and the local weather table has only race-level summaries. Park both until an eligible structured source exists. See `EXPERIMENTS.md` for the exact gate and references.
 
+**E133–E134 grid-risk update (2026-11-03):** Earlier driver-specific grid errors had a small within-race signal for forecasting a top-six contender's qualifying setback, but their out-of-time Brier gain over a global variance was tiny and race-paired uncertainty included zero. A single fixed Gaussian top-six-probability vote then fell to **0.5714 outer strict overlap**, versus standings **0.5905**. Stop B8 distribution votes on these repeatedly inspected races; a larger grid simulator is not justified by this evidence.
+
 ## Conditional structured-data avenues
 
 These are structured datasets rather than document extraction. Public,
@@ -236,6 +238,8 @@ need separate approval. Coverage and usefulness must be verified before use.
 **E132 market update (2026-11-02):** Kalshi's public API provided timestamped 2025 driver-podium bids and asks without an account. At a fixed Thursday 00:00 UTC cutoff, market-only top-three picks scored **0.722 strict overlap versus standings 0.685** on the same 18 available races (paired difference +0.037, 95% CI [0.000,+0.093]). There are no 2020–24 Kalshi podium markets in this series, and six 2025 races lack usable pre-cutoff quotes/markets. This is a small, repeatedly inspected development subset, not a new frozen model or evidence for 0.750. Betfair's own guide also clarifies that its Basic historical tier is free but lacks volume; account access and F1 podium coverage remain unresolved. See E132.
 
 **E119 tyre-data update (2026-11-02):** The cached FastF1 lap feed distinguishes fresh from used sets, but its modern soft/medium/hard names are relative to each event and do not identify C1–C5. The fixed fresh-set correction worsened outer next-race pace correlation and tied standings at strict podium overlap. C3 still needs a separate permissible, timestamped absolute-compound source; the current feed cannot provide it.
+
+**C3 source recheck (2026-11-03):** [OpenF1's documented stint field](https://openf1.org/docs/) also exposes relative `SOFT/MEDIUM/HARD` labels. A search found no verified permissible structured 2020–25 archive of absolute C1–C5 nominations with historical pre-weekend timestamps. This is a source gap, not evidence that such a feed cannot exist. No Pirelli preview or other outside-document text entered a model.
 
 ## Outside-document avenues: recorded, excluded from the current scope
 

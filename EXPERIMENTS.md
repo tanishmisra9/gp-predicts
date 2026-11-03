@@ -911,3 +911,37 @@ The API listed **22** 2025 podium events (rounds 3–24); rounds 1–2 had none.
 The first extraction used Friday 00:00 UTC. A schedule audit found this was only **30 minutes** before Las Vegas practice, so those results were discarded and the entire extraction rerun at Thursday 00:00 UTC. The final script also records markets that opened after the cutoff as unavailable; it does not backfill their later quotes. The discarded Friday CSV was removed. This fixes a cutoff-risk and a source-coverage bug before treating the score as evidence. [Betfair's own historical-data guide](https://www.betfair.com.au/hub/education/how-to-model/historical-data-sources/) additionally corrects E118's blanket purchase statement: its Basic tier is **free**, but has no volume; account access and actual F1 podium coverage are still unverified.
 
 **Verdict: useful new pre-weekend market signal, but no demonstrated 75% accuracy or reliable incremental podium gain.** The 0.7222 result is below 0.750, spans only 18 races from one dominant season, and its +3.7-point lift is below the project's roughly ±5-point detection threshold even before accounting for repeated exploration. Do not tune a blend or declare a new model on this subset. Retain the timestamped source and test a fixed market comparator prospectively on genuinely new races only, without inspecting the held-out 2026 outcomes.
+
+### E133 — Does driver-specific grid uncertainty predict a future setback? (B8)
+
+**Strict podium overlap:** no new podium selector in this measurement gate. The complete walk-forward references remain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and shuffled-label podium logit null 0.1749 / 0.1857. No 2026 outcome was evaluated, and a paired podium bootstrap does not apply without candidate picks.
+
+`experiments/b8_grid_variance.py` reused E115's out-of-fold grid forecast: each historical prediction was fitted only on earlier actual grids and pre-weekend features. It measured squared forecast errors only after those races had finished. For each target, the top six by **pre-weekend standings** received a 20-race-half-life global error variance and a driver-specific variance shrunk toward that global estimate by eight pseudo-observations. Driver-name ordering resolved standings ties; the target grid was solely a retrospective label. A Gaussian tail probability from each variance and the *same* forecast-grid mean predicted whether the contender would start outside the top six. This fixed comparison tests whether past volatility adds information beyond the mean forecast, not whether the Gaussian assumption is literally correct.
+
+| future grid setback Brier, standings top six | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| global variance | 0.202007 | 0.205825 |
+| past driver-specific variance | 0.201942 | **0.204555** |
+| driver minus global, race-paired 95% CI | -0.000065 [-0.002446,+0.002547] | -0.001270 [-0.002656,+0.000180] |
+
+The actual grid-setback rate was 0.306 inner / 0.305 outer among the six preselected contenders. A within-race shuffle of the *grid setback labels* gave mean driver-minus-global Brier differences +0.005114 / +0.000399; the observed difference was better than 99.8% / 99.55% of 2,000 shuffles. This suggests a driver-identity relation conditional on each race's setback count, **but** the absolute Brier improvement is tiny and the race-paired intervals include zero. The grid-label shuffle is a diagnostic null, distinct from the required shuffled-podium-label baseline. `tests/test_grid_variance_leak.py` changes target-grid labels without changing target variances and confirms that an earlier-grid edit does change them.
+
+**Verdict: weak grid-risk information, no podium evidence.** One fixed podium-vote follow-up is justified to check whether this risk signal reaches the third-place boundary; do not tune the shrinkage, half-life, or probability transform on these repeatedly inspected races.
+
+### E134 — Fixed forecast-grid distribution as a podium rank vote (B8)
+
+**Strict podium overlap**, complete development walk-forward, no target-weekend information:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| forecast-grid top-six probability alone | 0.6339 | 0.5476 |
+| standings + logit + grid-probability equal rank vote | **0.6393** | 0.5714 |
+| shuffled-label logit null | 0.1749 | 0.1857 |
+
+`experiments/b8_grid_distribution.py` used E133's past-only variance for pre-weekend standings top-six drivers and the global past variance for the remaining field, with E115's out-of-fold mean forecast grid. It ranked each driver's Gaussian probability of starting in the top six, then added that ordering as one **fixed equal-rank vote** alongside the unchanged standings and regularized logit. Training rows, model regularization, missing-data treatment, and the no-grid tie-break remained the frozen settings; the probability vote used no target grid or qualifying result. The top-three set changed versus `ens` in 9/61 inner and 15/70 outer races. `tests/test_grid_distribution_leak.py` scrambles target grids without changing the target vote, while an earlier grid edit changes it.
+
+The new vote gained **+0.0109** versus frozen `ens` in the inner period (race-paired bootstrap 95% CI [-0.0164,+0.0437]) and lost **-0.0143** outer ([-0.0381,+0.0095]). Against plain standings it gained +0.0328 inner ([-0.0109,+0.0765]) and lost **-0.0190** outer ([-0.0571,+0.0190]). The outer loss is four fewer correct podium slots than standings over 210 slots; it is below the project's roughly ±5-point detection limit, but there is no positive evidence here. No weight or variance parameter was tuned to the outer score, and no 2026 outcome was inspected.
+
+**Verdict: reject this distribution vote.** E133's small grid-risk signal did not improve strict podium overlap in the competitive outer era. E114's mean-grid vote and E115's forecast-grid feature were already negative there; the fixed uncertainty follow-up does not justify a larger conditional podium simulator on the same data. Keep the frozen predictor unchanged.
