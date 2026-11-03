@@ -91,6 +91,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E126 update:** A many-lap, green-flag race SpeedST residual from 171 cached 2018–25 races was tested as one past-only team feature. It gave no strict podium or Brier gain, and its next-race pace-order correlation was slightly negative. Stop that scalar speed-trap route. A full multi-stint, X/Y-aligned corner profile remains a distinct, higher-cost measurement hypothesis; E113 only used five early-stint laps per driver.
 
+**E127–E129 update:** The multi-stint X/Y-aligned profile now shows measurable 2023-to-2024 driver-shape persistence across Bahrain, Austria, and Monza: mean correlation 0.263 across 12 continuing drivers from six teams, with the true mapping first among 64 teammate swaps. The added midfield teams are weaker than the original front six. This is a reason to test incremental **future pace/P3–P4 information**, not to claim a podium lift; no predictor has used the profile yet. See `EXPERIMENTS.md` for the fixed extraction, permutation diagnostics, and the 2020–22 coverage limit.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps
