@@ -562,3 +562,22 @@ The new gap modestly changed the logit's probabilities: driver-race Brier/log-lo
 The track cost itself was forecastable: prior-versus-actual pit-lane-time correlation was 0.824 inner and 0.879 outer. The team-specific stop tendency was not: correlation **0.088 inner, -0.015 outer**, despite 99.51%/99.86% target team coverage. The augmented ensemble's race-paired strict-overlap difference from frozen `ens` was **0 in both splits** (bootstrap interval [0,0]); outer difference from standings was -0.0048 (95% CI [-0.0381,+0.0238]). The standalone logit gained one equivalent correct podium pick in the outer split but remained below standings. A persistent circuit cost alone cannot separate teams if the strategy exposure does not persist. `tests/test_strategy_exposure_leak.py` scrambles target-and-later stop tendencies and pit costs on synthetic and cached data; the target features are unchanged. Existing pre-weekend leak, profile, guard, and metric tests passed. No new 2026 evaluation was run.
 
 **Verdict: no podium gain; stop this historical stop-count interaction.** It does not support a path to the 0.750 strict target. It does not rule out a genuinely earlier-issued, race-specific strategy forecast, but no such target-weekend document or feed is used here.
+
+### E111 — Joint traffic, compound, and tyre-age race-pace correction (A2)
+
+**Strict podium overlap**, walk-forward across all development races:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| earlier clean-air matched pace (E102) | 0.6557 | 0.5619 |
+| jointly corrected pace alone | 0.6557 | 0.5714 |
+| standings + frozen logit + joint pace, equal rank average | 0.6557 | 0.5905 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/a2_jointpace.py` used cached historical FastF1 timing from 2018–25. Within each completed race, it removed pit, neutralized, inaccurate, and large outlier laps; expressed lap times relative to the same-lap field median; and fitted one ridge correction with driver indicators, compound indicators, compound-specific tyre-age slopes, and a close-traffic indicator based on lap-line gap. It removed the non-driver effects before pooling each driver's corrected residual pace. This differs from E94's separate scalar corrections and E102's clean-air selection. There was **one fixed** ridge penalty (50), traffic cutoff (1.5 seconds), and prior forecast half-life (10 races), with no outer-window parameter search. Historical source coverage was 3,291 driver-race rows from 171 races, of which 3,240 had valid corrected pace; one 2018 race was unavailable. For each target race, only strictly earlier source rows contributed to the driver forecast. `tests/test_jointpace_leak.py` scrambles target-and-later source pace on synthetic and cached data.
+
+The joint forecast's next-race pace Spearman was 0.7139 inner / 0.7028 outer, versus E102 matched pace 0.7063 / 0.6959 on almost identical target coverage (~99%). On common races, the race-paired correlation difference was +0.0076 inner (bootstrap 95% CI [-0.0009,+0.0169]) and +0.0074 outer ([-0.0030,+0.0174]); neither interval excludes zero. The pure joint ranking gained +0.0095 strict overlap over matched pace outer ([-0.0143,+0.0333]) but trailed standings by -0.0190 ([-0.0524,+0.0143]). The three-way blend improved +0.0048 over frozen `ens` outer ([-0.0143,+0.0238]) and tied standings exactly in mean (paired CI [-0.0286,+0.0286]), changing the top-three set in 12/70 races. Its outer season scores were 0.5455, 0.5417, and 0.6806 in 2023, 2024, and 2025; the gains are not uniform. The approximately ±5-point podium detection limit remains relevant. Existing leak, pre-weekend, profile, guard, and metric tests and the new source-specific test passed. No new 2026 evaluation was run.
+
+**Verdict: small, uncertain pace-order improvement; no established podium gain over standings.** This correction moved one equivalent correct pick over the frozen ensemble on outer races, far below the roughly 0.45 additional correct picks per race needed for 0.750. Lap-line gap can misclassify traffic, and compound choice is correlated with car and strategy, so the fitted nuisance effects are not causal estimates. Keep it as a measurement candidate, not as a new frozen predictor or evidence that the gate is reached.
