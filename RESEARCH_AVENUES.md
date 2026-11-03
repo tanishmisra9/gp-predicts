@@ -93,6 +93,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E127–E129 update:** The multi-stint X/Y-aligned profile now shows measurable 2023-to-2024 driver-shape persistence across Bahrain, Austria, and Monza: mean correlation 0.263 across 12 continuing drivers from six teams, with the true mapping first among 64 teammate swaps. The added midfield teams are weaker than the original front six. This is a reason to test incremental **future pace/P3–P4 information**, not to claim a podium lift; no predictor has used the profile yet. See `EXPERIMENTS.md` for the fixed extraction, permutation diagnostics, and the 2020–22 coverage limit.
 
+**E130 forecast update:** On those 12 drivers at the three 2024 circuits, the prior-year profile's mean speed residual forecast race-pace order better than prior-year same-circuit race pace but worse than pre-weekend standings in every race. A fixed standings/profile rank average also lost to standings. Stop that scalar forecast; a shape-based forecast still needs a larger locked sample before it can support any podium claim.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps
