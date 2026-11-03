@@ -216,6 +216,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E123 source update (2026-11-02 local time):** B1's pair-contact labels are unavailable from the structured OpenF1 race-control fields and the local 2018–25 FastF1 cache; its free-text message is excluded by the no-outside-documents rule. B9's matched lap/weather response is unavailable from the same cache, and the local weather table has only race-level summaries. Park both until an eligible structured source exists. See `EXPERIMENTS.md` for the exact gate and references.
 
+**E136 reliability-source update (2026-11-03):** FastF1's race-result `Status` is joined from Ergast/Jolpica, not an independent F1 timing-feed cause field. Cached 2023 Bahrain and 2025 Australia retirements were all generic `Retired`, matching the official results table. A4/B4 remain parked until a permissible independent structured cause source is found; see E136.
+
 **E133–E134 grid-risk update (2026-11-03):** Earlier driver-specific grid errors had a small within-race signal for forecasting a top-six contender's qualifying setback, but their out-of-time Brier gain over a global variance was tiny and race-paired uncertainty included zero. A single fixed Gaussian top-six-probability vote then fell to **0.5714 outer strict overlap**, versus standings **0.5905**. Stop B8 distribution votes on these repeatedly inspected races; a larger grid simulator is not justified by this evidence.
 
 ## Conditional structured-data avenues
