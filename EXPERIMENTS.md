@@ -633,3 +633,21 @@ The combined same-driver residual correlation is **0.141** (median 0.174; 13/18 
 The forecast-grid-only ranking lost **0.0429** outer strict overlap versus standings (paired race bootstrap 95% CI [-0.0810,-0.0048]); the three-way blend lost 0.0095 versus frozen `ens` ([-0.0286,+0.0095]) and 0.0143 versus standings ([-0.0524,+0.0238]). Thus the better full-field grid forecast did not become a better podium forecast. `tests/test_grid_forecast_leak.py` reverses target-grid and qualifying labels and confirms unchanged predictions, then changes earlier training grids and confirms sensitivity; the existing feature scramble, pre-weekend, profile, guard, and metric checks passed. No 2026 evaluation was run. These development windows have been inspected repeatedly, and the usual roughly five-point detection limit remains relevant.
 
 **Verdict: no strict podium gain; stop using mean forecast grid order as a podium rank vote.** This is a feasibility gate, not a test of a calibrated forecast-grid *distribution* or a correctly trained conditional podium model. Any such B8 follow-up must use out-of-fold historical grid forecasts for its own training rows and justify added complexity with a contender-specific gain, rather than using the true grid in training and a forecast grid at prediction time.
+
+### E115 — Out-of-fold forecast grid as one podium feature (B8 follow-up)
+
+**Strict podium overlap**, all development races scored:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| fixed logit + prior grid forecast | 0.6393 | 0.5571 |
+| standings + augmented logit rank average | 0.6284 | 0.5857 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/b8_grid_feature.py` reran E114's fixed ridge grid forecast for **each historical race**, training on only earlier races; it then added that out-of-fold forecast as one feature to the fixed podium logit (`C=0.03`, 100-race half-life) and kept the equal-rank standings blend. This avoids training the podium model on true historical grids while asking it to interpret a forecast grid at the target race. The 2019 training rows used 2018 and earlier-2019 grids, and all 420/1,220/1,398 driver-race rows in the 2019/inner/outer periods had a forecast. The feature added no new source and used no target-weekend data. The augmented ensemble changed **0/61 inner and 0/70 outer** top-three sets. Its strict-overlap difference from frozen `ens` was exactly zero (paired bootstrap interval [0,0] in both splits); its outer difference from standings was -0.0048 (95% CI [-0.0381,+0.0238]).
+
+Standalone logit Brier/log-loss were 0.07719/0.24968 to 0.07718/0.24957 inner, and 0.08314/0.26293 to 0.08312/0.26280 outer. The outer race-paired differences were -0.000012 for Brier (95% CI [-0.000068,+0.000045]) and -0.000129 for log-loss ([-0.000265,+0.000020]); neither excludes zero. `tests/test_grid_forecast_leak.py` now checks the nested forecast feature as well: changing the target grid leaves it identical, while changing an earlier grid changes it. The existing pre-weekend feature scramble and guard tests also passed. No 2026 evaluation was run. This is another look at the same repeatedly inspected development windows.
+
+**Verdict: no podium gain from the time-aligned mean-grid forecast.** E114's full-field grid correlation does not translate into a useful third-place decision through this simple conditional model. A calibrated grid distribution remains untested, but the weak contender-specific grid gain in E114 and zero selection changes here do not justify promoting this feature or tuning many variants on these races.

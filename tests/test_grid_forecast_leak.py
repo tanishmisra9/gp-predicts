@@ -3,6 +3,7 @@
 import numpy as np
 
 from experiments.b8_grid_forecast import grid_forecast
+from experiments.b8_grid_feature import add_prior_grid
 from experiments.common import table
 from f1.features import pre_weekend_cols
 import f1.walkforward as W
@@ -25,6 +26,23 @@ def test_grid_forecast_ignores_target_grid():
     assert not np.allclose(original, grid_forecast(changed, te, features))
 
 
+def test_out_of_fold_grid_feature_ignores_target_grid():
+    X = table()
+    X = X[(X.season < 2023) | ((X.season == 2023) & (X["round"] <= 7))].copy()
+    target = (X.season == 2023) & (X["round"] == 7)
+    original = add_prior_grid(X)
+    changed = X.copy()
+    changed.loc[target, "gridn"] = 21
+    got = add_prior_grid(changed)
+    np.testing.assert_allclose(original.loc[target, "prior_grid"], got.loc[target, "prior_grid"], rtol=0, atol=0)
+    prior = (X.season == 2023) & (X["round"] == 6)
+    changed = X.copy()
+    changed.loc[prior, "gridn"] = 21
+    got = add_prior_grid(changed)
+    assert not np.allclose(original.loc[target, "prior_grid"], got.loc[target, "prior_grid"])
+
+
 if __name__ == "__main__":
     test_grid_forecast_ignores_target_grid()
+    test_out_of_fold_grid_feature_ignores_target_grid()
     print("grid forecast leak test passed")
