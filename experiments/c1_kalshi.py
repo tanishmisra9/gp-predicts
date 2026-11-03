@@ -38,14 +38,14 @@ def get(path, **params):
 
 def pre_cutoff_quote(candles, cutoff):
     before = [c for c in candles if c["end_period_ts"] <= cutoff]
-    last = before[-1] if before else {}
-    bid = last.get("yes_bid", {}).get("close")
-    ask = last.get("yes_ask", {}).get("close")
+    last = max(before, key=lambda c: c["end_period_ts"]) if before else {}
+    bid = last.get("yes_bid", {}).get("close_dollars", last.get("yes_bid", {}).get("close"))
+    ask = last.get("yes_ask", {}).get("close_dollars", last.get("yes_ask", {}).get("close"))
     bid = float(bid) if bid is not None else np.nan
     ask = float(ask) if ask is not None else np.nan
     return dict(bid=bid, ask=ask,
                 midpoint=(bid + ask) / 2 if np.isfinite(bid + ask) else np.nan,
-                pre_volume=sum(float(c["volume"]) for c in before),
+                pre_volume=sum(float(c.get("volume_fp", c.get("volume", 0))) for c in before),
                 quoted=bool(np.isfinite(bid + ask) and 0 <= bid <= ask <= 1),
                 last_bar_utc=pd.Timestamp(last["end_period_ts"], unit="s", tz="UTC").isoformat()
                 if last else "")
