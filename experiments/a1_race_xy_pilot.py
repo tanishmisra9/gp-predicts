@@ -17,14 +17,14 @@ def profile(session, driver):
     laps = pd.DataFrame(get("laps", session_key=session, driver_number=driver))
     # This fixed early stint avoids the first pit stops in both races.
     laps = laps[laps.lap_number.between(6, 10) & ~laps.is_pit_out_lap.astype(bool)].sort_values("lap_number")
-    starts = pd.to_datetime(laps.date_start, utc=True)
+    starts = pd.to_datetime(laps.date_start, utc=True, format="ISO8601")
     start = (starts.min() - pd.Timedelta(seconds=2)).isoformat()
     end = (starts.iloc[-1] + pd.Timedelta(seconds=float(laps.lap_duration.iloc[-1]))).isoformat()
     params = {"session_key": session, "driver_number": driver, "date>": start, "date<": end}
     loc = pd.DataFrame(get("location", **params))
     car = pd.DataFrame(get("car_data", **params))
     for frame in (loc, car):
-        frame["date"] = pd.to_datetime(frame.date, utc=True)
+        frame["date"] = pd.to_datetime(frame.date, utc=True, format="ISO8601")
     samples = pd.merge_asof(car.sort_values("date"), loc.sort_values("date"),
                             on="date", by=["session_key", "driver_number", "meeting_key"],
                             tolerance=pd.Timedelta(milliseconds=400), direction="nearest")
