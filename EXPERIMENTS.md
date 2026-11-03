@@ -1023,6 +1023,22 @@ The profile-minus-standings mean correlation was **+0.135** (race-paired bootstr
 
 **Verdict: the broader profile passes the pace-order gate, but its P3/P4 gain is weak and 0.750 podium accuracy remains unshown.** Five selected outer races and repeated exploration make the positive interval descriptive, not a discovery claim. Run exactly one fixed podium vote before deciding whether this deserves full-calendar historical extraction; do not tune weights or choose circuits from these results.
 
-### E141 — Registered fixed X/Y team-profile podium vote (A1/A8; pending)
+### E141 — Fixed X/Y team-profile podium vote (A1/A8)
 
-**Strict podium overlap: pending.** Use only E140's five fixed 2025 races and the already saved 2024 profile feature. One candidate, `ens_xy`, will add the **team profile rank as one equal vote** to the unchanged pre-weekend standings and frozen regularized logit votes; both teammates share the team-profile vote, and driver-name ties use `tie=None`. No 2025 target grid, qualifying, sprint, practice, telemetry, race pace, or official result is a feature. Compare strict overlap on identical five-race sets with plain standings, frozen `ens`, the profile vote alone, and the shuffled-label logit null. Report changed top-three sets and race-paired bootstrap differences without tuning a weight or cutoff. E140's 2025 pace targets have already informed this follow-up, so the podium result will be exploratory rather than an untouched test; 2026 remains uninspected.
+**Strict podium overlap first**, on E140's five fixed 2025 races only:
+
+| fixed five-race subset | strict overlap | correct slots / 15 |
+|---|---:|---:|
+| plain standings | 0.7333 | 11 |
+| frozen `ens` | 0.7333 | 11 |
+| prior-year X/Y team vote alone | 0.4667 | 7 |
+| standings + logit + X/Y equal-rank vote | **0.8000** | **12** |
+| shuffled-label logit null | 0.0667 | 1 |
+
+`experiments/a1_2025_podium_vote.py` implements the one candidate registered above. It adds the **team profile rank as one equal vote** to unchanged pre-weekend standings and frozen regularized logit votes; both teammates share the profile vote and driver-name ties use `tie=None`. Training for each 2025 race uses only strictly earlier races; the X/Y source is 2024 only. No 2025 target grid, qualifying, sprint, practice, telemetry, race pace, or official result is a feature. The candidate changed two of five top-three sets versus `ens`. At Suzuka it replaced Russell with Piastri and gained one correct slot; at Silverstone it replaced Leclerc with Russell but both sets had two correct drivers. A separate direct intersection of the printed picks with official `data/results.csv` podium rows reproduced **12/15** candidate slots versus **11/15** for `ens`. The race-paired candidate-minus-standings and candidate-minus-`ens` differences were both +0.0667 (bootstrap 95% CI **[0,+0.2000]**). The source-specific 2025-profile scramble and the standard no-leak, pre-weekend, profile-leak, guard, and metric tests passed.
+
+**Verdict: promising but far too small to claim 0.750.** This is one extra correct podium pick on five already inspected outer-era races, with a paired interval touching zero. E140's pace labels informed the decision to run this follow-up, so even its apparent 0.800 is exploratory. The standalone profile vote is weak, and E140 found only one extra top-three *team-pace* slot; the gain may be a favourable boundary case. Keep the frozen model unchanged. The next meaningful gate is the **entire 2024-to-2025 calendar**, with the same profile extraction and equal-rank vote, no circuit selection or retuning. No 2026 outcome was evaluated.
+
+### E142 — Registered full-calendar 2024-to-2025 X/Y replication (A1/A8; pending)
+
+**Strict podium overlap: pending.** E140–E141's five-circuit subset is insufficient for model promotion. Fix **all 24 circuits shared by the 2024 and 2025 calendars** before extracting any additional profiles; retain every race with available 2024 profiles and 2025 official result, and report missing-source coverage rather than dropping races for a better score. Reuse E127's unchanged lap/X/Y/50-bin method, E140's per-team mean residual, and E141's unchanged standings + logit + profile equal-rank vote. For an event with no 2024 team profile, the profile vote is neutral (all tied). Compare the same 24 2025 races with plain standings, frozen `ens`, and the shuffled-label null; show paired bootstrap, per-season/source coverage, and top-three changes. This is still outer-era development evidence after many experiments, not an untouched holdout. The 2026 prospective comparison remains separate.

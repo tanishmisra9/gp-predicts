@@ -97,6 +97,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E131 shape update:** A fixed equal-distance lap-time projection (`-Δspeed / field_speed²`) emphasized slow bins without fitted weights; it also lost to standings in every available 2024 race and slightly trailed E130's mean-speed scalar. Do not search more profile summaries on the same three inspected races. Broader time-ordered coverage is required before an A1 podium test.
 
+**E140–E142 broader-profile update (2026-11-03):** On five preselected new 2024-to-2025 circuits, the prior-year **team-aggregated** multi-stint X/Y speed residual beat pre-event 2025 team standings for future team pace order (mean Spearman 0.773 vs 0.638). A fixed equal-rank podium vote scored **0.800 strict overlap on those five races versus 0.733 for standings**, only one additional correct slot and a paired interval touching zero. The full 24-race 2025 calendar replication is now registered as E142; do not promote the model from the five-race result or reinterpret it as a clean holdout.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps
