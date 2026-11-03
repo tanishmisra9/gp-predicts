@@ -615,3 +615,21 @@ The added feature did not improve outer probability quality: Brier 0.08314 to 0.
 The combined same-driver residual correlation is **0.141** (median 0.174; 13/18 positive); the identity matching ranks **45/720** when the same permutation is applied across all three circuits, but only **3/8** against teammate-only swaps. Raw speed-curve split-half correlations averaged 0.990–0.995 by circuit, mostly reflecting shared track geometry. The six drivers are only three front-running teams, and 2023-to-2024 car changes, tyres, fuel, and traffic remain uncontrolled. The 18 correlations are not independent draws, and the permutation ranks are exploratory diagnostics rather than a calibrated p-value for podium improvement. An OpenF1 timestamp-format mismatch initially stopped Austria 2024 extraction; accepting both ISO timestamp forms in the E106 helper fixed it before any result was calculated. A separate calculation from the saved CSV reproduced the combined mean and both permutation ranks. Existing pre-weekend leak, profile, guard, and metric tests passed; no new predictive source feature or source-specific leak path was introduced.
 
 **Verdict: no basis for a podium-model feature or progress toward 0.750.** Multi-lap X/Y alignment is feasible, but the persistent driver-specific residual is weak and not convincingly distinguishable from teammate swaps. Stop this early-stint speed-profile variant; a future race-trim profile would need a stronger pre-registered transfer test across seasons and teams before a walk-forward podium backtest.
+
+### E114 — Past-only forecast of the target grid (B8 feasibility gate)
+
+**Strict podium overlap**, complete walk-forward development windows:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| forecast grid order alone | 0.6284 | 0.5476 |
+| standings + frozen logit + forecast grid, equal rank average | 0.6393 | 0.5762 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/b8_grid_forecast.py` trained one ridge regression (`alpha=300`, 100-race half-life) on **strictly earlier** actual race-grid positions, using only the existing pre-weekend history features. Every development race was scored. It asked whether forecast qualifying/grid order supplies information missing from the direct podium model; the grid prediction was evaluated alone and as one fixed equal-rank vote alongside standings and the frozen logit. The target grid was an evaluation label only; target qualifying was unused. The grid forecast improved race-mean Spearman against actual grid over standings by +0.0115 inner (paired 95% CI [-0.0035,+0.0274]) and **+0.0453 outer** ([+0.0232,+0.0683]). Within the **pre-weekend standings top six**, the corresponding gains were +0.0084 ([-0.0628,+0.0796]) and +0.0310 ([-0.0384,+0.1012]); these are too uncertain to establish useful contender-order information.
+
+The forecast-grid-only ranking lost **0.0429** outer strict overlap versus standings (paired race bootstrap 95% CI [-0.0810,-0.0048]); the three-way blend lost 0.0095 versus frozen `ens` ([-0.0286,+0.0095]) and 0.0143 versus standings ([-0.0524,+0.0238]). Thus the better full-field grid forecast did not become a better podium forecast. `tests/test_grid_forecast_leak.py` reverses target-grid and qualifying labels and confirms unchanged predictions, then changes earlier training grids and confirms sensitivity; the existing feature scramble, pre-weekend, profile, guard, and metric checks passed. No 2026 evaluation was run. These development windows have been inspected repeatedly, and the usual roughly five-point detection limit remains relevant.
+
+**Verdict: no strict podium gain; stop using mean forecast grid order as a podium rank vote.** This is a feasibility gate, not a test of a calibrated forecast-grid *distribution* or a correctly trained conditional podium model. Any such B8 follow-up must use out-of-fold historical grid forecasts for its own training rows and justify added complexity with a contender-specific gain, rather than using the true grid in training and a forecast grid at prediction time.
