@@ -218,10 +218,10 @@ form proposed here** unless explicitly identified as a follow-up.
 
 ## Conditional structured-data avenues
 
-These are datasets rather than document extraction. The user's reply does not
-establish permission to acquire them. Start with existing-data avenues above;
-confirm scope and access before any new acquisition. Coverage and usefulness
-are unverified here, and none should be represented as ready to backtest.
+These are structured datasets rather than document extraction. Public,
+unauthenticated APIs can be checked under the user's instruction to continue
+experiments; accounts, purchases, licences, and restrictive scraping still
+need separate approval. Coverage and usefulness must be verified before use.
 
 | ID | Candidate | Required feasibility check and first experiment |
 |---|---|---|
@@ -232,6 +232,8 @@ are unverified here, and none should be represented as ready to backtest.
 | C5 | **Cross-series driver evidence for newcomers.** Compare teammate-relative stint and qualifying performance before F1 using a permissible structured source. | Evaluate on historical entrants, separately from established drivers. No such source was verified for this task. Stop if domain shift or low podium exposure makes it irrelevant. This differs from E70's experience flags but likely has limited aggregate upside. |
 
 **E118 access update (2026-11-02):** Betfair historical exchange files require a registered account and purchase; public material did not establish F1 podium-market coverage or usable pre-weekend volume. F1 Fantasy's terms prohibit automated extraction from the game. C1/C2 remain conditional and supplied no model input or backtest. See `EXPERIMENTS.md` for primary-source links and the strict baseline.
+
+**E132 market update (2026-11-02):** Kalshi's public API provided timestamped 2025 driver-podium bids and asks without an account. At a fixed Thursday 00:00 UTC cutoff, market-only top-three picks scored **0.722 strict overlap versus standings 0.685** on the same 18 available races (paired difference +0.037, 95% CI [0.000,+0.093]). There are no 2020–24 Kalshi podium markets in this series, and six 2025 races lack usable pre-cutoff quotes/markets. This is a small, repeatedly inspected development subset, not a new frozen model or evidence for 0.750. Betfair's own guide also clarifies that its Basic historical tier is free but lacks volume; account access and F1 podium coverage remain unresolved. See E132.
 
 **E119 tyre-data update (2026-11-02):** The cached FastF1 lap feed distinguishes fresh from used sets, but its modern soft/medium/hard names are relative to each event and do not identify C1–C5. The fixed fresh-set correction worsened outer next-race pace correlation and tied standings at strict podium overlap. C3 still needs a separate permissible, timestamped absolute-compound source; the current feed cannot provide it.
 
