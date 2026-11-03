@@ -787,3 +787,21 @@ For B9, the local 2018–25 FastF1 cache has no weather-data files, and sample h
 The mileage association changed sign across seasons and was below the past DNF comparator on average. A 5,000-draw label shuffle **within each season** had mean correlation +0.0005 and one-sided p=0.2835 for the observed +0.1088. This is only a 30-team-year, repeatedly inspected outer-window diagnostic. Raw 2020–22 testing laps are not present for an inner-period validation, and the all-cause DNF label mixes mechanical, collision, and other failures. `tests/test_testing_mileage_leak.py` verifies target labels and later-season testing edits leave a target year's mileage unchanged, while an earlier testing edit changes it. A paired podium bootstrap is inapplicable without candidate podium predictions.
 
 **Verdict: no credible early-attrition signal from testing lap count.** Do not fit a podium adjustment from this statistic; it cannot establish progress toward 0.750. The pace information in E86 is a distinct finding and is not negated by this mileage result.
+
+### E125 — Does relative first-stop timing persist by team? (B3 strategy gate)
+
+**Strict podium overlap:** no new podium selector was run because the timing forecast failed its out-of-time error gate. Development references remain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. No 2026 outcome was evaluated.
+
+`experiments/b3_first_stop.py` used the existing historical pit-stop extracts. For cars completing at least 90% of a race, it measured the first pit-in lap as a fraction of the race's winner-lap count, then subtracted that race's field median and averaged across each team's eligible drivers. This yielded 1,679 team-race measurements across 172 completed races in 2018–25. For each target, a team forecast used **strictly earlier** races, a fixed 10-race half-life, and 10 weighted observations of zero shrinkage; a missing history forecast zero. The comparator was the same zero relative-timing forecast for every team. Target race pit timing and finishing laps were used only to compute the retrospective outcome and eligible evaluation set.
+
+| Past-only team forecast versus zero, first-stop residual | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| covered team-races / races | 594 / 61 | 686 / 70 |
+| forecast-vs-actual Spearman | +0.1304 | +0.0654 |
+| team forecast MSE | 0.009604 | 0.013971 |
+| zero forecast MSE | 0.009629 | **0.013784** |
+| race-paired MSE difference, 95% bootstrap CI | -0.000016 [-0.000295,+0.000252] | +0.000188 [-0.000090,+0.000471] |
+
+Outer yearly Spearman was +0.1562/+0.0968/**-0.1077** in 2023/24/25, while team-forecast MSE was worse than zero in **each** outer season. A within-race shuffled-outcome null had mean rank correlation -0.0107 and one-sided p=0.023 for the pooled outer +0.0654; that small rank association is exploratory after many looks at this window and did not translate into lower timing error. `tests/test_first_stop_leak.py` scrambles target-and-later pit residuals on synthetic and cached data while leaving target forecasts unchanged. A paired podium bootstrap is inapplicable without a candidate podium selector.
+
+**Verdict: stop this fixed team first-stop-timing forecast before a strategy simulator or podium feature.** The measurable rank association does not provide reliable timing magnitudes, and full-distance selection, neutralizations, tyre choices, and race-specific strategy remain confounders. This does not rule out other permitted, genuinely predictive execution data.

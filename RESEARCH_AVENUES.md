@@ -204,6 +204,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E121 strategy update:** A fixed team-specific rate of costly pit-lane times from earlier races did not forecast the next costly stop better than a past global rate. This stops that tail-risk statistic before podium modelling; a validated stop-by-stop undercut/rejoin measurement remains untested.
 
+**E125 strategy update:** Relative first-stop timing from earlier races showed only a small rank association and worsened timing MSE versus a zero team-specific deviation in every 2023–25 season. Do not use that past team timing average to drive a race simulator. It does not measure a validated undercut/rejoin response.
+
 **E123 source update (2026-11-02 local time):** B1's pair-contact labels are unavailable from the structured OpenF1 race-control fields and the local 2018–25 FastF1 cache; its free-text message is excluded by the no-outside-documents rule. B9's matched lap/weather response is unavailable from the same cache, and the local weather table has only race-level summaries. Park both until an eligible structured source exists. See `EXPERIMENTS.md` for the exact gate and references.
 
 ## Conditional structured-data avenues
