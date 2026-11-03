@@ -215,6 +215,8 @@ are unverified here, and none should be represented as ready to backtest.
 
 **E118 access update (2026-11-02):** Betfair historical exchange files require a registered account and purchase; public material did not establish F1 podium-market coverage or usable pre-weekend volume. F1 Fantasy's terms prohibit automated extraction from the game. C1/C2 remain conditional and supplied no model input or backtest. See `EXPERIMENTS.md` for primary-source links and the strict baseline.
 
+**E119 tyre-data update (2026-11-02):** The cached FastF1 lap feed distinguishes fresh from used sets, but its modern soft/medium/hard names are relative to each event and do not identify C1–C5. The fixed fresh-set correction worsened outer next-race pace correlation and tied standings at strict podium overlap. C3 still needs a separate permissible, timestamped absolute-compound source; the current feed cannot provide it.
+
 ## Outside-document avenues: recorded, excluded from the current scope
 
 | ID | Originally proposed avenue | Status and possible distinct information |

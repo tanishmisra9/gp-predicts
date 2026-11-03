@@ -696,3 +696,24 @@ The outer probability gain is concentrated among plausible contenders, not merel
 The [Betfair Historical Data portal](https://historicdata.betfair.com/ExchangeHistoricalStore/) advertises timestamped exchange price data from 2015 onward, but its [developer support](https://support.developer.betfair.com/hc/en-us/articles/360008664937-Which-jurisdictions-is-Betfair-Exchange-Historical-Data-available-to) says access requires a registered Betfair.com account, and the [historical-data API guidance](https://support.developer.betfair.com/hc/en-us/articles/12859956891932-How-Can-I-Make-HTTP-Requests-to-the-Historical-Data-API) says downloads must first be purchased through the portal. Public pages did **not** establish that driver-podium markets exist for the required races, have pre-weekend quotes and traded volume, or have a permissible licence for this project. No account was created, purchase made, licence accepted, or file acquired. The [F1 Fantasy terms](https://fantasy.formula1.com/en/terms) prohibit automated extraction from the game; no prices or pick rates were fetched. These are source-access findings, not model data or evidence of predictive quality.
 
 **Verdict: C1/C2 cannot presently supply a reproducible, permitted pre-weekend backtest.** Keep them conditional; do not substitute winner odds, late-weekend prices, or post-race fantasy snapshots. Continue with permitted in-repo structured sources unless the user separately authorizes and supplies a suitable dataset or account/purchase path. No leak test was needed because nothing was ingested or used as a feature.
+
+### E119 — Correct past race pace for fresh versus used tyre sets (A2/B7)
+
+**Strict podium overlap**, complete walk-forward development windows:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| E111 joint pace alone | 0.6557 | 0.5714 |
+| joint pace plus fresh-tyre correction, alone | 0.6557 | 0.5667 |
+| standings + frozen logit + fresh-corrected pace, equal rank average | 0.6557 | 0.5905 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/a2_freshtyre.py` reran E111's clean historical race-lap measurement with **one** extra nuisance indicator: a stint started on a previously used set (`FreshTyre=False`). Everything else was fixed: lap filters, same-lap field residual, compound indicators, compound-specific tyre-age slopes, traffic flag, ridge penalty 50, and 10-race forecast half-life. The [FastF1 lap-data specification](https://github.com/theoehrly/fast-f1/blob/main/docs/api_reference/timing_data.rst) defines `FreshTyre` this way and says `TyreLife` includes laps from earlier sessions on a used set. It also says modern `SOFT/MEDIUM/HARD` labels are **event-relative**, not underlying C1–C5 identities; this feed cannot support B7's absolute construction comparison. Source coverage matched E111: 3,291 driver-race rows across 171 races in 2018–25, 3,240 valid corrected gaps. Only completed, strictly earlier race rows contributed to target features; target-race laps were retrospective labels for diagnostics, never prediction features.
+
+The new versus original corrected gap had correlation 0.9896 and mean absolute difference 0.0751 percentage points on 3,240 common driver-races. Next-race pace-order Spearman changed from **0.7139 to 0.7128 inner** (paired race difference -0.0011, 95% CI [-0.0060,+0.0033]) and from **0.7028 to 0.6988 outer** (-0.0040, [-0.0080,-0.0003]). Fresh-corrected pace alone lost 0.0048 outer strict overlap versus E111 joint pace (paired CI [-0.0238,+0.0143]). Its three-way blend gained 0.0048 over frozen `ens` outer ([-0.0143,+0.0238]) and **tied standings** (paired difference approximately zero, [-0.0286,+0.0238]). The inner blend's +0.0273 over `ens` did not carry into a material outer gain. These are repeatedly inspected development races, not an independent validation of a small difference.
+
+`tests/test_freshtyre_leak.py` scrambles target-and-later corrected source gaps and target outcomes on synthetic and cached data; target forecasts remain unchanged, while editing an earlier gap changes the feature. Existing pre-weekend leak, profile, guard, and metric checks passed. No 2026 evaluation was run.
+
+**Verdict: no podium gain; stop this single fresh-versus-used correction.** It slightly worsened the next-race pace forecast and did not beat standings at the strict podium boundary. Absolute compound allocations or construction changes remain unavailable from the permitted cached lap feed; do not infer C1–C5 from the relative labels.
