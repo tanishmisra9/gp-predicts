@@ -73,6 +73,26 @@ def main():
     p["logloss"] = -(p.podium * np.log(p.prob) + (1 - p.podium) * np.log1p(-p.prob))
     p["split"] = np.where(p.season <= 2022, "inner", "outer")
     print("probabilities", p.groupby(["model", "split"])[["brier", "logloss"]].mean().round(5).to_string())
+    contender = P[P.model == "standings"][["season", "round", "driver", "score"]].copy()
+    contender["prior_rank"] = contender.groupby(["season", "round"]).score.rank(method="first")
+    p = p.merge(contender[["season", "round", "driver", "prior_rank"]], on=["season", "round", "driver"], validate="many_to_one")
+    p["region"] = np.where(p.prior_rank <= 6, "standings_top6", "remaining_field")
+    regional = p.groupby(["split", "season", "round", "region", "model"])["brier"].mean().unstack()
+    for (split, region), group in regional.groupby(level=[0, 3]):
+        diff, ci, _ = W.paired_boot(group.logit_portable, group.logit)
+        print(split, region, "Brier portable minus frozen", round(diff, 6), np.round(ci, 6).tolist(), "races", len(group))
+    def contender_auc(g):
+        yes = g[g.podium == 1].prob.to_numpy()
+        no = g[g.podium == 0].prob.to_numpy()
+        return ((yes[:, None] > no).mean() + 0.5 * (yes[:, None] == no).mean()) if len(yes) and len(no) else np.nan
+    auc = p[p.region == "standings_top6"].groupby(["split", "season", "round", "model"]).apply(
+        contender_auc, include_groups=False).unstack().dropna()
+    for split, group in auc.groupby(level=0):
+        diff, ci, _ = W.paired_boot(group.logit_portable, group.logit)
+        print(split, "top-six podium AUC", group[["logit", "logit_portable"]].mean().round(4).to_dict(),
+              "difference", round(diff, 4), np.round(ci, 4).tolist(), "races", len(group))
+    print("annual top-six AUC portable minus frozen",
+          (auc.logit_portable - auc.logit).groupby(level="season").mean().round(4).to_string())
     annual = p.groupby(["season", "model"])["brier"].mean().unstack()
     print("annual Brier portable minus frozen", (annual.logit_portable - annual.logit).round(5).to_string())
     by_race = p.groupby(["split", "season", "round", "model"])[["brier", "logloss"]].mean().reset_index()

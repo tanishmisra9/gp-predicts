@@ -671,3 +671,20 @@ The standalone logit's driver-race Brier/log-loss improved from 0.07719/0.24968 
 `tests/test_portable_teammate_leak.py` verifies the graph's sign on a synthetic pair and scrambles target-and-later matched gaps and counts on cached data; target ratings remain unchanged, while changing a prior gap changes the rating. Existing pre-weekend feature, profile, guard, and metric checks passed. No 2026 evaluation was run.
 
 **Verdict: better probability calibration, no podium gain over standings or the frozen ensemble.** Keep the portable pace rating as a research measurement, not a replacement predictor. Before another podium model attempt, show that it separates P3 from P4 on genuinely later races; retuning on the inspected 2023–25 window would overstate the evidence.
+
+### E117 — Does portable pace help among plausible podium contenders? (A8/B6 diagnostic)
+
+**Strict podium overlap first:** this is a diagnostic of the unchanged E116 predictions, not a new selector. Plain standings remains **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, E116's portable-feature ensemble 0.6339 / **0.5857**, and the label-shuffled logit null 0.1749 / 0.1857. No 2026 evaluation was run.
+
+`experiments/b6_portable_teammate.py` now fixes a **pre-weekend** contender set: the six highest-ranked drivers by plain standings in each race. It partitions E116's logit probability errors by that set and its complement, and computes within-contender AUC for separating actual podium finishers from non-finishers. Target-race podium labels are used only for these retrospective diagnostics. One inner race had no positive/negative mixture among the six and was omitted from AUC only; strict overlap and Brier retained all races.
+
+| diagnostic, portable minus frozen logit | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| Brier among standings top six, race-paired | -0.002221, 95% CI [-0.004630,+0.000260] | **-0.003068**, [-0.006020,-0.000160] |
+| Brier among remaining field, race-paired | +0.000091, [-0.000132,+0.000336] | -0.000233, [-0.000609,+0.000152] |
+| top-six podium AUC, frozen → portable | 0.7386 → 0.7352 (60 races) | 0.7133 → 0.7323 (70 races) |
+| top-six AUC difference, race-paired | -0.0033, [-0.0191,+0.0111] | +0.0189, [-0.0028,+0.0411] |
+
+The outer probability gain is concentrated among plausible contenders, not merely backmarkers. The AUC gain is uncertain and was +0.0044/+0.0170/+0.0341 in 2023/24/25, while 2020–21 were negative. The frozen and augmented ensembles still had identical outer strict overlap, with eight different top-three sets balancing out in aggregate. This repeatedly inspected outer window does not provide an independent confirmation of the contender-order gain. The source-specific leak test, pre-weekend guard, and metric checks passed; the feature, model weights, and predictions did not change from E116.
+
+**Verdict: potentially useful contender probabilities, no demonstrated path to 0.750 strict overlap.** Preserve the portable pace measurement for genuinely later evaluation, but do not select a new threshold or weight from these 70 outer races.
