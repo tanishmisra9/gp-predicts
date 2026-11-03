@@ -717,3 +717,25 @@ The new versus original corrected gap had correlation 0.9896 and mean absolute d
 `tests/test_freshtyre_leak.py` scrambles target-and-later corrected source gaps and target outcomes on synthetic and cached data; target forecasts remain unchanged, while editing an earlier gap changes the feature. Existing pre-weekend leak, profile, guard, and metric checks passed. No 2026 evaluation was run.
 
 **Verdict: no podium gain; stop this single fresh-versus-used correction.** It slightly worsened the next-race pace forecast and did not beat standings at the strict podium boundary. Absolute compound allocations or construction changes remain unavailable from the permitted cached lap feed; do not infer C1–C5 from the relative labels.
+
+### E120 — Short practice running in completed prior weekends as an attrition warning (A7)
+
+**Strict podium overlap**, every development race scored with missing-feature fallback:
+
+| model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| frozen logit × generic all-cause survival | 0.6393 | 0.5619 |
+| frozen logit × short-running all-cause survival | 0.6393 | 0.5619 |
+| standings + generic survival logit, equal rank average | 0.6339 | 0.5905 |
+| standings + short-running survival logit, equal rank average | 0.6339 | 0.5905 |
+| label-shuffled logit null | 0.1749 | 0.1857 |
+
+`experiments/a7_prior_running.py` measured each driver's practice lap count relative to the same session's field median, then the team's fraction of driver-sessions below **half** that median. It retained only sessions with at least 15 timed drivers, did not call missing driver rows or absent whole-session feeds failures, and used only the **last three completed races** to forecast a team's target short-running tendency. Source data were existing local FastF1 session summaries for 2018/2020/part of 2021 and existing OpenF1 lap summaries for 2023–25. The overlapping 2023/25 driver-session ratios correlated 0.944 across feeds; the fixed <0.5 flag agreed on 99.89% of 1,853 matched rows. The derived source has 1,084 team-weekend rows over 109 races, 136 with nonzero short running. Target feature coverage was 94.12%/26.36%/**0%** in 2020/21/22 and 95.45%/99.16%/100% in 2023/24/25. Thus the inner period cannot establish a reliable gain from this signal. The sparse 2021 and absent 2019/2022 FastF1 practice cache were not filled with target-weekend information.
+
+The candidate added **one** past-only short-running feature to a regularized all-cause DNF hazard using the same historical driver/team DNF rates and era feature as the generic comparator; both hazards weighted the frozen logit's podium probability by predicted survival. The all-cause DNF label was used because the outer years' Jolpica statuses do not identify mechanical causes (E101). Outer hazard Brier/log-loss changed from 0.11237/0.38472 to 0.11241/0.38498; race-paired differences were +0.000040 (95% CI [-0.000487,+0.000641]) and +0.000263 ([-0.001946,+0.002788]). Inner differences likewise included zero. The two hazard-adjusted logits and their standings ensembles selected identical top threes in both splits: **short-running minus generic overlap was exactly zero** (paired interval [0,0]). Both survival ensembles gained one equivalent correct podium pick over frozen `ens` outer (+0.0048, paired CI [0,+0.0143]) and **tied standings** (paired CI [-0.0286,+0.0286]); that one-pick change cannot be attributed to short running. This repeatedly inspected outer window is not independent confirmation of a small gain.
+
+**Bug caught before reporting:** the first feature builder used decaying weights over *all* earlier available practice races. During missing-source years, normalization kept stale 2020/21 observations influential in 2023. The final builder limits source rows to the last three races and returns missing otherwise; only final numbers above are the experiment result. `tests/test_prior_running_leak.py` checks the three-race expiry and scrambles target-and-later source values and outcomes without changing target features. Existing pre-weekend leak, profile, guard, and metric checks passed. No 2026 evaluation was run.
+
+**Verdict: no credible all-cause retirement forecast or strict podium gain.** Practice short running is rare and may reflect programmes, traffic, crashes, or missing timing rather than an unresolved fault. Do not promote this one-indicator A7 variant; cause-specific warnings remain untestable with the current outer status labels.

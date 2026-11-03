@@ -170,6 +170,8 @@ form proposed here** unless explicitly identified as a follow-up.
   Traffic, lift-and-coast, deliberate programmes, and sensor gaps are competing
   explanations. Stop if removing them destroys the association.
 
+**E120 update:** A fixed short-practice-running indicator from completed prior weekends did not improve all-cause retirement calibration or strict podium overlap. The local FastF1 practice archive lacks 2019/2022 and most of 2021; OpenF1 fills 2023–25, but the 2020–22 inner period cannot validate this particular feature. Do not treat missing feeds as failure warnings.
+
 ### A8. Near-podium pace gaps and uncertainty
 
 - **Hypothesis/data:** Use A1/A2's uncertainty estimates to forecast each
