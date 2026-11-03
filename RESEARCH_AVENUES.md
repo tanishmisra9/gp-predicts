@@ -243,6 +243,8 @@ need separate approval. Coverage and usefulness must be verified before use.
 
 **C3 source recheck (2026-11-03):** [OpenF1's documented stint field](https://openf1.org/docs/) also exposes relative `SOFT/MEDIUM/HARD` labels. A search found no verified permissible structured 2020–25 archive of absolute C1–C5 nominations with historical pre-weekend timestamps. This is a source gap, not evidence that such a feed cannot exist. No Pirelli preview or other outside-document text entered a model.
 
+**E138 newcomer update (2026-11-03):** Across 131 development races, the 17 drivers first recorded in F1 during 2020–25 had zero podiums in their first five entries and four in their first 20 (1.0% of 393 podium slots). Junior-series data might still inform later performance, but its direct early-podium leverage is small. The official F2 website restricts extraction/copying, and the inspected third-party pipelines scrape it. Park C5 pending a permissible independent structured source; see E138.
+
 ## Outside-document avenues: recorded, excluded from the current scope
 
 | ID | Originally proposed avenue | Status and possible distinct information |
