@@ -883,3 +883,19 @@ With the **12-driver field median** used consistently for both years, the true d
 The speed scalar forecasts some future pace order: a within-race shuffled-pace-label null had mean correlation +0.0003 and one-sided p=0.0002 for the observed +0.727. It beats the old same-circuit pace scalar on this small sample, **but loses to standings in all three races**. Its race-paired mean correlation difference versus standings was -0.145 (bootstrap 95% CI [-0.210,-0.042]); the equal blend was -0.042 ([-0.077,+0.000006]). With only three selected races, these intervals are descriptive and do not support generalization to the full calendar. The comparator uses 2024 pre-weekend standings; neither the 2024 grid nor any 2024 session data was a feature.
 
 **Verdict: the profile's scalar speed level has predictive information but no incremental pace-order gain over standings, so do not build a podium selector from it.** E127–E129's repeatable *shape* is a distinct signal; showing its value beyond existing form would require more circuits/years and a locked forecast test, not a post-hoc weight search on these three races.
+
+### E131 — Physics-weighted X/Y profile shape for future pace (A1)
+
+**Strict podium overlap:** no full-field podium selector was run. The unchanged development references are standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. No 2026 outcome was evaluated. This remains a three-race, 12-driver future-pace diagnostic, not evidence for 0.750 strict podium overlap.
+
+`experiments/a1_profile_time_weight.py` used the same saved profiles, drivers, circuits, and 2024 target pace labels as E130, with **one fixed physical projection** instead of a mean-speed scalar. The 50 bins are approximately equal distance, so a small speed advantage changes traversal time in proportion to `-Δspeed / field_speed²`; this gives more weight to slow bins without fitting class thresholds or weights from outcomes. The field speed and driver residuals came from **2023** only for each 2024 target. The candidate was ranked alone and in a fixed equal-rank average with pre-weekend standings; no podium model was fitted. `tests/test_profile_time_weight_leak.py` scrambles target-year profile speeds on synthetic and cached source data without changing the target feature, while an earlier source edit changes it.
+
+| 2024 within-race Spearman with actual race pace | Bahrain | Austria | Monza | Mean |
+|---|---:|---:|---:|---:|
+| pre-weekend standings | 0.797 | 0.867 | **0.951** | **0.872** |
+| prior-year time-weighted X/Y profile | 0.727 | 0.664 | 0.769 | 0.720 |
+| equal-rank standings + time-weighted profile | 0.747 | 0.763 | 0.889 | 0.800 |
+
+The physics-weighted scalar was slightly weaker than E130's unweighted mean-speed scalar (0.720 vs 0.727) and below standings on **all three** races. Its paired mean pace-correlation difference versus standings was -0.152 (bootstrap 95% CI [-0.203,-0.070]); the equal blend was -0.072 ([-0.104,-0.050]). These intervals are descriptive for three selected races only. A within-race shuffled-pace-label null had mean -0.0004 and one-sided p=0.0002 for the profile's +0.720, which shows non-random pace information but **not incremental information over standings**.
+
+**Verdict: no reason to promote this profile projection to a podium predictor.** The repeatable 50-bin identity signal in E127–E129 has not yielded contender-order improvement through either of two fixed scalar summaries. More profile transformations on these same three races would be variant search; further A1 work requires broader time-ordered data and a locked incremental forecast test.

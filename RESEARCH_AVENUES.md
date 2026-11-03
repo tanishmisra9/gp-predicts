@@ -95,6 +95,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E130 forecast update:** On those 12 drivers at the three 2024 circuits, the prior-year profile's mean speed residual forecast race-pace order better than prior-year same-circuit race pace but worse than pre-weekend standings in every race. A fixed standings/profile rank average also lost to standings. Stop that scalar forecast; a shape-based forecast still needs a larger locked sample before it can support any podium claim.
 
+**E131 shape update:** A fixed equal-distance lap-time projection (`-Δspeed / field_speed²`) emphasized slow bins without fitted weights; it also lost to standings in every available 2024 race and slightly trailed E130's mean-speed scalar. Do not search more profile summaries on the same three inspected races. Broader time-ordered coverage is required before an A1 podium test.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps
