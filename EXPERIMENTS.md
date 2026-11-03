@@ -754,3 +754,21 @@ The candidate added **one** past-only short-running feature to a regularized all
 Outer Brier/log-loss were 0.068358/0.264613 for the team forecast versus **0.068188/0.263324** for the global rate. `tests/test_pit_tail_leak.py` checks that changing target-and-later pit outcomes leaves the target prior unchanged and a prior edit changes it; the existing pre-weekend leak, profile, guard, and metric tests passed. The records collapse multiple stops into each driver's median and mix crew delay, traffic, repair, and neutralization effects, so this is not a clean crew-performance label. The development races have also been inspected repeatedly.
 
 **Verdict: no forecastable team-specific costly-stop tail from this source.** Stop before a podium ranking or undercut simulator based on this particular tail statistic; it offers no measured incremental execution signal over a global prior. This does not test richer stop-by-stop rejoin states or a race-specific strategy forecast.
+
+### E122 — Freeze a genuinely prospective 2026 São Paulo prediction
+
+**Strict podium overlap:** pending the 2026 round-20 result. No target outcome was scored and no model was changed. The development reference remains plain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. The previously reported 2026 holdout was 0.544 over 19 races; while checking the results cutoff, round 19's actual top five (VER, HAM, ANT, LEC, NOR) was viewed again. This is a logged additional holdout look, with no tuning from it.
+
+At **2026-11-03 02:58:49 UTC**, before the São Paulo weekend, `predict.py` used local results through Mexico City round 19 and the existing pace history to forecast round 20. The structured Jolpica calendar supplied only race name/date/circuit; the Mexico City lineup was carried forward as an explicit assumption. The frozen E8 `ens` predicted **antonelli, max_verstappen, hamilton** for the podium, in that order. Plain standings picked the same set and order. Top ten, input cutoff, parent commit, and evaluation status are frozen in `results/prospective_2026_r20.md`. No target-weekend sessions, grid, telemetry, labels, or outside-document text entered the model. `predict.py` now calls `assert_pre_weekend()` on its feature list and prints the standings comparator alongside the prediction.
+
+**Verdict: prospective forecast registered, accuracy unknown.** This observation cannot establish 0.750; after the official result, score the immutable top-three set under the strict metric and log the look without changing this selection.
+
+### E123 — Availability gate for pair-contact and matched-weather ideas
+
+**Strict podium overlap:** no new selector or feature was scored. References remain plain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and label-shuffled logit null 0.1749 / 0.1857. No further 2026 evaluation was run.
+
+For B1, the [OpenF1 race-control schema](https://openf1.org/docs/) offers one `driver_number` and a free-text `message`, not a structured pair of incident participants. The local 2018–25 FastF1 cache has no race-control-message files. Parsing free-text steward/race-control statements would violate the current no-outside-documents input constraint, so the proposed driver-pair contact model has no eligible partner labels. A driver-only incident rate is already close to E18's broad retirement-risk work and does not test the pair hypothesis.
+
+For B9, the local 2018–25 FastF1 cache has no weather-data files, and sample historical race sessions did not expose loaded weather. Existing `data/weather.csv` has race-level aggregates and forecast fields, not matched lap-time temperature/wind observations; E16 already tested the aggregate-weather avenue without a podium gain. A matched historical thermal/wind response cannot be measured from the current permitted cache. No weather feed was newly acquired.
+
+**Verdict: park B1 pair-contact and B9 matched-weather modelling until a permitted structured, historically timestamped source exists.** This is a source-availability finding, not evidence that those physical effects are absent.

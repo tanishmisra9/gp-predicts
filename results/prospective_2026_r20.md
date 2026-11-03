@@ -1,0 +1,22 @@
+# Prospective pre-weekend forecast: 2026 round 20, São Paulo
+
+Frozen at **2026-11-03 02:58:49 UTC**, before the 2026-11-06–08 race weekend. Run from parent commit `43e03da1376f57c2304710aadb9833612e475045` with the `predict.py` guard/standings-output change in this batch. Command: `PYTHONPATH=. .venv/bin/python predict.py`.
+
+The local `data/results.csv` ended at round 19 (Mexico City, 2026-11-01). The forecast used those and strictly earlier results plus existing historical pace data. It assumed the Mexico City driver/team entry list for São Paulo. The target race date, name, and circuit came from the structured Jolpica calendar; no São Paulo practice, qualifying, grid, sprint, telemetry, or result was used. No outside-document text was used as a model input.
+
+| Predicted rank | Driver | Team |
+|---:|---|---|
+| 1 | antonelli | mercedes |
+| 2 | max_verstappen | red_bull |
+| 3 | hamilton | ferrari |
+| 4 | leclerc | ferrari |
+| 5 | russell | mercedes |
+| 6 | norris | mclaren |
+| 7 | piastri | mclaren |
+| 8 | hadjar | red_bull |
+| 9 | gasly | alpine |
+| 10 | lawson | rb |
+
+**Frozen strict podium set:** antonelli, max_verstappen, hamilton. **Plain standings podium set:** antonelli, max_verstappen, hamilton. Strict overlap, winner accuracy, and all other outcome scores: **pending**. This is a prospective observation, not a new model-selection or holdout result. Do not revise the set after target-weekend information appears.
+
+While checking the local results cutoff, round 19's actual top five was viewed. That is a further look at the previously inspected 2026 holdout, logged here; it did not change the frozen model or this selection.

@@ -42,6 +42,7 @@ def main(season=None, rnd=None, post=False):
     hist = df[(df.season < season) | ((df.season == season) & (df["round"] < rnd))]
     pace = pd.read_csv(DATA / "racepace_ff1.csv")
     X = build_features(pd.concat([hist, cur], ignore_index=True), pace); PRE = pre_weekend_cols(X)
+    W.assert_pre_weekend(PRE)
     te = X[(X.season == season) & (X["round"] == rnd)]; tr = X[(X.k < te.k.iloc[0]) & (X.season >= 2019)]
     st = (-te.d_season_pts.fillna(0) * 100 + te.d10_order.fillna(11) * 1e-3).values
     lg = W.m_logit_pod(tr, te, PRE, C=0.03, hl=100)
@@ -51,6 +52,8 @@ def main(season=None, rnd=None, post=False):
     print(f"\n{season} round {rnd}: PRE-WEEKEND prediction (trained on {tr.k.nunique()} earlier races; no data from this weekend)")
     print(out[["pred_pos", "driver", "team"]].head(10).to_string(index=False))
     print("\nPredicted podium:", ", ".join(out.driver.head(3)))
+    standing = te[["driver"]].assign(score=st).sort_values(["score", "driver"]).driver.head(3)
+    print("Standings-only podium:", ", ".join(standing))
     if actual:
         print("Actual podium:   ", ", ".join(actual), "(replay only; hidden from the model)")
 
