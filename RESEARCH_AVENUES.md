@@ -224,6 +224,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E125 strategy update:** Relative first-stop timing from earlier races showed only a small rank association and worsened timing MSE versus a zero team-specific deviation in every 2023–25 season. Do not use that past team timing average to drive a race simulator. It does not measure a validated undercut/rejoin response.
 
+**E144 undercut gate:** A fixed close, green-flag, adjacent-car first-stop definition yielded only **57 opportunities in 2020–25**, with no team reaching ten. It failed the registered 100-opportunity/five-team feasibility threshold, so no team-rate forecast or podium feature was fitted. The observed 60.8% conversion rate over all 2018–25 eligible pairs is selected and confounded by tyre offsets, traffic, and strategy; it is not a repeatable team skill estimate. See E144.
+
 **E123 source update (2026-11-02 local time):** B1's pair-contact labels are unavailable from the structured OpenF1 race-control fields and the local 2018–25 FastF1 cache; its free-text message is excluded by the no-outside-documents rule. B9's matched lap/weather response is unavailable from the same cache, and the local weather table has only race-level summaries. Park both until an eligible structured source exists. See `EXPERIMENTS.md` for the exact gate and references.
 
 **E136 reliability-source update (2026-11-03):** FastF1's race-result `Status` is joined from Ergast/Jolpica, not an independent F1 timing-feed cause field. Cached 2023 Bahrain and 2025 Australia retirements were all generic `Retired`, matching the official results table. A4/B4 remain parked until a permissible independent structured cause source is found; see E136.
