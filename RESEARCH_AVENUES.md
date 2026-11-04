@@ -133,6 +133,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E104/E145 status:** E104's matched-compound driver-minus-teammate degradation slope had near-zero next-race persistence and lost to standings on teammate order. E145 tested a distinct same-compound, field-relative **team** slope with 1,701 historical team-race measurements. Its past-only forecast slightly improved zero-baseline MSE in 2020–22 but **tied zero in 2023–25** (paired interval crosses zero; forecast/outcome correlation 0.029). Neither measurement supports a podium feature. Revisit only with a new, independently validated stint-state or tyre-construction signal.
 
+**E150 same-circuit update:** Adding a team's earlier slope at the exact circuit to E145's global forecast worsened degradation MSE in both inner and outer periods, despite a small outer correlation signal. The fixed measurement gate failed before a podium model. Do not tune the shrinkage on these inspected races; see E150.
+
 ### A4. Mechanical failures as distinct, exposure-based hazards
 
 - **Hypothesis/data:** Separate mechanical retirement, collision, and other
