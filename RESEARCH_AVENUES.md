@@ -131,6 +131,8 @@ form proposed here** unless explicitly identified as a follow-up.
   and team strategy. Stop if apparent skill disappears under matched contexts
   or fails to transfer across seasons/teams.
 
+**E104/E145 status:** E104's matched-compound driver-minus-teammate degradation slope had near-zero next-race persistence and lost to standings on teammate order. E145 tested a distinct same-compound, field-relative **team** slope with 1,701 historical team-race measurements. Its past-only forecast slightly improved zero-baseline MSE in 2020–22 but **tied zero in 2023–25** (paired interval crosses zero; forecast/outcome correlation 0.029). Neither measurement supports a podium feature. Revisit only with a new, independently validated stint-state or tyre-construction signal.
+
 ### A4. Mechanical failures as distinct, exposure-based hazards
 
 - **Hypothesis/data:** Separate mechanical retirement, collision, and other
