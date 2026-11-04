@@ -115,6 +115,8 @@ form proposed here** unless explicitly identified as a follow-up.
   thresholds. Drop it if it only improves same-race fit, or reproduces E94's
   small correlation gain without improving podium probabilities/selections.
 
+**E102/E111–E112 status:** The clean-air matched-lap pilot and the joint traffic/compound/tyre-age correction were completed on 2018–25 historical races. The joint measure improved next-race pace correlation only slightly over matched pace (outer +0.0074, paired interval crosses zero). Its equal-rank podium blend and one-feature logit blend both **tied standings at 0.5905 outer strict overlap**; the added logit feature did not improve outer Brier or log-loss. Do not repeat the same timing-only correction or tune its weights on these inspected races. Reopen A2 only for a genuinely new, validated measurement of traffic or stint state with independent future-race transfer.
+
 ### A3. Contextual driver tyre management
 
 - **Hypothesis/data:** Estimate driver-minus-teammate stint degradation and
@@ -143,6 +145,8 @@ form proposed here** unless explicitly identified as a follow-up.
   podium impact. Sparse front-runner failures may make this unidentifiable.
   Distance since a failure is **not** the mileage of an installed engine; do
   not invent component inventories without documents or component identifiers.
+
+**E101/E136 status:** The exposure-based mechanical hazard was attempted, but the official 2023–25 result rows name **zero** mechanical failures and use 153 generic `Retired` statuses. FastF1's result `Status` is joined from the same Jolpica source, so it does not repair the cause labels. The cause-specific and generic survival adjustments made identical podium selections. Park A4 until a permissible independent structured cause source exists; do not relabel generic retirements as mechanical negatives or infer engine inventory from elapsed laps.
 
 ### A5. Teammate order from matched, comparable race segments
 
