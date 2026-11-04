@@ -99,6 +99,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E140–E142 broader-profile update (2026-11-03):** On five preselected new 2024-to-2025 circuits, the prior-year **team-aggregated** multi-stint X/Y speed residual beat pre-event 2025 team standings for future team pace order (mean Spearman 0.773 vs 0.638). A fixed equal-rank podium vote scored **0.800 strict overlap on those five races versus 0.733 for standings**, only one additional correct slot. The full 24-race 2025 replication fell to **0.694 versus 0.667 for standings** (50 versus 48 correct slots; paired interval crosses zero); the profile alone scored 0.472. Across the 23 races where pre-event team-standings pace correlation is defined, the profile trailed standings by 0.024 mean Spearman. Keep the frozen model; do not tune the vote on this inspected season. A separate time-forward cohort is needed for promotion.
 
+**E143 independent-season update (2026-11-04):** On all 22 shared 2023→2024 circuits, the same prior-year team X/Y scalar scored 0.518 mean future team-pace Spearman versus 0.805 for pre-event standings on 21 defined pairs; its paired difference was -0.293 with a 95% interval entirely below zero. The fixed equal-rank blend also lost by 0.085. Stop the scalar route; the E142 podium lift does not justify promotion. No E143 podium vote was run after the pace gate failed.
+
 ### A2. Jointly correct pace for traffic, tyre age, and stint selection
 
 - **Hypothesis/data:** Estimate comparable pace from prior lap timings, gaps

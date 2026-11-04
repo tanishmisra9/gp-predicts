@@ -17,7 +17,7 @@ SESSIONS = {"jeddah": 9480, "suzuka": 9496, "silverstone": 9558,
 PART = DATA / "parts/race_xy_multistint_newtracks_2024.csv"
 
 
-def extract(sessions=SESSIONS, part=PART):
+def extract(sessions=SESSIONS, part=PART, source_season=2024):
     rows = pd.read_csv(part).to_dict("records") if part.exists() else []
     done = {(r["circuit"], r["code"]) for r in rows}
     for circuit, session in sessions.items():
@@ -44,7 +44,7 @@ def extract(sessions=SESSIONS, part=PART):
                 continue
             try:
                 p = one_driver(session, number, laps, tree, bins)
-                rows.extend(p.assign(circuit=circuit, season=2024, driver=number, code=code).to_dict("records"))
+                rows.extend(p.assign(circuit=circuit, season=source_season, driver=number, code=code).to_dict("records"))
                 pd.DataFrame(rows).to_csv(part, index=False)
                 print(circuit, code, "laps", p.clean_laps.iloc[0], "bins", p.groupby("half").bin.nunique().to_dict(), flush=True)
             except Exception as exc:
@@ -52,30 +52,31 @@ def extract(sessions=SESSIONS, part=PART):
     return pd.DataFrame(rows)
 
 
-def prior_team_speed(source, results):
-    d = source[source.season == 2024].copy()
+def prior_team_speed(source, results, source_season=2024):
+    d = source[source.season == source_season].copy()
     field = d.groupby(["circuit", "half", "bin"]).speed.median().rename("field")
     d = d.join(field, on=["circuit", "half", "bin"])
     d["resid"] = d.speed - d.field
     driver = d.groupby(["circuit", "code"], as_index=False).resid.mean()
-    teams = results[results.season == 2024][["circuit", "code", "team"]].drop_duplicates()
+    teams = results[results.season == source_season][["circuit", "code", "team"]].drop_duplicates()
     driver = driver.merge(teams, on=["circuit", "code"], validate="one_to_one")
     return driver.groupby(["circuit", "team"], as_index=False).agg(
         prior_xy_speed=("resid", "mean"), n_profile_drivers=("code", "nunique"))
 
 
-def evaluate(source, results, pace, sessions=SESSIONS):
-    prior = prior_team_speed(source, results)
-    race_pace = results[results.season.isin([2024, 2025])][["season", "round", "circuit", "team", "code"]].merge(
+def evaluate(source, results, pace, sessions=SESSIONS, source_season=2024):
+    target_season = source_season + 1
+    prior = prior_team_speed(source, results, source_season)
+    race_pace = results[results.season.isin([source_season, target_season])][["season", "round", "circuit", "team", "code"]].merge(
         pace[["season", "round", "code", "pace_gap"]], on=["season", "round", "code"], how="left")
     race_pace = race_pace.groupby(["season", "round", "circuit", "team"], as_index=False).pace_gap.mean()
     rows = []
     groups = []
     for circuit in sessions:
-        last = race_pace[(race_pace.season == 2024) & (race_pace.circuit == circuit)][["team", "pace_gap"]]
-        target = race_pace[(race_pace.season == 2025) & (race_pace.circuit == circuit)].copy()
+        last = race_pace[(race_pace.season == source_season) & (race_pace.circuit == circuit)][["team", "pace_gap"]]
+        target = race_pace[(race_pace.season == target_season) & (race_pace.circuit == circuit)].copy()
         round_ = int(target["round"].iloc[0])
-        points = results[(results.season == 2025) & (results["round"] < round_)].groupby("team").points.sum()
+        points = results[(results.season == target_season) & (results["round"] < round_)].groupby("team").points.sum()
         g = target.merge(prior[prior.circuit == circuit], on=["circuit", "team"], how="left", validate="one_to_one")
         g = g.merge(last.rename(columns={"pace_gap": "prior_race_pace"}), on="team", validate="one_to_one")
         g["prior_points"] = g.team.map(points).fillna(0)
