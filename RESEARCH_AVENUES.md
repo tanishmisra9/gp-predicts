@@ -226,6 +226,8 @@ form proposed here** unless explicitly identified as a follow-up.
 
 **E121 strategy update:** A fixed team-specific rate of costly pit-lane times from earlier races did not forecast the next costly stop better than a past global rate. This stops that tail-risk statistic before podium modelling; a validated stop-by-stop undercut/rejoin measurement remains untested.
 
+**E152–E153 passing update:** Clean, green, close adjacent-car comparisons yielded 14,467 development opportunities and a small past-driver conversion Brier gain over a global rate, passing a prespecified measurement gate. Adding that one history feature to the frozen podium logit then scored **0.581 outer strict overlap**, below frozen `ens` **0.586** and standings **0.590**, with no calibration gain. Stop this passing-rate feature; the user requested a pause after E153. See the experiment log.
+
 **E125 strategy update:** Relative first-stop timing from earlier races showed only a small rank association and worsened timing MSE versus a zero team-specific deviation in every 2023–25 season. Do not use that past team timing average to drive a race simulator. It does not measure a validated undercut/rejoin response.
 
 **E144 undercut gate:** A fixed close, green-flag, adjacent-car first-stop definition yielded only **57 opportunities in 2020–25**, with no team reaching ten. It failed the registered 100-opportunity/five-team feasibility threshold, so no team-rate forecast or podium feature was fitted. The observed 60.8% conversion rate over all 2018–25 eligible pairs is selected and confounded by tyre offsets, traffic, and strategy; it is not a repeatable team skill estimate. See E144.

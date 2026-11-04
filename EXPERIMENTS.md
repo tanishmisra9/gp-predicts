@@ -1235,3 +1235,22 @@ The standard no-leak, pre-weekend, profile-leak, guard, and metric tests also pa
 **Strict podium overlap: pending.** Use E152's saved source unchanged. Before each target race, compute every entered driver's 50-race-half-life conversion probability from **strictly earlier** clean opportunities, shrunk by 200 pseudo-opportunities toward the strictly earlier global rate. Drivers without past opportunities receive that global rate. Join this one `prior_pass` feature by official season/round/driver code to the unchanged `run.py` pre-weekend feature table; no target-weekend lap, grid, practice, qualifying, sprint, or race label is an input. Fit the same frozen podium logit (`C=0.03`, 100-race training half-life) with `prior_pass` appended once. Compare its standalone ranking and an equal-rank average with plain standings against the frozen logit, frozen `ens`, plain standings, and label-shuffled-logit null, all walk-forward over 2020–25 with `tie=None`.
 
 Report inner 2020–22 and outer 2023–25 strict podium overlap first, same-race paired bootstraps, changed top-three sets, per-season results, and standalone logit Brier/log-loss on identical driver-races. Do not tune shrinkage, weighting, contender filters, or model type on those outcomes. This already inspected outer period is development evidence even if it clears 0.750; a model promotion would still need a separately frozen prospective test. No 2026 outcome may be used in this experiment.
+
+**Result — strict podium overlap first:**
+
+| pre-weekend walk-forward model | inner 2020–22 (61 races) | outer 2023–25 (70 races) |
+|---|---:|---:|
+| plain standings | 0.6066 | **0.5905** |
+| frozen `ens` | 0.6284 | 0.5857 |
+| `ens_pass` (one added history feature) | **0.6339** | **0.5810** |
+| frozen logit alone | 0.6393 | 0.5571 |
+| pass-feature logit alone | 0.6393 | 0.5524 |
+| label-shuffled-logit null | 0.1749 | 0.1857 |
+
+The augmented ensemble added **one** correct podium slot inner (116/183 versus 115/183 for frozen `ens`) and lost **one** outer (122/210 versus 123/210); plain standings had 124/210 outer. It changed only **1/61 inner** and **2/70 outer** top-three sets. Outer `ens_pass` minus standings was **-0.0095** (race-paired 95% CI [-0.0429,+0.0238]); minus frozen `ens` was **-0.0048** ([-0.0143,0]). Inner minus standings was +0.0273 ([0,+0.0546]) and minus frozen `ens` +0.0055 ([0,+0.0164]); these are one-slot movements, not reliable evidence of a general lift. By season, augmented ensemble strict overlap was 2020 **0.6863**, 2021 **0.6667**, 2022 **0.5606**, 2023 **0.5303**, 2024 **0.5556**, and 2025 **0.6528**. Frozen `ens` differed only in 2020 (0.6667) and 2024 (0.5694).
+
+The standalone frozen/augmented logit Brier was **0.077192/0.077145 inner** and **0.083136/0.083226 outer**; log-loss was **0.249676/0.249867 inner** and **0.262932/0.263118 outer**. The augmented-minus-frozen race-paired Brier difference was -0.000047 (95% CI [-0.000314,+0.000211]) inner and +0.000086 ([-0.000627,+0.000788]) outer. Log-loss differences were +0.000192 ([-0.000723,+0.001091]) inner and +0.000176 ([-0.001630,+0.001970]) outer. Thus the small pass-conversion probability signal from E152 does not improve podium calibration either.
+
+The new `prior_pass` table agrees **exactly** with E152's independent opportunity-level forecasts on all 18,148 matched historical opportunities; every feature is finite and no 2026 feature row was computed. `tests.test_passing_podium_leak` scrambled target-and-later raw pass outcomes in synthetic and saved source tables without changing the target feature, then changed an earlier outcome and verified a response. The E152 source filter test and standard no-leak, pre-weekend, profile-leak, guard, and metric tests passed. The original feature set, model regularization, standings vote, and pre-weekend `tie=None` path were preserved; no target-weekend input or 2026 label entered this comparison.
+
+**Verdict: do not promote the passing-history feature.** Its outer strict overlap is below both standings and the frozen ensemble, and its probability changes are too small to justify a variant search on these inspected seasons. The 0.750 gate remains unachieved. Per the user's request, pause the research goal after logging and pushing this experiment; do not start E154 until the user resumes it.
