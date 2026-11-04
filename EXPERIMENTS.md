@@ -972,6 +972,8 @@ E101 found no named mechanical failures in the official 2023–25 status field, 
 
 **Verdict: reproducible prospective capture ready; accuracy remains unknown.** This changes neither the model nor the historical evidence for 0.750. Missing or sparse cutoff quotes must be reported as unavailable, not replaced by a later price.
 
+**2026-11-04 scheduling update:** A one-time local Codex project automation, `freeze-s-o-paulo-podium-market`, is active for **2026-11-04 19:05 EST = 2026-11-05 00:05 UTC**. Its saved instruction is to run the fixed capture script only after cutoff and before FP1, preserve an existing output, verify bar timestamps and quote coverage, run the Kalshi and standard leak tests, then log and push the frozen result. The automation was created and its local configuration inspected; **it has not run yet**, and no 2026 market top three or race outcome has been observed. A failed or missed run must be reported rather than repaired with post-cutoff prices.
+
 ### E138 — Junior-series newcomer evidence: podium incidence and source gate (C5)
 
 **Strict podium overlap:** no new selector was run. The unchanged references remain standings **0.6066 inner / 0.5905 outer**, frozen `ens` 0.6284 / 0.5857, and shuffled-label logit null 0.1749 / 0.1857. With no candidate podium predictions there is no paired bootstrap, and no 2026 result was inspected.
