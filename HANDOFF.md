@@ -13,6 +13,12 @@ Read it before touching code. Read `RESEARCH_AVENUES.md` next for the per-avenue
 - **2026 is restricted.** It was looked at in E6, E8, E86, E93. Do not inspect 2026 labels or residuals during development. One final look only, logged.
 - **Data rule from the user:** *no outside documents.* No FIA reports, Pirelli previews, articles, interviews, LLM-extracted text. Structured historical data (Jolpica, FastF1, OpenF1, Open-Meteo) only. Kalshi API is off-limits as of E151. If you believe 75% needs outside documents, say so to the user; do not quietly ingest them.
 
+## 1b. Data-source constraints (user, 2026-11-07; supersedes anything below that conflicts)
+
+- **No betting or prediction-market involvement of any kind.** No Kalshi, Polymarket, Manifold, Betfair, bookmaker odds, tipster/betting-site picks (Racing Post, Betfred, Oddschecker, etc.), or any feature derived from them. The work must be purely analytical / ML on racing data. The market comparators in E132/E147/E148/E149 are historical records only; do not extend them, and do not score the scheduled Manifold captures as a model input.
+- Outside non-betting documents are allowed (the earlier "no outside documents" rule was lifted), but the result must still be an analytical model, not an aggregation of someone else's picks.
+- Because of this, §6 item 2 R5(a) (tipster picks) is closed and the "market price" evidence of 0.722 (E132) is not a route to 75%.
+
 ## 2. Where the numbers stand
 
 | pre-weekend, strict podium overlap | inner 2020–22 | outer 2023–25 | 2026 (19 races, frozen E8 look) |
