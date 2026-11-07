@@ -165,3 +165,31 @@ The E7 switch to pre-weekend is the decisive one: it moved the target from ~6 po
 3. **Report the project's actual contribution**, which is stronger than any repo found: (a) the baseline the field under-reports (standings pre-weekend, grid post-quali), (b) the information-stage curve (E17), (c) the oracle ceilings (E10/E22/E56/E158), (d) error attribution (E93), (e) the leak incidents caught (E30/E31, E132 cutoff). Update README with the post-E100 rounds; this is also the LinkedIn story already drafted.
 4. **If a target must be met, restate it as one the evidence supports and label it as a re-scope, not 75%:** post-qualifying strict overlap with a significant margin over the grid baseline (currently +3.5 pts, CI touching zero: not yet met), or podium Brier vs the standings prior (already met, E64).
 5. **Do not** reopen markets, tipsters, FIA documents, telemetry scalars, or learner sweeps; all have logged negative or blocked results with reasons.
+
+## 11. Direction to still reach 75% (2026-11-07; user: "I'm not giving up")
+
+### 11.1 Why pre-weekend is stuck, in one chain (read before choosing a route)
+Error budget pre-weekend (E93): ~41 points of misses = ~25 pts pace-order + ~16 pts race-day events. A **perfect** pace forecast removes the 25 and lands at 0.746 (E10); that is the whole pace route, and it is just under the target. The 16 race-day points (strategy, SC, starts, retirements, teammate order) have **no** pre-weekend predictor in any test (E16 weather oracle, E18 retirement model, E155 execution persistence 0.07). The E10 mapping is also steep: a pace forecast at rho 0.96 gives only 0.66, so incremental pace gains are nearly worthless until perfect. **Conclusion: 75% pre-weekend is above the information content of pre-weekend data.** Keep `ens` + testing rule as that setting's deliverable and do not spend more effort there.
+
+### 11.2 The fact that reopens the goal
+**In 2025 the grid baseline alone scored 0.750 on the pre-registered metric, post-qualifying** (E6: dev 2025 model .736 / grid .750; 2023 .667/.636; 2024 .667/.667). So the target *is* reachable on the exact metric in a low-chaos season once qualifying is known. Post-qualifying is the project's **original** setting (E0–E6), the one the field evaluates on, and relaxing E7's self-imposed pre-weekend restriction is not loosening the metric. The 2026 oracle with true pace is 0.789. **Route: go back to post-qualifying and build the best possible post-quali model.** The post-quali model has not been touched since E5 (frozen compact logit); every Round 2–8 learning was applied to pre-weekend only.
+
+Honest odds: a typical season likely lands 0.70–0.73; 0.75 needs a season like 2025 or a real gain from practice race pace. Say so in any write-up.
+
+### 11.3 Post-qualifying programme (pre-register each as E160+; inner 2020–22 / outer 2023–25; 2026 restricted again until a candidate is frozen)
+**P1. Post-quali ensemble (cheap, do first).** Pre-weekend `ens` beat the lone logit by +3 pts outer. Post-quali never got an ensemble: test rank-avg(grid, standings, post-quali logit) and rank-avg(grid, logit), fixed equal weights, vs grid and vs the E5 compact logit. One day of work; expected +1–3 pts.
+
+**P2. Properly measured practice race pace (the one untried input with a mechanism).** `data/laps.csv` holds only crude scalar FP gaps (best/top5/long-run median, 2023–26); E4/E17's "practice adds nothing" was tested on those. The E102/E111 machinery (green-flag, no in/out laps, same-lap field matching, compound and tyre-age correction, clean-air gap) was built for race laps and **never applied to FP1–FP3 of the target weekend**. Build it on the FastF1 cache for FP2/FP3 long runs (and FP1 on sprint weekends), fuel-corrected by stint position, compound-matched. **Gate (inner, before any podium model):** corrected FP race-pace rank must correlate with TRUE race pace better than the quali gap does (quali rho is the bar; if FP cannot beat quali as a race-pace measurement, stop). Then add as one feature to P1. Mechanism: quali is low-fuel single-lap; race pace is high-fuel degradation-limited; the gap between them is exactly the "podium without podium pace / lost pace in race" error classes.
+
+**P3. Sprint result as a second race-trim observation.** On sprint weekends (~6/yr) the Saturday sprint is a real race on the same track with the same cars. Add sprint finish/pace rank as a feature for those races only; evaluate on sprint races separately and pooled. Few races, so this is a bonus, not a pillar.
+
+**P4. Grid-position-aware structure.** Grid matters beyond pace (track position; overtaking difficulty by circuit). Test one fixed interaction: grid × circuit overtaking difficulty (from past races' positions-gained variance, past-only). E5 had `circ_grid_corr`; the interaction with grid was never in a post-quali model after E5.
+
+**P5. Retirement-aware selection post-quali.** E18's retirement model was calibrated (14.7% vs 15.0%) but tested pre-weekend only. Post-quali, multiply P(podium) by P(finish) and re-select; grid penalties and known PU changes (FIA Friday docs are admissible post-quali) feed P(finish). Cheap once P1 exists.
+
+**P6. Freeze, then prospective.** Freeze the best post-quali candidate on inner/outer, take one 2026 look, then run it **prospectively** on 2026 R20–23 and all of 2027 (second year of the regulation cycle; 2023, the analogue, was a dominant-team season). Prospective races are the only genuinely unseen test left; the 75% claim should be made on those, with the full denominator.
+
+### 11.4 Stop rules
+- P2 fails its measurement gate → the practice route is closed for good; P1+P4+P5 are what remain and will not reach 75% in a typical season. Report that honestly.
+- Nothing in 11.3 is promoted on <5 pts paired gain at 131 races, same as before.
+- Pre-weekend 75% stays closed regardless of P1–P6 results.
