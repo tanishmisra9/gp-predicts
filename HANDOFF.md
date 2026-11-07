@@ -66,24 +66,32 @@ Every item below tied or lost to plain standings on outer 2023–25. Re-running 
 4. **Multi-stint X/Y profiles** are the only telemetry with cross-year persistence (see §4). Signal exists; forecast value unproven.
 5. **Clean passing history** passes its Brier gate narrowly (E152) but adds nothing to podium (E153).
 
-## 6. Where the remaining headroom is, ranked by honesty
+## 6. Where the remaining headroom is (revised 2026-11-07 after E154–E155)
 
-Rank is by plausibility of a ≥5-point gain, not by ease. None is proven.
+**Closed this session:**
+- **R1 (reset-year pace blend) — E154, gate failed.** On 2022 R1–10 the standings+pace blend gained +0.033 (one slot in ten races, CI touches zero), and 2020/2021 showed the same lift, so nothing is reset-specific. Caveat on the test itself: `t3/d3_pace_gap` are already inputs to the frozen logit, so the blend was partly redundant with `ens`; and the hypothesis is really about 2026, which was not looked at. The only clean R1 test is the single permitted 2026 look (see §9).
+- **R2 (team execution residual) — E155, stopped.** Race-level persistence 0.08 (< 0.15 stop line). The raw half-season (0.39) and cross-season (0.31) correlations are team strength leaking through (residual correlates +0.58 with pace rank); strength-adjusted persistence is 0.07. E93's "39% luck" class stays luck.
+- **R3 (shape-based X/Y forecast) — not run, deprioritized.** E143 already has the profile trailing standings by 0.29 team-pace Spearman on 2023→2024; ~200 team-season rows against a 50-bin shape is a fitting exercise, not a measurement. Run it only if the user explicitly wants the telemetry route exhausted.
 
-**R1. The 2026 regime is different; exploit that, not 2020–25.**
-E8 shows 2026 pre-weekend accuracy *rising* through the season (R1–5 0.40 → R12+ 0.63) while 2023–25 is flat; E86 shows testing pace matters far more under new regulations; E10 shows the 2026 pace oracle is 0.789, the only ceiling above 75%. Hypothesis: in a reset year, the car pecking order is still being discovered, so in-season pace information carries more weight than standings. Test on the 2022 reset (the closest analogue in the dev window): does a pace-heavy blend beat standings on 2022 rounds 1–10 specifically, with weights fixed from 2020–21 testing/first-round behaviour? If yes, that is a principled regime rule, not E77's overfit threshold. Then one 2026 look. Keep 2026 untouched until the rule is frozen.
+**Diagnosis after 155 experiments.** Power is not the problem: a 16-point gain would be detectable at 131 races. The problem is that no permitted pre-weekend source carries information that championship standings do not already summarize. Every structured-data route in `RESEARCH_AVENUES.md` (A1–A8, B1–B9, C1–C3) now has a logged negative or blocked result. Continuing to sweep features and learners on 2020–25 is variant search and should stop.
 
-**R2. Predict team order on the day, not pace.**
-Team order is the single largest unknown (13.7 pts, E22) and includes strategy/SC/first-lap luck. E93 found 19% of podium errors were "podium without podium pace," 81% of those drivers started top-6 and converted with a median of zero lap-1 gain, i.e. strategy and attrition ahead. The untested question: is there a *team-level* execution residual (finish rank minus pace rank) that persists? E9/E11 used a decayed version as one of 99 features and found nothing, but it was never isolated, shrunk, and tested at the P3/P4 boundary (A8). Build that one feature, matched to contenders only. Stop if persistence < 0.15 across seasons.
+**What remains, in order. Items 2–4 need the user's decision before any work.**
 
-**R3. Shape-based X/Y pace forecast on a locked sample (A1, properly).**
-The identity signal is real (E127–E129). Every forecast attempt so far used a scalar summary on a handful of inspected circuits. The untried version: fit a low-rank projection of the 50-bin profile → next-season race-pace residual on 2023→2024 only, freeze it, score 2024→2025 once. Requires extracting profiles for all 2023 and 2024 races (data/parts has partial coverage). High cost; stop if the frozen projection does not beat standings on 2024→2025 team-pace Spearman by a paired CI that excludes zero.
+**1. Freeze the one promotable positive signal (permitted, bounded, do this regardless).**
+Pre-season testing pace improves early-round team order (E86) with a suggestive podium lift (E87, n=18). Build the fixed rule *now*: for rounds 1–3 only, `ens_r13 = rank-avg(standings, logit, testing_strength)` with weight 0.25 on testing (E87's value; do not retune); rounds 4+ unchanged `ens`. Score 2023–25 full calendar with coverage reporting (testing cache exists 2023–25 only, E124; inner cannot validate, say so). Expected full-season effect ≤ +0.5 pt. This is the candidate for the final 2026 look. It will not reach 75%; it is the honest best model.
 
-**R4. Post-qualifying setting as a secondary deliverable.**
-Grid-known accuracy is 0.65–0.69, so 75% is also unreached there, but it is 6–10 points closer, and the user's original setting (E0–E6) was post-quali. If the user agrees to re-scope, the gap is smaller and quali telemetry from *the target weekend* becomes legal. E17 says quali telemetry added nothing on top of grid, so this is not free either. Ask before pursuing.
+**2. R5 — lift the "no outside documents" rule (recommended, user decision).**
+Rationale: team order on the day is the largest unknown (13.7 pts, E22) and the only pre-weekend source that has ever scored above 0.70 here is a market price (E132, 0.722 on 18 races). Markets aggregate exactly the documents the rule excludes (upgrade news, reliability rumours, penalties, driver fitness). If the user agrees, the first batch is **not** LLM text mining. It is, in order of leak-safety:
+   a. **Pre-weekend expert pecking orders with publication timestamps** (e.g. archived power rankings / podium predictions published ≤ Thursday 00:00 UTC). Treat each as a ranking vote. Gate: 2023–25 strict overlap vs standings on identical races, paired CI. Leak control: use archived-page capture timestamps, never live pages; exclude any source whose archive date is after the race.
+   b. **Structured announcements with dates**: confirmed grid penalties / PU changes announced before cutoff, driver substitutions, team upgrade declarations (FIA car-presentation submissions are published Thursday and are structured lists; check the timestamp against cutoff per round).
+   c. **LLM extraction of text** only last, and only with blinded prompts (no driver names in the question, outcomes masked) plus a shuffled-date control, because a pretrained model remembers 2023–25 results.
+   Success at this stage is a ≥5-pt paired gain over standings on 2023–25. Then the one 2026 look.
 
-**R5. Outside information (currently excluded).**
-Driver-podium market prices at 0.722 on 18 races (E132) are the single highest pre-weekend number ever recorded in this repo. Expert pecking orders, upgrade reports and FIA documents (X1–X6 in `RESEARCH_AVENUES.md`) are the natural source of exactly the "team order on the day" information the structured data lacks. All excluded by the user. If R1–R3 fail, the honest recommendation to the user is that 75% pre-weekend likely requires lifting this restriction, with pre-weekend timestamping and blinded extraction to avoid outcome-memory leakage.
+**3. R4 — re-scope to post-qualifying (user decision; does not reach 75% either).**
+Grid-known accuracy is 0.65–0.69 and E17's everything-known oracle is ~0.69, so 75% is above that ceiling too. The only untested target-weekend input is the **sprint race result** on sprint weekends (~6/yr): a second observation of race-trim pace. Worth one bounded test if R4 is chosen; expect a few points on those races only.
+
+**4. Re-scope the target (user decision).**
+Options the evidence supports: (i) a probabilistic target (podium Brier / log-loss, where the learned model already beats standings, E64); (ii) a 2026-only claim, where the pace oracle is 0.789 and E8's in-season curve was rising, acknowledging a 19-race sample cannot establish 75%; (iii) ">=2 of 3 drivers" (0.70, E88) stated explicitly as a different metric. Do not present any of these as meeting the pre-registered goal.
 
 ## 7. How to run an experiment here (contract, do not skip)
 
@@ -112,6 +120,10 @@ Driver-podium market prices at 0.722 on 18 races (E132) are the single highest p
 - `results/` — generated summaries. `RESEARCH_AVENUES.md` — per-avenue status with E-number updates.
 - Env: `.venv` Python 3.12, `requirements.txt` pinned. FastF1 ≥ 3.9 needs F1 credentials via `scripts_run_ff1.sh`; Mexico 2026 race laps may still be unloadable (E94 note).
 
-## 9. Status at handoff
+## 9. Status at handoff (updated 2026-11-07)
 
-Research was **paused** after E153 at the user's request. The frozen deliverable is `ens` (E8). Manifold prospective captures for 2026 rounds 20–23 run locally at Thursday 00:05 UTC on 2026-11-05/19/26 and 12-03; score them after results per E148, as a comparator only. Start at E154. Confirm with the user before pursuing R4 or R5.
+Research is **paused pending the user's decision on §6 items 2–4**. Last logged experiment: **E155**; start at E156. Frozen deliverable is still `ens` (E8). Two commits this session (`60e5163`, `cf2bd2e`) are local and unpushed.
+
+**Final 2026 look protocol (one look, not yet taken for any new candidate):** freeze the §6-item-1 rule and write its E-entry *before* running `run.py --pre` on 2026; report strict overlap for candidate, `ens`, standings, and null on all 19+ rounds; log that 2026 was previously exposed in E6/E8/E86/E93. Do not take the look until the user has chosen a direction, so that the look is spent on the best candidate available.
+
+Manifold prospective captures for 2026 rounds 20–23 run locally at Thursday 00:05 UTC (2026-11-05 already fired; 11-19, 11-26, 12-03 pending). Score per E148 as a comparator only; check `data/parts/` for the round-20 JSON.
