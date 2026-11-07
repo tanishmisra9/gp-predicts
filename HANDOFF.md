@@ -133,3 +133,31 @@ Research is **paused pending the user's decision on §6 items 2–4**. Last logg
 **Final 2026 look protocol (one look, not yet taken for any new candidate):** freeze the §6-item-1 rule and write its E-entry *before* running `run.py --pre` on 2026; report strict overlap for candidate, `ens`, standings, and null on all 19+ rounds; log that 2026 was previously exposed in E6/E8/E86/E93. Do not take the look until the user has chosen a direction, so that the look is spent on the best candidate available.
 
 Manifold prospective captures for 2026 rounds 20–23 run locally at Thursday 00:05 UTC (2026-11-05 already fired; 11-19, 11-26, 12-03 pending). Score per E148 as a comparator only; check `data/parts/` for the round-20 JSON.
+
+## 10. Assessment (2026-11-07, after E158): requirements, preferences, the field, and direction
+
+### 10.1 What the requirements actually are, traced through the session
+| requirement | where set | effect on feasibility |
+|---|---|---|
+| ≥0.750 strict podium overlap (mean over races) | E0, pre-registered | fixed; never loosened |
+| **post-qualifying** setting (grid known) | E0–E6, the original | model 0.649 (2026) / 0.69 (dev) vs grid 0.614; everything-known oracle ~0.69 (E17) |
+| **pre-weekend** setting (no target-weekend data) | **E7, user request**; became the headline | model 0.544 (2026) / 0.59 (dev); pace oracle 0.746; team-order oracle 0.743 |
+| no outside documents | user, pre-E101 | lifted 2026-11-07 |
+| no betting / markets / tipsters, purely analytical ML | user, 2026-11-07 | closes the only pre-weekend source ever above 0.70 (E132) |
+| honesty over score: pre-registration, inner/outer, leak tests, no metric loosening | user + log throughout | non-negotiable; also the project's real strength |
+
+The E7 switch to pre-weekend is the decisive one: it moved the target from ~6 points above the best model to ~16 points above it and **above every oracle we can build**. That was a reasonable research question ("does accuracy accumulate across a season?"); it was answered (no, except weakly in reset years, E8/E154). The 75% target was not re-examined when the setting changed.
+
+### 10.2 What other implementations achieve (web review, 2026-11-07; self-reported, not verified)
+- Headline "78–90% podium accuracy" repos are **per-driver binary** accuracy, where predicting "no podium" for everyone scores ~85% (one repo says so itself). Our equivalent is 0.882 vs 0.850 always-no (E88). Not comparable to strict overlap.
+- Repos that report an honest per-race number land at **62–68% top-3 overlap, post-qualifying** (e.g. "62.2% average overlap 2023–25", "68% podium hit rate", "68.8% average correct podium positions"). Our post-quali 0.65–0.69 is in the same band, and our grid baseline 0.61–0.67 explains most of it, as their own grid baselines do ("front three on the grid gets about 2 of 3 right").
+- The one claim above our ceiling (9/24 exact podium sets in a season) comes without a time split or leak test; our exact-set rate is 0.26 post-quali. Treat as unverified.
+- Academic work (theses, preprints) reports Brier/log-loss/AUC and concludes race-time factors explain most of the variance, which is our E93/E22 finding.
+- **Nobody credibly reports ≥75% strict podium overlap pre-weekend.** Nobody else reports oracle ceilings, inner/outer splits, or mutation-checked leak tests; that methodology is the differentiated output of this repo.
+
+### 10.3 Direction
+1. **Stop searching for 75% pre-weekend with analytical methods.** 158 experiments, every permitted route gated and closed, and the measured ceilings sit below the target. Further sweeps would be variant search; the log already says so repeatedly.
+2. **Spend the single 2026 look on the frozen candidate** (`ens` + E156 testing rule for rounds 1–3) and record it as the final pre-weekend number. One run of `run.py --pre` with the rule; no tuning afterwards.
+3. **Report the project's actual contribution**, which is stronger than any repo found: (a) the baseline the field under-reports (standings pre-weekend, grid post-quali), (b) the information-stage curve (E17), (c) the oracle ceilings (E10/E22/E56/E158), (d) error attribution (E93), (e) the leak incidents caught (E30/E31, E132 cutoff). Update README with the post-E100 rounds; this is also the LinkedIn story already drafted.
+4. **If a target must be met, restate it as one the evidence supports and label it as a re-scope, not 75%:** post-qualifying strict overlap with a significant margin over the grid baseline (currently +3.5 pts, CI touching zero: not yet met), or podium Brier vs the standings prior (already met, E64).
+5. **Do not** reopen markets, tipsters, FIA documents, telemetry scalars, or learner sweeps; all have logged negative or blocked results with reasons.
