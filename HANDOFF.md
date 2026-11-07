@@ -193,3 +193,16 @@ Honest odds: a typical season likely lands 0.70–0.73; 0.75 needs a season like
 - P2 fails its measurement gate → the practice route is closed for good; P1+P4+P5 are what remain and will not reach 75% in a typical season. Report that honestly.
 - Nothing in 11.3 is promoted on <5 pts paired gain at 131 races, same as before.
 - Pre-weekend 75% stays closed regardless of P1–P6 results.
+
+### 11.5 Programme status (2026-11-07, end of session)
+| item | entry | outer / result | status |
+|---|---|---|---|
+| P1 post-quali ensembles | E160 | ens(grid,standings,logit) 0.667 vs logit 0.691 | failed; `compact_logit` stays the base |
+| P2 corrected FP long-run pace | E161 | Spearman w/ true pace 0.03–0.29 vs quali 0.55–0.67 | failed decisively |
+| P2b FP best lap as feature | E162 | +0.005 [−0.011,+0.021] on 2020/23/25 | not met; rerun pending 2021/22/24 FP download (background job) |
+| P3 sprint result | E164 | −0.028 on 24 sprint races | failed |
+| P4 grid × overtaking | — | already in COMPACT (`grid_x_corr`) | n/a |
+| P5 retirement-aware | E163 | −0.005 outer | failed |
+| oracle ladder post-quali | E165 | pace 0.738, DNF 0.724, **pace+DNF 0.771**, team order 0.776 | 75% needs BOTH perfect pace and perfect retirements |
+
+**Where this leaves 75% post-qualifying:** the base is 0.69 outer; grid alone reached 0.75 in 2025. Every planned input has been tested; none moved the base. E165 shows the +8 pts of headroom to 0.77 require exact race pace *and* exact retirements, two quantities that E161/E163 show are not forecastable at the needed precision. Remaining honest moves: (1) finish E162 on all six seasons when the download completes; (2) P6, freeze `compact_logit` (+`fp_best` only if E162 clears its gate) and evaluate prospectively on 2026 R20–23 and 2027; a 2025-like low-chaos season is the realistic path to a 0.75 reading, and that is season luck, not model skill, and should be labelled as such.
