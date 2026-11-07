@@ -1,17 +1,17 @@
 # gp-predicts — F1 podium predictor (walk-forward, season-cycle evaluated)
 
-**Status: the 75% podium target is NOT reached.** For the "no weekend data" setting the best result is 54-58%; a pace-based ceiling (a *perfect* race-pace forecast) is 74.6%, and my pace forecasts reach rho~0.72, far from perfect.
+**Status: the 75% podium target is NOT reached. Research closed at E159 (159 experiments).**
+Final pre-weekend result on held-out 2026 (19 races): **0.561** strict podium overlap, vs championship standings 0.526 and a shuffled-label null 0.228. Post-qualifying: 0.649 vs grid 0.614. Measured ceilings: a *perfect* race-pace forecast gives 0.746 and a *perfect* team finishing order 0.743 on 2022–25, so 75% sits above every oracle that could be built from pre-race information. `HANDOFF.md` has the full assessment; `EXPERIMENTS.md` the log.
 
-| setting | held-out 2026 podium accuracy | grid / best baseline | dev 2023-25 |
+| setting | held-out 2026 podium accuracy | baseline | dev 2023-25 |
 |---|---|---|---|
-| **A. Pre-weekend** (no practice/quali/grid of the target race) | **0.544** (95% CI 0.44–0.63) | standings 0.526 | 0.53 / 0.56 / 0.67 |
+| **A. Pre-weekend** (no practice/quali/grid of the target race) — final model `ens` + pre-season-testing rule for rounds 1–3 | **0.561** (vs `ens` alone 0.544) | standings 0.526 | standings 0.590 / `ens` 0.586 |
 | B. Post-qualifying (grid known) | 0.649 (95% CI 0.53–0.75) | grid 0.614 | 0.67 / 0.67 / 0.74 |
-| *Oracle: true race pace of the target race known (diagnostic, post-race info)* | *0.79 (2022-25: 0.74)* | | |
+| *Oracle: true race pace of the target race known (post-race info)* | *0.79 (2022-25: 0.746)* | | |
+| *Oracle: true team finishing order known* | | | *0.743* |
+| *Oracle: true grid penalties known in advance (E158)* | | | *no gain* |
 
-Podium accuracy = mean over races of |predicted top-3 ∩ actual top-3| / 3 (defined before any model was run; EXPERIMENTS.md E0, E7).
-The oracle row is the key: even *perfect knowledge of every driver's race pace* yields only ~74% podium overlap on 2022-25, because strategy,
-safety cars, first-lap incidents and retirements scramble the order. A forecast made before the weekend has to estimate pace **and** survive that
-noise, so even perfect pace knowledge lands just below 75% (E10: corrupting true pace with noise gives podium 0.75 / 0.66 / 0.60 / 0.50 at rank-correlation 1.0 / 0.96 / 0.86 / 0.76). The 2026-only oracle is higher (0.79), so I do not claim 75% is impossible there, only that no information I could find predicts it. Nothing tried (E2-E11) beat "championship standings" by more than noise.
+Podium accuracy = mean over races of |predicted top-3 ∩ actual top-3| / 3 (defined before any model was run; E0, E7).
 
 ## Run it
 ```
@@ -77,3 +77,10 @@ Reason, measured (E10): a team's circuit-specific deviation repeats year to year
 - 2026 sample is 19 races. Entry list for an upcoming race is assumed equal to the last race's line-up.
 - No weather forecast, tyre allocation, strategy or reliability-by-part data. Race pace is a proxy (fuel/tyre/traffic effects not removed).
 - The oracle bound uses clean-lap median pace, an imperfect pace measure, so the true ceiling is somewhat uncertain — but not 20 points higher.
+
+## Rounds 5–8 (E93–E159): error attribution, new data avenues, outside documents, final look
+- **Error attribution (E93, 89 races):** 61% of podium errors are race-pace-order mistakes, 39% execution/luck (strategy, safety car, start, retirement). Podiums reached without podium pace: median grid 4 → finish 3.
+- **Every structured data avenue** in `RESEARCH_AVENUES.md` was gated and closed: clean-air/joint pace corrections, tyre degradation, cause-specific mechanical hazards (Jolpica names zero mechanical failures 2023–25), multi-stint X/Y telemetry profiles (repeatable identity signal, no forecast value), passing conversion, strategy exposure, forecast-grid distributions, portable teammate pace, pre-season testing (the one real early-round signal: team-order Spearman 0.75 → 0.81; adopted for rounds 1–3), reset-year pace blends (E154), team execution residual (E155: persistence 0.07 after strength adjustment).
+- **Outside documents (user lifted the restriction, then excluded all betting/market sources):** FIA decision documents are enumerable with exact publish times, but almost everything useful is published during the target weekend; an oracle with *perfect* grid-penalty knowledge changes pre-weekend podium selection by exactly 0.000 (E158), so the PU/penalty route is closed without scraping. Market prices (E132/E147/E149) are recorded as history only and are not used.
+- **Yardstick notes:** per-driver "on the podium?" accuracy is 0.88 vs 0.85 for always-no; most public "80–90% podium accuracy" claims are this metric. Smallest detectable gain at 131 races ≈ 4.5 points (E60). Two leaks were caught and fixed by the audit habit (E30/E31 harness default; E132 cutoff timing).
+- **Probabilities (re-scope target):** the learned logit beats a standings-rank prior on podium log-loss (2026: 0.239 vs 0.355) and Brier on dev (E64); this is real but is a different goal from 75% overlap.

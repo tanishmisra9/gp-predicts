@@ -1319,3 +1319,21 @@ The user ruled out **all betting involvement** (bookmaker/exchange odds, predict
 
 Paired outer `ens_pen` minus `ens` = **0.000** (95% CI [-0.014,+0.014]); inner +0.005 ([-0.011,+0.022]); outer demotion rule -0.014 ([-0.033,+0.005]). So even **perfect knowledge of grid penalties** does not improve pre-weekend podium selection, and the real FIA-derived signal could only forecast penalties with error.
 **Verdict: FIA PU/penalty route closed.** No scraping or feature build is justified. Remaining FIA items (car-presentation specification changes, technical directives) are unstructured, published on the weekend, and have no structured historical measure of performance effect; they are not testable as an analytical feature under the cutoff.
+
+### E159 — FINAL pre-weekend 2026 look (single, registered before running; user approved 2026-11-07)
+
+**Candidate, frozen before the run:** `ens` = rank-avg(standings, logit C=0.03 hl=100) on history-only columns, with the E156 rule for rounds 1–3 only (0.75 × rank(`ens`) + 0.25 × testing strength from 2026 pre-season testing, missing → 0.5). Rounds 4+ = `ens` unchanged. Train on all strictly earlier races from 2019 (same as E8). Data: committed `data/results.csv` (2026 rounds 1–19, as in E8; no refresh). Prior 2026 exposure: E6, E8, E86, E93 (and the E8 number 0.544 is known). Reported on all 19 races: strict overlap for candidate, `ens`, standings, shuffled-label null; paired bootstrap candidate vs `ens` and vs standings; secondaries (winner, ≥2 of 3, top-5 cover); and podium Brier/log-loss for the logit vs a standings-rank prior (re-scope target (b)). Post-qualifying 2026 (re-scope target (a)) is **not** re-run: E6's 0.649 vs grid 0.614 (+0.035, CI [0.000,+0.088]) stands. Nothing is tuned after this run.
+
+**Result (E159, final; 19 races, 2026 R1–19; 11 teams had 2026 testing data):**
+
+| 2026 pre-weekend | candidate | `ens` | standings | shuffled null |
+|---|---:|---:|---:|---:|
+| **strict podium overlap** | **0.561** | 0.544 | 0.526 | 0.228 |
+| winner | 0.368 | 0.368 | 0.368 | 0.053 |
+| ndcg@3 | 0.596 | 0.579 | 0.559 | 0.194 |
+| exact podium set | 0.053 | 0.053 | 0.053 | 0.053 |
+| top-5 cover / top-10 / pairwise | .663 / .779 / .773 | .663 / .779 / .771 | .663 / .758 / .755 | .379 / .563 / .583 |
+
+Candidate minus `ens` +0.018 (95% CI [0.000,+0.053]); candidate minus standings +0.035 ([0.000,+0.088]); `ens` minus standings +0.018 ([-0.035,+0.070]). ≥2-of-3 in 63.2% of races; races at ≥0.75: **1 of 19**. Per round: .33 .67 .67 .33 .33 .67 .67 .67 .67 .33 .33 .67 .67 .33 .33 .67 .67 .67 1.0.
+Re-scope (b), podium probabilities on 2026: logit Brier **0.08081** / log-loss **0.23882** vs standings-rank prior 0.08331 / 0.35543; race-paired Brier difference -0.0025 (CI [-0.0077,+0.0029]): log-loss clearly better, Brier not resolvable at 19 races.
+**Verdict: 75% strict podium overlap is NOT reached (final: 0.561 pre-weekend; 0.649 post-qualifying from E6).** The frozen candidate is the deliverable. No further 2026 looks; no tuning. Research on the 0.750 pre-weekend goal is closed with this entry.

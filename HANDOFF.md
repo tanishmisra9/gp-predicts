@@ -126,7 +126,11 @@ Options the evidence supports: (i) a probabilistic target (podium Brier / log-lo
 - `results/` — generated summaries. `RESEARCH_AVENUES.md` — per-avenue status with E-number updates.
 - Env: `.venv` Python 3.12, `requirements.txt` pinned. FastF1 ≥ 3.9 needs F1 credentials via `scripts_run_ff1.sh`; Mexico 2026 race laps may still be unloadable (E94 note).
 
-## 9. Status at handoff (updated 2026-11-07)
+## 9. Status at handoff (updated 2026-11-07, after E159)
+
+**The single 2026 look has been SPENT (E159): candidate 0.561, `ens` 0.544, standings 0.526. Do not take another. The 0.750 pre-weekend goal is closed; remaining work is reporting, not research.**
+
+_Older text:_
 
 Research is **paused pending the user's decision on §6 items 2–4**. Last logged experiment: **E155**; start at E156. Frozen deliverable is still `ens` (E8). Two commits this session (`60e5163`, `cf2bd2e`) are local and unpushed.
 
