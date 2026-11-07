@@ -1264,3 +1264,18 @@ The new `prior_pass` table agrees **exactly** with E152's independent opportunit
 
 **Result (E154):** a first run scored `pace3` ≈ 0.00 podium everywhere because my script passed the pace gap with the wrong sign (this harness ranks LOWER score as better). The label-sanity pattern (a model scoring ~0 rather than ~0.17) exposed it; fixed in `experiments/r1_reset_blend.py` and rerun. Strict podium overlap on rounds 1–10 (10 races/season), standings / `ens` / `blend` / `ens_pace`: 2020 .667/.700/.700/.733; 2021 .567/.633/.600/.600; **2022 .500/.500/.533/.500**; 2023 .667/.633/.567/.633; 2024 .633/.633/.600/.633; 2025 .667/.667/.700/.700. 2022 R1–10 `blend` minus standings = **+0.033** (CI [0.000,+0.100]); `ens_pace` 0.000 ([-0.100,+0.067]). The non-reset pooled R1–10 placebo gave `blend` -0.007 ([-0.047,+0.033]) and `ens_pace` +0.020 ([-0.020,+0.060]); 2020 and 2021 show the same size of lift as 2022, so it is not specific to the reset. Rounds 11+ show no consistent pattern.
 **Verdict: gate failed; stop R1 in dev data.** One extra correct slot in 10 races is inside noise and not reset-specific. This does not test 2026 (restricted), where E8 still shows a rising curve; no 2026 look was taken.
+
+### E155 — Does a team's execution residual persist? (R2 persistence gate, ad hoc diagnostic; stop rule fixed in HANDOFF.md before running: stop if persistence < 0.15)
+
+**Measure:** per team-race, mean over its cars of (true race-pace rank − official finishing order), so positive = finished better than pace rank (strategy, safety-car, start and attrition luck, E93's 39% class). Data: 2019–25 `y_pace`/`order` from the feature table; no podium model was built and no 2026 row was read. This is a past-only persistence test, not a new selector.
+
+| persistence test | corr | n |
+|---|---:|---:|
+| team-race residual vs mean of its previous 10 races (≥5 required) | **+0.082** (Spearman +0.073) | 1,428 |
+| per-season (2019–25) | +0.12, -0.02, +0.15, +0.15, -0.02, +0.09, +0.05 | 159–239 |
+| half-season team means, raw | +0.389 | 70 |
+| cross-season team means, raw | +0.305 | 55 |
+| half-season team means, **strength-adjusted** | **+0.074** | 70 |
+
+The raw half- and cross-season correlations are a **confound**, not skill: the residual correlates +0.58 with the team's mean pace rank (fast cars systematically finish below their clean-lap pace rank, slow cars above it), so any team-strength persistence shows through. Regressing the residual on pace rank in each half leaves +0.074. The race-level 0.082 is below the pre-stated 0.15 stop line.
+**Verdict: stop R2.** There is no repeatable team-level execution edge beyond team strength, consistent with E93 ("mostly luck near the front") and E9/E11. No feature was built; no leak test needed.
