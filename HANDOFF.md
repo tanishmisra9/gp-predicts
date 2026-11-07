@@ -199,7 +199,7 @@ Honest odds: a typical season likely lands 0.70–0.73; 0.75 needs a season like
 |---|---|---|---|
 | P1 post-quali ensembles | E160 | ens(grid,standings,logit) 0.667 vs logit 0.691 | failed; `compact_logit` stays the base |
 | P2 corrected FP long-run pace | E161 | Spearman w/ true pace 0.03–0.29 vs quali 0.55–0.67 | failed decisively |
-| P2b FP best lap as feature | E162 | +0.005 [−0.011,+0.021] on 2020/23/25 | not met; rerun pending 2021/22/24 FP download (background job) |
+| P2b FP best lap as feature | E162 | six seasons: +0.0025 [0.000,+0.008] (one pick changed in 131 races); rank-average −0.051 [−0.087,−0.018] | gate not met; closed |
 | P3 sprint result | E164 | −0.028 on 24 sprint races | failed |
 | P4 grid × overtaking | — | already in COMPACT (`grid_x_corr`) | n/a |
 | P5 retirement-aware | E163 | −0.005 outer | failed |
