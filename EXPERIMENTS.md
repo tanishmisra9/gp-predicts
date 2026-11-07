@@ -1301,3 +1301,21 @@ The raw half- and cross-season correlations are a **confound**, not skill: the r
 
 ### Scope update (2026-11-07, user): no betting sites, markets or tipsters
 The user ruled out **all betting involvement** (bookmaker/exchange odds, prediction markets, betting-site tips) and asked that the work stay purely analytical/ML. This closes E157's market and tipster options, and the already-scheduled Manifold captures (E148) are no longer a candidate input. No experiment was run; the 0.750 gate and the frozen model are unchanged. Remaining outside-document candidates (X1–X6 in RESEARCH_AVENUES.md: FIA component-usage and penalty notices, car-presentation submissions) are non-betting and structured, and remain the only R5 route within this constraint.
+
+### E158 — FIA-notice gate, part 1: oracle value of knowing grid penalties in advance (registered before running; analytical diagnostic)
+
+**Why:** the FIA documents that exist before the cutoff (previous event's cumulative "PU elements used per driver", prior penalties) can at best forecast *grid penalties* (E157 audit below). If **perfect advance knowledge of each driver's true grid penalty** does not lift pre-weekend strict podium overlap, no FIA-derived PU/penalty feature can, and the route closes without scraping anything. **Oracle, not a model:** `orc_pen = max(grid - qualifying position, 0)` from the target weekend (uses post-hoc information, like E22), added to the frozen history feature set of the logit and of the `ens` standings+logit rank average; 2020–25, inner/outer, paired against `ens`, plus the count of races where any driver ranked top-6 by `ens` carries a penalty ≥3 places. No 2026 rows.
+
+**FIA document audit (E157 follow-up, fia.com decision-document pages for the 2024 season):** every event has an enumerable document list ("Doc N - Title", "Published on dd.mm.yy hh:mm CET"), so exact cutoff enforcement is possible, and the PDFs follow a predictable address pattern (`<year> <GP> Grand Prix - PU elements used per driver up to now.pdf`, `... - New PU elements for this Competition.pdf`). Admissible under the Thursday 00:00 UTC cutoff is only the **previous** event's cumulative PU report and earlier penalties; "Car Presentation Submissions" (Abu Dhabi 2024: Friday 06.12 07:57 CET), "New PU elements for this Competition" (Friday 11:32 CET, after FP1 started) and the provisional/final grids are published during the target weekend and are inadmissible. No scraper was written.
+
+**Result (E158, oracle):** perfect advance knowledge of each driver's true grid penalty (`grid - qualifying position`, 38 of 131 dev races have a top-6-ranked driver penalised ≥3 places):
+
+| strict podium overlap | inner 2020–22 | outer 2023–25 |
+|---|---:|---:|
+| `ens` | 0.6284 | 0.5857 |
+| `ens` with oracle penalty as logit feature | 0.6339 | 0.5857 |
+| logit / logit + oracle penalty | 0.6393 / 0.6230 | 0.5571 / 0.5476 |
+| `ens` with oracle penalty demotion (1/20 rank per lost place, fixed) | 0.6120 | 0.5714 |
+
+Paired outer `ens_pen` minus `ens` = **0.000** (95% CI [-0.014,+0.014]); inner +0.005 ([-0.011,+0.022]); outer demotion rule -0.014 ([-0.033,+0.005]). So even **perfect knowledge of grid penalties** does not improve pre-weekend podium selection, and the real FIA-derived signal could only forecast penalties with error.
+**Verdict: FIA PU/penalty route closed.** No scraping or feature build is justified. Remaining FIA items (car-presentation specification changes, technical directives) are unstructured, published on the weekend, and have no structured historical measure of performance effect; they are not testable as an analytical feature under the cutoff.
