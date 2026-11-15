@@ -1,4 +1,8 @@
-# gp-predicts — F1 podium predictor (walk-forward, season-cycle evaluated)
+# GP Predicts
+
+*F1 podium predictor, evaluated walk-forward over season cycles.*
+
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python](https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white) [![CI](https://github.com/tanishmisra9/gp-predicts/actions/workflows/ci.yml/badge.svg)](https://github.com/tanishmisra9/gp-predicts/actions/workflows/ci.yml)
 
 **Status: the 75% podium target is NOT reached.** For the "no weekend data" setting the best result is 54-58%; a pace-based ceiling (a *perfect* race-pace forecast) is 74.6%, and my pace forecasts reach rho~0.72, far from perfect.
 
