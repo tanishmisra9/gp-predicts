@@ -11,16 +11,16 @@ from f1.data import DATA, load_results
 from f1.features import build_features, pre_weekend_cols
 
 
-def win_score(tr, te, F, shuffled=False):
+def win_score(tr, te, F, shuffled=False, seed=168, hl=100):
     y = tr.win.to_numpy().copy()
     if shuffled:
         y[:] = 0
-        rng = np.random.default_rng(168)
+        rng = np.random.default_rng(seed)
         for indices in tr.groupby("k", sort=True).indices.values():
             y[rng.choice(indices)] = 1
         assert y.sum() == tr.k.nunique()
     model = make_pipeline(SimpleImputer(strategy="median"), StandardScaler(), LogisticRegression(C=0.03, max_iter=500))
-    model.fit(tr[F], y, logisticregression__sample_weight=W._w(tr, 100))
+    model.fit(tr[F], y, logisticregression__sample_weight=W._w(tr, hl))
     return -model.predict_proba(te[F])[:, 1]
 
 

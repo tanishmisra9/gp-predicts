@@ -1,7 +1,8 @@
-# gp-predicts — F1 podium predictor (walk-forward, season-cycle evaluated)
+# gp-predicts — F1 race predictor (walk-forward, season-cycle evaluated)
 
-**Status: the 75% podium target is NOT reached. Research closed at E159 (159 experiments).**
-Final pre-weekend result on held-out 2026 (19 races): **0.561** strict podium overlap, vs championship standings 0.526 and a shuffled-label null 0.228. Post-qualifying: 0.649 vs grid 0.614. Measured ceilings: a *perfect* race-pace forecast gives 0.746 and a *perfect* team finishing order 0.743 on 2022–25, so 75% sits above every oracle that could be built from pre-race information. `HANDOFF.md` has the full assessment; `EXPERIMENTS.md` the log.
+**Current objective (2026-11-16): maximize exact pre-weekend winner accuracy, accepting lower second/third-place accuracy. Research is active.** Strict podium overlap remains a secondary metric. E168–E173 tested direct winner labels, race-conditional likelihood, team/driver factorization, explicit win history, boosted trees, and faster training recency. No candidate passed the paired improvement gate: outer 2023–25 standings and frozen `ens` hit **32/70 winners (45.7%)**; the best observed tested variants hit **33/70 (47.1%)**, an unresolved one-race difference on repeatedly inspected development data. The production predictor is unchanged; no new 2026 evaluation was run. Run the experiment modules individually, e.g. `.venv/bin/python -m experiments.e169_choice_winner`; E170–E174 use E169's saved baseline artifacts, and E172 also uses E171's metrics.
+
+**Original 75% podium target: not reached; final evaluation logged in E159.** Previously evaluated 2026 (19 races): **0.561** strict podium overlap, vs championship standings 0.526 and a shuffled-label null 0.228. Post-qualifying: 0.649 vs grid 0.614. These 2026 races have been inspected repeatedly and are restricted during further development. Hindsight pace and team-order selectors are diagnostic measurements, not proven ceilings; E166's combined true pace/retirers rule reaches 0.757 outer overlap. `HANDOFF.md` records current direction; `EXPERIMENTS.md` contains full results, including negatives.
 
 | setting | held-out 2026 podium accuracy | baseline | dev 2023-25 |
 |---|---|---|---|
