@@ -1390,3 +1390,23 @@ Side finding (not pre-registered, reported for completeness): rank-average(`q_ga
 
 **Final result (E162, all six seasons 2020–25, 131 races; FP coverage 94–100% per season):** post-quali strict overlap, `compact_logit` / `logit_fp` / `grid`: 2020 .686/.686/.686; 2021 .697/.697/.697; 2022 .667/.667/.636; 2023 .667/.667/.636; 2024 .667/.667/.667; 2025 .736/**.750**/.750. Pooled 0.687 / **0.690** / 0.679; rank-avg(logit, fp best) 0.636; FP best alone 0.519. Paired `logit_fp` − `compact_logit` **+0.0025 [0.000,+0.008]** (outer +0.0048 [0.000,+0.014]); rank-average variant −0.051 [−0.087,−0.018].
 **Verdict: gate not met.** The feature changes one pick in 131 races (2025), is never negative, and is far below the ~4.5-pt detectability threshold; adding practice pace by averaging ranks hurts significantly. Practice pace is closed as a podium input, pre-weekend (E4, E161) and post-qualifying (E162). The `logit_fp` variant is not promoted.
+
+### E168 — Dedicated pre-weekend winner model (registered before running; one experiment, then pause)
+
+**New goal:** maximize exact winner hit rate, accepting lower second/third-place accuracy. Strict podium overlap remains a reported secondary metric. No target-weekend inputs, outside documents, betting sources, or Kalshi API.
+
+**Fixed test:** use the existing pre-weekend feature set and chronological 2019+ training schedule. Compare one logistic classifier trained on `win` (C=0.03, 100-race half-life, matching the frozen podium logit) with plain standings and frozen `ens` = equal rank-average(standings, podium logit). Also train a same-specification null classifier with one winner label randomly assigned per past race (fixed seed, stable across forecasts). Predict one exact winner per race by lowest score, with driver-name tie-break, in inner 2020–22 and outer 2023–25. Report winner counts/rates first, strict podium overlap, per-season winner counts, and race-paired bootstrap intervals versus both references. Do not inspect or score 2026. **Gate:** promote only if winner accuracy beats both standings and `ens` on the outer split with paired 95% intervals excluding zero, and the inner effect is nonnegative. The outer seasons have been repeatedly inspected, so even a passed gate would be provisional. If the gate fails, retain the frozen predictor. Pause research after logging and pushing this batch, as requested.
+
+**Result (E168):** exact winner hits, with strict podium overlap in parentheses:
+
+| model | inner 2020–22, 61 races | outer 2023–25, 70 races |
+|---|---:|---:|
+| dedicated `win_logit` | **32/61 = 0.525** (0.639) | **32/70 = 0.457** (0.562) |
+| plain standings | 29/61 = 0.475 (0.607) | **32/70 = 0.457** (0.590) |
+| frozen `ens` | 30/61 = 0.492 (0.628) | **32/70 = 0.457** (0.586) |
+| podium logit alone | 32/61 = 0.525 (0.639) | **32/70 = 0.457** (0.557) |
+| shuffled-winner null | 5/61 = 0.082 (0.137) | 4/70 = 0.057 (0.110) |
+
+Dedicated-model winner hits by season 2020–25: **11, 8, 13, 18, 8, 6**; standings: **9, 8, 12, 19, 9, 4**. Race-paired `win_logit` minus standings: inner **+0.049** (95% CI [-0.066,+0.164]), outer **0.000** ([-0.086,+0.071]); versus `ens`: inner **+0.033** ([-0.049,+0.115]), outer **0.000** ([-0.057,+0.057]). The outer sample cannot resolve modest gains, but there is no observed gain to promote. The independent top-score/true-winner count check matched the harness exactly. Standard no-leak, pre-weekend scramble, profile-leak, guard, and metric tests passed; no new feature or source was introduced. Only 2020–25 were scored; 2026 was not evaluated.
+
+**Verdict: winner gate failed.** Training directly on winners did not improve outer exact-winner accuracy over standings or the frozen ensemble, while it reduced strict podium overlap. Keep the frozen predictor. Stop after E168 and pause the research goal per the user's instruction; do not start E169 without a resume request.
