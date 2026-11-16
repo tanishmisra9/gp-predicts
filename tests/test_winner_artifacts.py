@@ -5,7 +5,7 @@ import pandas as pd
 
 def test_saved_rankings():
     truth = pd.read_csv("data/results.csv").loc[lambda d: d.season.between(2020, 2025), ["season", "round", "driver", "order"]]
-    for experiment in (169, 170, 171, 172, 173, 175, 176):
+    for experiment in (169, 170, 171, 172, 173, 175, 176, 177):
         P = pd.read_csv(f"results/e{experiment}_predictions.csv", float_precision="round_trip")
         R = pd.read_csv(f"results/e{experiment}_per_race.csv")
         assert P.season.max() == 2025
