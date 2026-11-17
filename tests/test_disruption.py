@@ -1,6 +1,12 @@
 """E205 source windows and strictly earlier team aggregation."""
 import numpy as np
 import pandas as pd
+import contextlib
+import io
+import json
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
 
 from experiments.e205_disruption_winner import NEW,add_history,disruptions
 from tests.test_warmup import fixture
@@ -39,6 +45,30 @@ def test_source_history():
     empty=add_history(X,source.iloc[:0]); assert empty[NEW].eq(.5).all().all()
 
 
+def test_unloaded_session():
+    import fastf1
+    from fastf1.exceptions import DataNotLoadedError
+    import experiments.e205_disruption_winner as experiment
+    entries=pd.DataFrame([dict(season=s,round=r,code='a') for s,n in [(2018,21),(2019,21),(2020,17),(2021,22),(2022,22)] for r in range(1,n+1)])
+    class Session:
+        def __init__(self,missing):
+            self.missing=missing
+        @property
+        def laps(self):
+            if self.missing:
+                raise DataNotLoadedError('synthetic unloaded cache')
+            return fixture()
+    with tempfile.TemporaryDirectory() as directory:
+        root=Path(directory); (root/'results').mkdir()
+        with patch.object(experiment,'ROOT',root),patch.object(experiment,'load_results',return_value=entries),patch.object(experiment,'cached_session',side_effect=lambda _,s,r:Session(s==2018 and r==14)),patch.object(fastf1.Cache,'offline_mode'),contextlib.redirect_stdout(io.StringIO()):
+            source=experiment.extract()
+        summary=json.loads((root/'results/e205_source_summary.json').read_text())
+        assert len(source)==102 and summary['coverage_gate']
+        missing=[r for r in summary['events'] if not r['available']]
+        assert len(missing)==1 and missing[0]['error_type']=='DataNotLoadedError'
+
+
 if __name__=='__main__':
     test_source_history()
+    test_unloaded_session()
     print('disruption windows, neutralization/stint/tyre exclusions, metadata and history timing PASS')
