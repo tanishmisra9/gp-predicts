@@ -18,14 +18,14 @@ def numeric_gap(value):
     return value if np.isfinite(value) else np.nan
 
 
-def prepare_stream(stream,identities):
+def prepare_stream(stream,identities,field='GapToLeader'):
     assert not identities.DriverNumber.duplicated().any() and not identities.Driver.duplicated().any()
     source=stream.copy(); source['number']=source.Driver.astype(str)
     mapping=identities.assign(DriverNumber=identities.DriverNumber.astype(str)).set_index('DriverNumber').Driver
     source['Driver']=source.number.map(mapping)
     assert source.Driver.notna().all() and source.Time.notna().all()
     source=source.drop_duplicates(['Driver','Time'],keep='last').sort_values(['Driver','Time'],kind='stable').reset_index(drop=True)
-    source['gap']=source.GapToLeader.map(numeric_gap)
+    source['gap']=source[field].map(numeric_gap)
     source['observed']=pd.Series(pd.NaT,index=source.index,dtype='timedelta64[ns]')
     for _,g in source.groupby('Driver',sort=True):
         previous=None; observed=pd.NaT
