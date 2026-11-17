@@ -1,6 +1,7 @@
 import sys, glob, itertools; sys.path.insert(0, ".")
 from experiments.common import *
 from scipy.stats import spearmanr
+from experiments.e188_causal_fusion import freeze_scales
 X = table(); BASE = pre_weekend_cols(X); res = load_results(); pace = pd.read_csv(DATA / "racepace_ff1.csv")
 # ======================= ITEM 2: energy signature audit
 en = pd.concat([pd.read_csv(f) for f in glob.glob("data/parts/energy_*.csv")]).drop_duplicates(["season", "round", "code"])
@@ -34,6 +35,7 @@ W.MODELS["I1_static_descriptors_lgb"] = lambda tr, te, F, **kw: W.m_lgb_pod(tr, 
 W.MODELS["I1_static_descriptors_ET_pace"] = lambda tr, te, F, **kw: reg(tr, te, BASE + sd, "y_pace", "et")
 W.MODELS["lgb_base"] = lambda tr, te, F, **kw: W.m_lgb_pod(tr, te, BASE, hl=100)
 W.MODELS["ET_pace_base"] = lambda tr, te, F, **kw: reg(tr, te, BASE, "y_pace", "et")
+# E188: fusion calibration uses 2018 only; historical E99/E100 scores predate repair.
 # ======================= ITEM 3: reliability-weighted latent team strength from FIVE weak indicators (multi-observation Kalman)
 q1 = res.assign(q1gap=lambda d: (d.q1 / d.groupby(["season", "round"]).q1.transform("min") - 1) * 100)[["season", "round", "code", "q1gap", "points"]]
 ses = pd.concat([pd.read_csv(f) for f in glob.glob("data/parts/sessions_*.csv")]); fp = ses[ses.session.isin(["FP1", "FP2", "FP3"])].groupby(["season", "round", "code"]).lr_gap.mean().rename("fp_lr").reset_index()
@@ -43,7 +45,7 @@ A["ptsneg"] = -A.points; A["ordneg"] = A.order
 ind = {"race_pace": "y_pace", "race_pace_fuelcorr": "fcorr_gap", "quali_q1": "q1gap", "fp_longrun": "fp_lr", "points": "ptsneg", "finish_pos": "ordneg"}
 T = {}
 for nm, c in ind.items():
-    t = A.groupby(["k", "season", "team"])[c].mean().reset_index(); t[c] = t[c] - t.groupby("k")[c].transform("mean"); t[c] /= t[c].std(); T[nm] = t.set_index(["k", "team"])[c].to_dict()
+    t = A.groupby(["k", "season", "team"])[c].mean().reset_index(); t[c] = t[c] - t.groupby("k")[c].transform("mean"); t[c] /= freeze_scales(t, [c])[c]; T[nm] = t.set_index(["k", "team"])[c].to_dict()
 teams_by_k = X.groupby("k").team.unique().to_dict(); season_of = X.drop_duplicates("k").set_index("k").season.to_dict()
 def fuse(noise, q=0.03, qs=0.4):
     st, out, prev = {}, [], None

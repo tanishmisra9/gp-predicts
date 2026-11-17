@@ -75,7 +75,7 @@ Every item below tied or lost to plain standings on outer 2023–25. Re-running 
 
 1. **Pre-season testing pace** improves early-round team order: Spearman 0.752 → 0.813 with testing + last-year pace; much stronger in the 2026 regulation reset (0.855–0.882). Podium 0.648 → 0.685 on 18 early races at blend weight 0.25 (E86–E87, underpowered). Affects ~3 of 23 races per season.
 2. **Brier/log-loss** shows the learned logit beats a standings-rank prior on probabilities even though top-3 selection ties (E64). If you must optimize, optimize Brier, not overlap.
-3. **Multi-observation Kalman fusion** of six weak team-strength indicators lifts team-order Spearman 0.727 → 0.740 (E99) but does not reach the podium (E100).
+3. **Multi-observation Kalman fusion:** historical E99/E100 results are timing-invalid because indicator scales use all stored seasons (E188). The reported 0.727 → 0.740 difference is not a certified causal gain. A fixed-2018-scale inner-only winning-team probe is registered, with no weight search.
 4. **Multi-stint X/Y profiles** are the only telemetry with cross-year persistence (see §4). Signal exists; forecast value unproven.
 5. **Clean passing history** passes its Brier gate narrowly (E152) but adds nothing to podium (E153).
 

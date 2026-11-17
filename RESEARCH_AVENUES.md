@@ -1,6 +1,8 @@
 # Research avenues after E100
 
 Written 2026-11-02 after reading all of `EXPERIMENTS.md` (E0–E100) and `README.md`.
+
+**2026-11-16 correction (E188):** E99/E100 fusion figures cited below used full-sample indicator standardization. They are historical timing-invalid evidence, not an established causal forecasting gain. E188 registers a corrected fixed-2018 calibration; no automatic transfer of the old numbers.
 This is a research backlog, not a new experiment result. No model was trained,
 no results were refreshed, and no additional 2026 evaluation was performed.
 
