@@ -1,13 +1,11 @@
 import sys; sys.path.insert(0, ".")
 from experiments.common import *
+from experiments.e187_context_audit import CONTEXT_FEATURES, add_context
 X = table(); BASE = pre_weekend_cols(X); DEV = [2020, 2021, 2022, 2023, 2024, 2025]
 res = load_results()
-# ---- E69 championship context (all from points BEFORE the race)
-X["nrounds"] = X.groupby("season")["round"].transform("max"); X["rounds_left"] = X.nrounds - X["round"]
-X["gap_leader"] = 1 - X.d_season_pts; X["tgap_leader"] = 1 - X.t_season_pts
-second = X.groupby("k").d_season_pts.transform(lambda s: s.nlargest(2).iloc[-1] if s.notna().sum() > 1 else np.nan); X["lead_margin"] = 1 - second
-X["title_live"] = X.gap_leader * 25 / X.rounds_left.clip(lower=1).astype(float)                 # leader gap per race left (title still reachable if small)
-X["lateseason"] = X["round"] / X.nrounds
+# ---- E187 removes final-calendar fields; old E69/E73b scores predate this repair.
+# Championship context below uses only prior points.
+X = add_context(X)
 # ---- E70 rookie / experience, team-prior imputation
 X["d_exp"] = X.sort_values("k").groupby("driver").cumcount(); X["rookie"] = (X.d_exp < 10).astype(float)
 for c in ("d3_order", "d10_order", "d3_q_pos", "d10_q_pos", "d10_pace_gap"):
@@ -21,7 +19,7 @@ X["share_x_form"] = X.d_share.fillna(.5) * X.t10_order.fillna(11)
 # ---- E73 stage-of-season interactions: shrink recent form toward long-run early in a season
 sr = X.season_races.fillna(0); X["w_new"] = sr / (sr + 4)
 X["blend_order"] = X.w_new * X.d3_order.fillna(11) + (1 - X.w_new) * X.d10_order.fillna(11); X["blend_pace"] = X.w_new * X.t3_pace_gap.fillna(1) + (1 - X.w_new) * X.t10_pace_gap.fillna(1)
-blocks = {"E69_championship_context": ["gap_leader", "tgap_leader", "lead_margin", "title_live", "rounds_left", "lateseason"],
+blocks = {"E69_championship_context": CONTEXT_FEATURES,
           "E70_rookie_experience_teamprior": ["d_exp", "rookie", "d3_order_imp", "d10_order_imp", "d3_q_pos_imp", "d10_q_pos_imp", "d10_pace_gap_imp"],
           "E71_calendar_rest": ["gap_days", "b2b"], "E72_within_team_share": ["d_share", "share_x_form"], "E73_season_stage_blend": ["w_new", "blend_order", "blend_pace"]}
 W.MODELS["standings"] = lambda tr, te, F, **kw: (-te.d_season_pts.fillna(0) * 100 + te.d10_order.fillna(11) * 1e-3).values
