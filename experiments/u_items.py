@@ -26,7 +26,8 @@ for i, r in rc.iterrows():
     if len(p): rc.loc[i, ["temp_hist", "rain_hist", "hard_hist"]] = [p.temp_act.mean(), p.rain_act.mean(), p.hard.mean()]
 X = X.merge(rc[["season", "round", "altitude", "temp_hist", "rain_hist", "hard_hist"]], on=["season", "round"], how="left")
 X["alt_hi"] = (X.altitude > 600).astype(float)
-for c in ("t10_order", "d10_order", "t10_pace_gap"): X["alt_x_" + c] = X.alt_hi * X[c].fillna(X[c].median()); X["temp_x_" + c] = (X.temp_hist.fillna(24) - 24) / 8 * X[c].fillna(X[c].median())
+# E189: preserve missing interactions for native/train-only model imputation.
+for c in ("t10_order", "d10_order", "t10_pace_gap"): X["alt_x_" + c] = X.alt_hi * X[c]; X["temp_x_" + c] = (X.temp_hist.fillna(24) - 24) / 8 * X[c]
 sd = ["altitude", "alt_hi", "temp_hist", "rain_hist", "hard_hist"] + [c for c in X if c.startswith(("alt_x_", "temp_x_"))]
 W.MODELS["standings"] = lambda tr, te, F, **kw: (-te.d_season_pts.fillna(0) * 100 + te.d10_order.fillna(11) * 1e-3).values
 W.MODELS["logit"] = lambda tr, te, F, **kw: W.m_logit_pod(tr, te, BASE, C=0.03, hl=100)
