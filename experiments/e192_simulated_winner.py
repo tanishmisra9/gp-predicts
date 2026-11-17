@@ -42,8 +42,9 @@ def probabilities_from_performance(performance):
     return wins/len(valid),podium/len(valid),(wins+.5)/(len(valid)+.5*valid.shape[1]),len(valid)
 
 
-def simulate(tr,te,F,shuffled=False):
-    W.assert_pre_weekend(F+DNF_F)
+def simulate(tr,te,F,shuffled=False,reliability_features=None):
+    risk_features=DNF_F if reliability_features is None else reliability_features
+    W.assert_pre_weekend(F+risk_features)
     assert tr.k.max()<te.k.min()
     train=tr.sort_values(['k','driver']).copy(); current=te.sort_values('driver')
     if shuffled:
@@ -55,8 +56,8 @@ def simulate(tr,te,F,shuffled=False):
     model.fit(pace[F],pace.y_pace,ridge__sample_weight=W._w(pace,100))
     mean=model.predict(current[F])
     retirement=make_pipeline(SimpleImputer(strategy='median'),StandardScaler(),LogisticRegression(C=.1,max_iter=500))
-    retirement.fit(train[DNF_F],train.dnf_y,logisticregression__sample_weight=W._w(train,100))
-    risk=retirement.predict_proba(current[DNF_F])[:,1]
+    retirement.fit(train[risk_features],train.dnf_y,logisticregression__sample_weight=W._w(train,100))
+    risk=retirement.predict_proba(current[risk_features])[:,1]
     rng=np.random.default_rng(192000+int(current.season.iloc[0])*100+int(current['round'].iloc[0]))
     performance=mean+.6*np.std(mean)*rng.standard_normal((4000,len(current)))
     performance[rng.random(performance.shape)<risk]=np.inf
@@ -64,16 +65,16 @@ def simulate(tr,te,F,shuffled=False):
     return current[['season','round','driver']].assign(win_probability=win,podium_probability=podium,smooth_win=smooth,effective_draws=count)
 
 
-def main():
+def main(reliability_builder=add_reliability,reliability_features=DNF_F,experiment=192):
     results=load_results().loc[lambda d:d.season.le(2022)]
     pace=pd.read_csv(DATA/'racepace_ff1.csv').loc[lambda d:d.season.le(2022)]
     X=build_features(results,pace); F=pre_weekend_cols(X)
-    X=add_reliability(X,results).merge(pace[['season','round','code','pace_gap']].rename(columns={'pace_gap':'y_pace'}),on=['season','round','code'],how='left',validate='one_to_one')
+    X=reliability_builder(X,results).merge(pace[['season','round','code','pace_gap']].rename(columns={'pace_gap':'y_pace'}),on=['season','round','code'],how='left',validate='one_to_one')
     rows=[]
     for _,cur in X[X.season.between(2020,2022)].groupby('k',sort=True):
         tr=X[X.k.lt(cur.k.iloc[0])&X.season.ge(2019)]
         for null in (False,True):
-            rows.append(simulate(tr,cur,F,shuffled=null).assign(null=null))
+            rows.append(simulate(tr,cur,F,shuffled=null,reliability_features=reliability_features).assign(null=null))
     simulation=pd.concat(rows,ignore_index=True)
     normal=simulation[~simulation['null']].rename(columns={'win_probability':'prior_mc_win','podium_probability':'prior_mc_podium'})
     randomized=simulation[simulation['null']].rename(columns={'win_probability':'prior_mc_null'})
@@ -105,8 +106,8 @@ def main():
     gate=pivot.mc_win.sum()>=35 and team.mc_win>=team.win_logit and all(intervals[ref][0]>0 and intervals[ref][1][0]>0 for ref in ('win_logit','mc_podium')) and pivot.mc_win.sum()>pivot.mc_null.sum()
     print('INNER GATE',bool(gate),flush=True)
     assert R.groupby('model').size().eq(61).all() and R.season.max()==2022
-    R.to_csv('results/e192_inner_per_race.csv',index=False); P.to_csv('results/e192_inner_predictions.csv',index=False)
-    simulation.to_csv('results/e192_inner_simulation_probabilities.csv',index=False)
+    R.to_csv(f'results/e{experiment}_inner_per_race.csv',index=False); P.to_csv(f'results/e{experiment}_inner_predictions.csv',index=False)
+    simulation.to_csv(f'results/e{experiment}_inner_simulation_probabilities.csv',index=False)
 
 
 if __name__=='__main__':
