@@ -16,6 +16,7 @@ NEW=['prior_restart_gain']
 
 
 def add_history(X,source):
+    source=source.copy(); source['gain']=source.gain.astype(float)
     assert not source.duplicated(['season','round','restart','driver']).any()
     assert np.isfinite(source.gain).all()
     events=source.groupby(['season','round','driver'],sort=True).gain.mean().reset_index().rename(columns={'driver':'code'})
