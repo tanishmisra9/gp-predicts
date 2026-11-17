@@ -1,6 +1,6 @@
 # Research avenues after E100
 
-**Current winner research:** 75% exact pre-weekend winners across all races, with podium overlap secondary. E190 established cache-only start-of-lap traffic measurement feasibility (344 disjoint pairs on three fixed 2019 sessions). E191 independent-repeatability/transfer protocol is registered in EXPERIMENTS.md; no accuracy gain has been shown from this avenue. The original podium-focused backlog below is historical.
+**Current winner research:** 75% exact pre-weekend winners across all races, with podium overlap secondary. E190 established cache-only start-of-lap traffic measurement feasibility (344 disjoint pairs on three fixed 2019 sessions). E191 completed the registered test: enough samples, but split-half correlation .2654 and temporal correlation −.1155 failed the gates; forecast MSE was worse than zero. No winner model or accuracy claim followed, and this fixed formulation is closed without tuning. The original podium-focused backlog below is historical.
 
 **Audit correction (E188, 2026-11-16):** references below to E99/E100 fusion gains are historical and timing-invalid because indicators were scaled with full-sample standard deviations. A repaired 2018-calibrated inner winning-team probe reached 28/61 winners versus E168 32/61 and failed its gate. Do not use the old gain as evidence for a new route.
 
