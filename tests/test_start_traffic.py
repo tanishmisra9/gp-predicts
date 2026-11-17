@@ -10,8 +10,8 @@ def test_start_exposure():
         LapStartTime=pd.to_timedelta([89.,90.,100.,120.],unit='s'),LapTime=pd.to_timedelta([10.]*4,unit='s'),
         LapNumber=[7,2,3,4],Stint=[1]*4,Compound=['HARD']*4,TyreLife=[7.,2.,3.,4.],Position=[2.]*4,
         PitInTime=[pd.NaT]*4,PitOutTime=[pd.NaT]*4,TrackStatus=['1']*4,IsAccurate=[True]*4))
-    x['PitInTime']=pd.to_timedelta(x.PitInTime)
-    x['PitOutTime']=pd.to_timedelta(x.PitOutTime)
+    x['PitInTime']=pd.Series(pd.NaT,index=x.index,dtype='timedelta64[ns]')
+    x['PitOutTime']=pd.Series(pd.NaT,index=x.index,dtype='timedelta64[ns]')
     got=start_exposure(x)
     target=got.Driver.eq('A')&got.LapNumber.eq(3)
     assert got.loc[target,'close'].iloc[0] and np.isclose(got.loc[target,'start_gap'].iloc[0],1.)
