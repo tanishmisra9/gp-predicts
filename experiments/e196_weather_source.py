@@ -22,11 +22,19 @@ def allowed_urls(path):
     return {host+path+'WeatherData.jsonStream' for host in ('https://livetiming.formula1.com','https://livetiming-mirror.fastf1.dev')}
 
 
-def restricted_send(send,allowed):
+def restricted_send(send,allowed,audit=None):
     def wrapped(adapter,request,**kwargs):
         if request.url not in allowed:
             raise RuntimeError('Non-pilot-weather network request forbidden')
-        return send(adapter,request,**kwargs)
+        try:
+            response=send(adapter,request,**kwargs)
+        except Exception as exc:
+            if audit is not None:
+                audit.append(dict(url=request.url,error_type=type(exc).__name__))
+            raise
+        if audit is not None:
+            audit.append(dict(url=request.url,status=int(response.status_code)))
+        return response
     return wrapped
 
 
@@ -36,7 +44,7 @@ def main():
     import f1.ff1  # existing project cache setup only
     reports=[]; samples=[]; aligned=[]
     for season,round_ in PILOT:
-        report=dict(season=season,round=round_,available=False)
+        report=dict(season=season,round=round_,available=False,requests=[])
         try:
             assert season==2019
             fastf1.Cache.offline_mode(True)
@@ -46,7 +54,7 @@ def main():
             fastf1.Cache.offline_mode(False)
             send=requests.adapters.HTTPAdapter.send
             # Disable the adapter's token lookup: test public access without reading credentials.
-            with patch('requests.adapters.HTTPAdapter.send',new=restricted_send(send,allowed)), patch.object(LivetimingAuthAdapter,'_get_token',return_value=None):
+            with patch('requests.adapters.HTTPAdapter.send',new=restricted_send(send,allowed,report['requests'])), patch.object(LivetimingAuthAdapter,'_get_token',return_value=None):
                 session.load(laps=False,telemetry=False,weather=True,messages=False)
             weather=pd.DataFrame(session.weather_data).copy()
             assert len(weather)>0 and weather.Time.notna().all() and not weather.Time.duplicated().any()
