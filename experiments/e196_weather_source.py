@@ -1,5 +1,6 @@
 """E196: bounded historical minute-weather acquisition; no forecast scoring."""
 import json
+from contextlib import nullcontext
 from unittest.mock import patch
 
 import numpy as np
@@ -38,7 +39,7 @@ def restricted_send(send,allowed,audit=None):
     return wrapped
 
 
-def main():
+def main(experiment=196,authenticated=False):
     import fastf1
     from fastf1.internals.f1account import LivetimingAuthAdapter
     import f1.ff1  # existing project cache setup only
@@ -53,8 +54,8 @@ def main():
             allowed=allowed_urls(session.api_path)
             fastf1.Cache.offline_mode(False)
             send=requests.adapters.HTTPAdapter.send
-            # Disable the adapter's token lookup: test public access without reading credentials.
-            with patch('requests.adapters.HTTPAdapter.send',new=restricted_send(send,allowed,report['requests'])), patch.object(LivetimingAuthAdapter,'_get_token',return_value=None):
+            # Public mode disables token lookup; account mode uses the normal adapter after pre-auth.
+            with patch('requests.adapters.HTTPAdapter.send',new=restricted_send(send,allowed,report['requests'])), (nullcontext() if authenticated else patch.object(LivetimingAuthAdapter,'_get_token',return_value=None)):
                 session.load(laps=False,telemetry=False,weather=True,messages=False)
             weather=pd.DataFrame(session.weather_data).copy()
             assert len(weather)>0 and weather.Time.notna().all() and not weather.Time.duplicated().any()
@@ -77,12 +78,12 @@ def main():
         print(json.dumps(report),flush=True)
     gate=all(r['available'] and r['weather_rows']>=100 and r['finite_track_fraction']>=.95 and r['match_fraction']>=.9 for r in reports)
     gate=gate and sum(r.get('dry_track_p95_p05',0)>=3 and r.get('drivers_with_20_dry',0)>=10 for r in reports)>=2
-    result=dict(sessions=reports,gate=bool(gate))
-    (ROOT/'results/e196_weather_source_summary.json').write_text(json.dumps(result,indent=2)+'\n')
+    result=dict(sessions=reports,gate=bool(gate),authenticated=bool(authenticated))
+    (ROOT/f'results/e{experiment}_weather_source_summary.json').write_text(json.dumps(result,indent=2)+'\n')
     if samples:
-        pd.concat(samples,ignore_index=True).to_csv(ROOT/'results/e196_weather_samples.csv',index=False)
+        pd.concat(samples,ignore_index=True).to_csv(ROOT/f'results/e{experiment}_weather_samples.csv',index=False)
     if aligned:
-        pd.concat(aligned,ignore_index=True).to_csv(ROOT/'results/e196_weather_aligned_laps.csv',index=False)
+        pd.concat(aligned,ignore_index=True).to_csv(ROOT/f'results/e{experiment}_weather_aligned_laps.csv',index=False)
     print('FEASIBILITY GATE',bool(gate),flush=True)
 
 
