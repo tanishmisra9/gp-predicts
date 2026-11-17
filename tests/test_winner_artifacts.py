@@ -5,8 +5,9 @@ import pandas as pd
 
 def test_saved_rankings():
     truth = pd.read_csv("data/results.csv").loc[lambda d: d.season.between(2020, 2025), ["season", "round", "driver", "order"]]
-    for experiment in (169, 170, 171, 172, 173, 175, 176, 177, 178, "178_inner", 179, "181_inner", "183_inner", "184_inner", "192_inner", "193_inner"):
+    for experiment in (169, 170, 171, 172, 173, 175, 176, 177, 178, "178_inner", 179, "181_inner", "183_inner", "184_inner", "192_inner", "193_inner", "201_inner"):
         P = pd.read_csv(f"results/e{experiment}_predictions.csv", float_precision="round_trip")
+        P = P[["season", "round", "driver", "model", "score"]]  # always join independent truth below
         R = pd.read_csv(f"results/e{experiment}_per_race.csv")
         assert P.season.max() == (2022 if str(experiment).endswith("inner") else 2025)
         assert not P.duplicated(["season", "round", "model", "driver"]).any()
