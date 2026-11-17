@@ -1,5 +1,7 @@
 # Research avenues after E100
 
+**Audit correction (E188, 2026-11-16):** references below to E99/E100 fusion gains are historical and timing-invalid because indicators were scaled with full-sample standard deviations. A repaired 2018-calibrated inner winning-team probe reached 28/61 winners versus E168 32/61 and failed its gate. Do not use the old gain as evidence for a new route.
+
 Written 2026-11-02 after reading all of `EXPERIMENTS.md` (E0–E100) and `README.md`.
 
 **2026-11-16 correction (E188):** E99/E100 fusion figures cited below used full-sample indicator standardization. They are historical timing-invalid evidence, not an established causal forecasting gain. E188 registers a corrected fixed-2018 calibration; no automatic transfer of the old numbers.
