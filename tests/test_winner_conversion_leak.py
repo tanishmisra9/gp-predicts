@@ -25,6 +25,9 @@ def test_source_cutoff():
     for _,ids in bad[bad['round'].ge(4)].groupby('round').groups.items():
         bad.loc[ids,'order']=rng.permutation(np.arange(1,len(ids)+1))
     altered.loc[altered['round'].ge(4),'pace_gap']=rng.uniform(0,9,altered['round'].ge(4).sum())
+    labels_only=conversion_trace(bad,pace)
+    diagnostic_columns=['base_probability','corrected_probability','null_probability']
+    pd.testing.assert_frame_equal(before.loc[before['round'].eq(4),diagnostic_columns],labels_only.loc[labels_only['round'].eq(4),diagnostic_columns],check_exact=True)
     after=conversion_trace(bad,altered)
     columns=['prior_driver_residual','prior_null_residual']
     target=before['round'].eq(4)
