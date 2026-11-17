@@ -66,10 +66,11 @@ def extract():
         report=dict(season=int(season),round=int(round_),available=False)
         try:
             session=cached_session(fastf1,int(season),int(round_))
+            raw=pd.DataFrame(session.laps)
         except Exception as exc:
             report['error_type']=type(exc).__name__
         else:
-            part=disruptions(pd.DataFrame(session.laps)).assign(season=season,round=round_)
+            part=disruptions(raw).assign(season=season,round=round_)
             parts.append(part); report.update(available=True,drivers=len(part),eligible=int(part.eligible.sum()),disruptions=int(part.disruptions.sum()))
         reports.append(report); print('source',json.dumps(report),flush=True)
     source=pd.concat(parts,ignore_index=True)
