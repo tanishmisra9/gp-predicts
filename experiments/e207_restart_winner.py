@@ -43,6 +43,8 @@ def extract():
         try:
             session=cached_session(fastf1,int(season),int(round_))
             laps=pd.DataFrame(session.laps); flags=pd.DataFrame(session.track_status)
+            if flags.Time.isna().any() or flags.Time.duplicated().any():
+                raise ValueError('Nonunique or missing track-status time keys')
             with patch('requests.adapters.HTTPAdapter.send',side_effect=RuntimeError('restart extraction HTTP forbidden')):
                 _,stream,_=fastf1._api._extended_timing_data(session.api_path)
         except Exception as exc:
