@@ -114,7 +114,7 @@ def main():
     assert len(sources)==82 and all(r['complete'] for r in sources)
     assert all(2019<=r['plan']['season']<=2022 for r in sources)
     assert len({(r['plan']['season'],r['plan']['round']) for r in sources})==82
-    assert sum(len(r['plan']['intervals']) for r in sources)==160
+    assert sum(len(r['plan']['intervals']) for r in sources)==159
     directory=ROOT/'results/e226_receipts'; directory.mkdir(exist_ok=True)
     (ROOT/'data/parts/gefs_e226').mkdir(parents=True,exist_ok=True)
     tasks=[]

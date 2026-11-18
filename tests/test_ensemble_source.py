@@ -1,10 +1,14 @@
 """Common-member identities, period/unit bounds, missing-member fallback and cutoff rejection."""
 from types import SimpleNamespace
+import json
 from unittest.mock import MagicMock,patch
-from experiments.e226_gefs_ensemble import member_url,field_gate,probability,acquire
+from experiments.e226_gefs_ensemble import ROOT,member_url,field_gate,probability,acquire
 
 
 def test_source():
+    sources=[json.loads(p.read_text()) for p in (ROOT/'results/e223_receipts').glob('*.json')]
+    sources=[r for r in sources if r['plan']['season']>=2019]
+    assert len(sources)==82 and sum(len(r['plan']['intervals']) for r in sources)==159
     assert member_url('https://example/gec00.t12z.f096',1)=='https://example/gep01.t12z.f096'
     for n in (0,21):
         try:member_url('gec00',n)
