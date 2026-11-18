@@ -3,6 +3,7 @@ import hashlib
 import json
 import math
 from datetime import datetime, timedelta
+from importlib.metadata import version
 from pathlib import Path
 
 import requests
@@ -105,7 +106,8 @@ def main():
                 row.update(error=type(exc).__name__ + ': ' + str(exc), gate=False)
             rows.append(row)
     result = dict(rows=rows, source_gate=len(rows) == 6 and all(r['gate'] for r in rows),
-                  eccodes_python_version=E.__version__, eccodes_c_version=E.codes_get_api_version(),
+                  eccodes_python_distribution_version=version('eccodes'),
+                  eccodes_module_version=E.__version__, eccodes_c_version=E.codes_get_api_version(),
                   winner_utility_tested=False, race_window_alignment_established=False)
     (ROOT / 'results/e222_gefs_decode.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result, indent=2))

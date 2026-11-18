@@ -278,3 +278,9 @@ Setup2a1ef0d pushed before exactly9anonymousHEADs. All3dates have positive-lengt
 ## E221 GEFS forecast identity passes (2026-11-18; latest)
 
 Setup774c9a3 pushedbefore6GETs: eachE220passingfileRange0–36withIf-Match plus.idx. All3correct37byteGRIB2identificationheaders, expectedWednesday12Zstartforecast/operational/control,NCEPcenter7; unchangedETagandprecutoffLast-Modified. All3indices85records; TMP2m96hourfcstrecord63,APCPsurface90–96houraccfcstrecord69. Savedresults/e221_*. Independentstruct/csv255recordauditandmalformed/ignoredrangeno-bodytests pass. No weatherfieldvalues acquired orwinnerutilitytested. Nextboundeddecoder/coordinate/unit/periodpilot onexact6messages beforefull2018–22coveragefeatureexperiment; needracewindowalignment because90–96hprecipendsSunday12Z. Sourceformatpassdoesnotestablishskill. Goalactive/unmet.
+
+## E222 decoded GEFS pilot passes (2026-11-18; latest)
+
+Setupeac32c3 pushedbeforeinstallation/6GETs. AllsixexactTMP63/APCP69GRIB2messagesfromE221decodevalidunits/parameters/levels/hourperiods/controlrunidentitywithprecutoffreceipts; savedresults/e222_*. TMPforecastC22.95/29.25/25.45239, APCPall0mm/6h (notobservations/skill). Old1°gridsnearestpoint52.49kmaway,2022half-degree21.35km; localrainrepresentativenessrisk. Independenceauditrawhash/structdates/full-gridhaversineindex/valuespasses, butvaluesuse sameecCodesdecoder. Isolated/tmp/gp-predicts-weather-venv installedrequirements-weather.txt; originalsharedmodelenvunchanged. Pythonpackage2.50.1,moduleandC2.50.0; initialversionlabelcorrectedofflineandlogged,noreacquisition. RunisolatedpythonforECC-dependentchecks; ordinary.venvunitgatetestsworkwithoutECC.
+
+Nextmajorstep: pre-registerlocalnominalracetimewindowalignmentandfull2018–22forecastcoverage,thenfixedwinnerweather×pastdriverskilltest. Current90–96hprecipendsSunday12Z,notwholeSpanishracewindow. Fullhistorycoverage/calibration/winnerutilityunverified; no2026outcomes/noactualweathertargetfeatures. Goalactive/unmet.
