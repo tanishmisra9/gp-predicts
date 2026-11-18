@@ -20,7 +20,9 @@ def feature_cols(X):
 
 # columns that carry target-weekend information (grid/quali/sprint/practice/telemetry of THIS weekend) or target-race LABELS
 FORBIDDEN_PRE = {"gridn", "q_pos", "q_gap", "q_gap_best", "grid_pen", "s_grid", "s_order", "y_pace", "y_q", "team_qgap", "tm_qgap", "team_grid",
-                 "grid_rank_in_team", "log_grid", "grid_x_corr", "order", "podium", "win", "lap1gain", "pos_lap1", "led_share", "laps_led"}
+                 "grid_rank_in_team", "log_grid", "grid_x_corr", "order", "podium", "win", "lap1gain", "pos_lap1", "led_share", "laps_led",
+                 "rain_act", "temp_act", "wind_act", "wetrace", "rain_x_skill", "rain_x_form", "rain_x_gridless",
+                 "fc3_rain", "fc3_temp"}  # rolling lead times are not certified against the fixed pre-weekend cutoff
 FORBIDDEN_PRE_PREFIX = ("best_gap_", "top5_gap_", "lr_gap_", "fp_", "team_fp_", "team_best_gap_", "team_top5_gap_", "team_lr_gap_", "cur_")
 
 

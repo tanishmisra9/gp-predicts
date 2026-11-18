@@ -1,5 +1,9 @@
-"""Open-Meteo weather per race -> data/weather.csv. `rain_act` / `temp_act`: ACTUAL race-day (12-17 local) precipitation mm / temperature (archive, an ORACLE for
-pre-weekend use). `fc3_rain`/`fc3_temp`: forecast issued 3 days before (Previous Runs API, only exists from 2024) = legal pre-weekend information."""
+"""Open-Meteo weather per race -> data/weather.csv.
+`rain_act` / `temp_act` / `wind_act` are observed race-day weather: oracle only.
+`fc3_rain` / `fc3_temp` use rolling three-day leads relative to each valid hour,
+not a common publication cutoff. This builder requests them from 2024 onward;
+they are NOT certified pre-weekend inputs and the pre-weekend guard rejects them.
+"""
 import numpy as np
 import pandas as pd
 import requests
