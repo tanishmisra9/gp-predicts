@@ -1,0 +1,1591 @@
+{
+  "plan": {
+    "season": 2021,
+    "round": 9,
+    "date": "2021-07-04",
+    "circuit": "red_bull_ring",
+    "lat": 47.2197,
+    "lon": 14.7647,
+    "zone": "Europe/Vienna",
+    "local_start": "2021-07-04T12:00:00+02:00",
+    "window_start": "2021-07-04T10:00:00+00:00",
+    "window_stop": "2021-07-04T16:00:00+00:00",
+    "cutoff": "2021-07-01T00:00:00+00:00",
+    "initialization": "2021-06-30T12:00:00+00:00",
+    "intervals": [
+      {
+        "end": 96,
+        "overlap_hours": 2.0,
+        "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20210630/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f096"
+      },
+      {
+        "end": 102,
+        "overlap_hours": 4.0,
+        "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20210630/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f102"
+      }
+    ]
+  },
+  "objects": [
+    {
+      "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20210630/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f096",
+      "receipt": {
+        "status": 200,
+        "content_length": "15097354",
+        "last_modified": "Wed, 30 Jun 2021 16:16:32 GMT",
+        "etag": "\"e1d699874491cac284d8e50f43955f85\"",
+        "cutoff": "2021-07-01T00:00:00+00:00",
+        "accessed": "2026-11-18T18:11:26.658044+00:00"
+      },
+      "end": 96,
+      "overlap_hours": 2.0,
+      "fields": {
+        "TMP": {
+          "metadata": {
+            "edition": 2,
+            "discipline": 0,
+            "parameterCategory": 0,
+            "parameterNumber": 0,
+            "shortName": "2t",
+            "units": "K",
+            "typeOfLevel": "heightAboveGround",
+            "level": 2,
+            "dataDate": 20210630,
+            "dataTime": 1200,
+            "validityDate": 20210704,
+            "validityTime": 1200,
+            "startStep": 96,
+            "endStep": 96,
+            "stepUnits": 1,
+            "stepType": "instant",
+            "gridType": "regular_ll",
+            "Ni": 720,
+            "Nj": 361,
+            "iDirectionIncrementInDegrees": 0.5,
+            "jDirectionIncrementInDegrees": 0.5,
+            "packingType": "grid_complex_spatial_differencing",
+            "numberOfMissing": 0,
+            "numberOfDataPoints": 259920
+          },
+          "nearest": {
+            "lat": 47.0,
+            "lon": 15.0,
+            "value": 293.04833984375,
+            "distance": 30.231800444438374,
+            "index": 61950
+          },
+          "value": 19.898339843750023,
+          "path": "data/parts/gefs_e223/2021_09_96_TMP.grib2",
+          "sha256": "18abb48456ddd6a25083f7a8a0c631336b653501af7e876ff82e555e6d7c1ef9",
+          "start": 11760979,
+          "end": 11905823,
+          "last_modified": "Wed, 30 Jun 2021 16:16:32 GMT"
+        },
+        "APCP": {
+          "metadata": {
+            "edition": 2,
+            "discipline": 0,
+            "parameterCategory": 1,
+            "parameterNumber": 8,
+            "shortName": "tp",
+            "units": "kg m**-2",
+            "typeOfLevel": "surface",
+            "level": 0,
+            "dataDate": 20210630,
+            "dataTime": 1200,
+            "validityDate": 20210704,
+            "validityTime": 1200,
+            "startStep": 90,
+            "endStep": 96,
+            "stepUnits": 1,
+            "stepType": "accum",
+            "gridType": "regular_ll",
+            "Ni": 720,
+            "Nj": 361,
+            "iDirectionIncrementInDegrees": 0.5,
+            "jDirectionIncrementInDegrees": 0.5,
+            "packingType": "grid_complex_spatial_differencing",
+            "numberOfMissing": 0,
+            "numberOfDataPoints": 259920
+          },
+          "nearest": {
+            "lat": 47.0,
+            "lon": 15.0,
+            "value": 1.6500000000000001,
+            "distance": 30.231800444438374,
+            "index": 61950
+          },
+          "value": 1.6500000000000001,
+          "path": "data/parts/gefs_e223/2021_09_96_APCP.grib2",
+          "sha256": "484bb44af1a3da6c8cbb462c78f895a3534854e526f1dfe4c5d7e1a392885b22",
+          "start": 12934500,
+          "end": 13099235,
+          "last_modified": "Wed, 30 Jun 2021 16:16:32 GMT"
+        }
+      },
+      "index": [
+        {
+          "number": 1,
+          "offset": 0,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "10 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 2,
+          "offset": 165143,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "10 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 3,
+          "offset": 274775,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "10 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 4,
+          "offset": 309678,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "10 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 5,
+          "offset": 543587,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "10 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 6,
+          "offset": 757265,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "50 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 7,
+          "offset": 929301,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "50 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 8,
+          "offset": 1035643,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "50 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 9,
+          "offset": 1114233,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "50 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 10,
+          "offset": 1337228,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "50 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 11,
+          "offset": 1554041,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "100 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 12,
+          "offset": 1752244,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "100 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 13,
+          "offset": 1858385,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "100 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 14,
+          "offset": 1990341,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "100 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 15,
+          "offset": 2228995,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "100 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 16,
+          "offset": 2454401,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "200 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 17,
+          "offset": 2659555,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "200 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 18,
+          "offset": 2769242,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "200 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 19,
+          "offset": 2979231,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "200 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 20,
+          "offset": 3135260,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "200 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 21,
+          "offset": 3292866,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "250 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 22,
+          "offset": 3502553,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "250 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 23,
+          "offset": 3611701,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "250 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 24,
+          "offset": 3842627,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "250 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 25,
+          "offset": 4004456,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "250 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 26,
+          "offset": 4172202,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "300 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 27,
+          "offset": 4380898,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "300 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 28,
+          "offset": 4548248,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "300 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 29,
+          "offset": 4722188,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "400 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 30,
+          "offset": 4885725,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "400 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 31,
+          "offset": 5055785,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "500 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 32,
+          "offset": 5290275,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "500 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 33,
+          "offset": 5405704,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "500 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 34,
+          "offset": 5641164,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "500 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 35,
+          "offset": 5904415,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "500 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 36,
+          "offset": 6172640,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "700 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 37,
+          "offset": 6420300,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "700 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 38,
+          "offset": 6545970,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "700 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 39,
+          "offset": 6784406,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "700 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 40,
+          "offset": 7047027,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "700 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 41,
+          "offset": 7315221,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 42,
+          "offset": 7572454,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 43,
+          "offset": 7712894,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 44,
+          "offset": 7960515,
+          "initialization": "2021063012",
+          "variable": "VVEL",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 45,
+          "offset": 8272516,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 46,
+          "offset": 8541161,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "850 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 47,
+          "offset": 8815418,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "925 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 48,
+          "offset": 9080253,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "925 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 49,
+          "offset": 9223144,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "925 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 50,
+          "offset": 9460180,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "925 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 51,
+          "offset": 9728357,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "925 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 52,
+          "offset": 10000798,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "1000 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 53,
+          "offset": 10142624,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "1000 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 54,
+          "offset": 10365352,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "1000 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 55,
+          "offset": 10634214,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "1000 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 56,
+          "offset": 10902236,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "1000 mb",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 57,
+          "offset": 11180798,
+          "initialization": "2021063012",
+          "variable": "PRES",
+          "level": "surface",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 58,
+          "offset": 11420526,
+          "initialization": "2021063012",
+          "variable": "TSOIL",
+          "level": "0-0.1 m below ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 59,
+          "offset": 11522354,
+          "initialization": "2021063012",
+          "variable": "SOILW",
+          "level": "0-0.1 m below ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 60,
+          "offset": 11616033,
+          "initialization": "2021063012",
+          "variable": "WEASD",
+          "level": "surface",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 61,
+          "offset": 11675514,
+          "initialization": "2021063012",
+          "variable": "SNOD",
+          "level": "surface",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 62,
+          "offset": 11731776,
+          "initialization": "2021063012",
+          "variable": "ICETK",
+          "level": "surface",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 63,
+          "offset": 11760979,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "2 m above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 64,
+          "offset": 11905824,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "2 m above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 65,
+          "offset": 12122980,
+          "initialization": "2021063012",
+          "variable": "TMAX",
+          "level": "2 m above ground",
+          "period": "90-96 hour max fcst"
+        },
+        {
+          "number": 66,
+          "offset": 12263615,
+          "initialization": "2021063012",
+          "variable": "TMIN",
+          "level": "2 m above ground",
+          "period": "90-96 hour min fcst"
+        },
+        {
+          "number": 67,
+          "offset": 12404707,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "10 m above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 68,
+          "offset": 12671038,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "10 m above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 69,
+          "offset": 12934500,
+          "initialization": "2021063012",
+          "variable": "APCP",
+          "level": "surface",
+          "period": "90-96 hour acc fcst"
+        },
+        {
+          "number": 70,
+          "offset": 13099236,
+          "initialization": "2021063012",
+          "variable": "CSNOW",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 71,
+          "offset": 13106103,
+          "initialization": "2021063012",
+          "variable": "CICEP",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 72,
+          "offset": 13106309,
+          "initialization": "2021063012",
+          "variable": "CFRZR",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 73,
+          "offset": 13106970,
+          "initialization": "2021063012",
+          "variable": "CRAIN",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 74,
+          "offset": 13136443,
+          "initialization": "2021063012",
+          "variable": "LHTFL",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 75,
+          "offset": 13391786,
+          "initialization": "2021063012",
+          "variable": "SHTFL",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 76,
+          "offset": 13635152,
+          "initialization": "2021063012",
+          "variable": "PWAT",
+          "level": "entire atmosphere (considered as a single layer)",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 77,
+          "offset": 13796421,
+          "initialization": "2021063012",
+          "variable": "TCDC",
+          "level": "entire atmosphere",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 78,
+          "offset": 13970190,
+          "initialization": "2021063012",
+          "variable": "DSWRF",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 79,
+          "offset": 14103345,
+          "initialization": "2021063012",
+          "variable": "DLWRF",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 80,
+          "offset": 14264240,
+          "initialization": "2021063012",
+          "variable": "USWRF",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 81,
+          "offset": 14361861,
+          "initialization": "2021063012",
+          "variable": "ULWRF",
+          "level": "surface",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 82,
+          "offset": 14481959,
+          "initialization": "2021063012",
+          "variable": "ULWRF",
+          "level": "top of atmosphere",
+          "period": "90-96 hour ave fcst"
+        },
+        {
+          "number": 83,
+          "offset": 14628812,
+          "initialization": "2021063012",
+          "variable": "CAPE",
+          "level": "180-0 mb above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 84,
+          "offset": 14791363,
+          "initialization": "2021063012",
+          "variable": "CIN",
+          "level": "180-0 mb above ground",
+          "period": "96 hour fcst"
+        },
+        {
+          "number": 85,
+          "offset": 14904083,
+          "initialization": "2021063012",
+          "variable": "PRMSL",
+          "level": "mean sea level",
+          "period": "96 hour fcst"
+        }
+      ]
+    },
+    {
+      "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20210630/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f102",
+      "receipt": {
+        "status": 200,
+        "content_length": "14938177",
+        "last_modified": "Wed, 30 Jun 2021 16:18:44 GMT",
+        "etag": "\"ccfc1521929e723b07a2162018bf5860\"",
+        "cutoff": "2021-07-01T00:00:00+00:00",
+        "accessed": "2026-11-18T18:11:27.759810+00:00"
+      },
+      "end": 102,
+      "overlap_hours": 4.0,
+      "fields": {
+        "TMP": {
+          "metadata": {
+            "edition": 2,
+            "discipline": 0,
+            "parameterCategory": 0,
+            "parameterNumber": 0,
+            "shortName": "2t",
+            "units": "K",
+            "typeOfLevel": "heightAboveGround",
+            "level": 2,
+            "dataDate": 20210630,
+            "dataTime": 1200,
+            "validityDate": 20210704,
+            "validityTime": 1800,
+            "startStep": 102,
+            "endStep": 102,
+            "stepUnits": 1,
+            "stepType": "instant",
+            "gridType": "regular_ll",
+            "Ni": 720,
+            "Nj": 361,
+            "iDirectionIncrementInDegrees": 0.5,
+            "jDirectionIncrementInDegrees": 0.5,
+            "packingType": "grid_complex_spatial_differencing",
+            "numberOfMissing": 0,
+            "numberOfDataPoints": 259920
+          },
+          "nearest": {
+            "lat": 47.0,
+            "lon": 15.0,
+            "value": 289.3609130859375,
+            "distance": 30.231800444438374,
+            "index": 61950
+          },
+          "value": 16.210913085937534,
+          "path": "data/parts/gefs_e223/2021_09_102_TMP.grib2",
+          "sha256": "2fafa107b135b61b55ccade79f6af0dfa1d51e27922e1729aea1a1c7b4cd699c",
+          "start": 11773835,
+          "end": 11917790,
+          "last_modified": "Wed, 30 Jun 2021 16:18:44 GMT"
+        },
+        "APCP": {
+          "metadata": {
+            "edition": 2,
+            "discipline": 0,
+            "parameterCategory": 1,
+            "parameterNumber": 8,
+            "shortName": "tp",
+            "units": "kg m**-2",
+            "typeOfLevel": "surface",
+            "level": 0,
+            "dataDate": 20210630,
+            "dataTime": 1200,
+            "validityDate": 20210704,
+            "validityTime": 1800,
+            "startStep": 96,
+            "endStep": 102,
+            "stepUnits": 1,
+            "stepType": "accum",
+            "gridType": "regular_ll",
+            "Ni": 720,
+            "Nj": 361,
+            "iDirectionIncrementInDegrees": 0.5,
+            "jDirectionIncrementInDegrees": 0.5,
+            "packingType": "grid_complex_spatial_differencing",
+            "numberOfMissing": 0,
+            "numberOfDataPoints": 259920
+          },
+          "nearest": {
+            "lat": 47.0,
+            "lon": 15.0,
+            "value": 5.5,
+            "distance": 30.231800444438374,
+            "index": 61950
+          },
+          "value": 5.5,
+          "path": "data/parts/gefs_e223/2021_09_102_APCP.grib2",
+          "sha256": "7304aeb9da72daa0592d343b83d4321ed383e10beea6dadb60ecd49fb47f2821",
+          "start": 12946171,
+          "end": 13043729,
+          "last_modified": "Wed, 30 Jun 2021 16:18:44 GMT"
+        }
+      },
+      "index": [
+        {
+          "number": 1,
+          "offset": 0,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "10 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 2,
+          "offset": 164391,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "10 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 3,
+          "offset": 273954,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "10 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 4,
+          "offset": 308279,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "10 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 5,
+          "offset": 542680,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "10 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 6,
+          "offset": 756579,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "50 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 7,
+          "offset": 928559,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "50 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 8,
+          "offset": 1035388,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "50 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 9,
+          "offset": 1114290,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "50 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 10,
+          "offset": 1337251,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "50 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 11,
+          "offset": 1553754,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "100 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 12,
+          "offset": 1753017,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "100 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 13,
+          "offset": 1861533,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "100 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 14,
+          "offset": 1993584,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "100 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 15,
+          "offset": 2232619,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "100 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 16,
+          "offset": 2458889,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "200 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 17,
+          "offset": 2663869,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "200 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 18,
+          "offset": 2773443,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "200 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 19,
+          "offset": 2982456,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "200 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 20,
+          "offset": 3138403,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "200 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 21,
+          "offset": 3295764,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "250 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 22,
+          "offset": 3504815,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "250 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 23,
+          "offset": 3613654,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "250 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 24,
+          "offset": 3844309,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "250 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 25,
+          "offset": 4005980,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "250 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 26,
+          "offset": 4173588,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "300 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 27,
+          "offset": 4383910,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "300 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 28,
+          "offset": 4551510,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "300 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 29,
+          "offset": 4725549,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "400 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 30,
+          "offset": 4889774,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "400 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 31,
+          "offset": 5060473,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "500 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 32,
+          "offset": 5295449,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "500 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 33,
+          "offset": 5411166,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "500 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 34,
+          "offset": 5646894,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "500 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 35,
+          "offset": 5914877,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "500 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 36,
+          "offset": 6184794,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "700 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 37,
+          "offset": 6432336,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "700 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 38,
+          "offset": 6557591,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "700 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 39,
+          "offset": 6794564,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "700 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 40,
+          "offset": 7057290,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "700 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 41,
+          "offset": 7326567,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 42,
+          "offset": 7583496,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 43,
+          "offset": 7723525,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 44,
+          "offset": 7969643,
+          "initialization": "2021063012",
+          "variable": "VVEL",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 45,
+          "offset": 8281842,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 46,
+          "offset": 8551946,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "850 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 47,
+          "offset": 8827848,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "925 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 48,
+          "offset": 9092626,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "925 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 49,
+          "offset": 9235885,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "925 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 50,
+          "offset": 9472632,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "925 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 51,
+          "offset": 9741245,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "925 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 52,
+          "offset": 10014939,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "1000 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 53,
+          "offset": 10156254,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "1000 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 54,
+          "offset": 10378668,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "1000 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 55,
+          "offset": 10647284,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "1000 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 56,
+          "offset": 10915672,
+          "initialization": "2021063012",
+          "variable": "HGT",
+          "level": "1000 mb",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 57,
+          "offset": 11194261,
+          "initialization": "2021063012",
+          "variable": "PRES",
+          "level": "surface",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 58,
+          "offset": 11434006,
+          "initialization": "2021063012",
+          "variable": "TSOIL",
+          "level": "0-0.1 m below ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 59,
+          "offset": 11535320,
+          "initialization": "2021063012",
+          "variable": "SOILW",
+          "level": "0-0.1 m below ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 60,
+          "offset": 11629020,
+          "initialization": "2021063012",
+          "variable": "WEASD",
+          "level": "surface",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 61,
+          "offset": 11688546,
+          "initialization": "2021063012",
+          "variable": "SNOD",
+          "level": "surface",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 62,
+          "offset": 11744649,
+          "initialization": "2021063012",
+          "variable": "ICETK",
+          "level": "surface",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 63,
+          "offset": 11773835,
+          "initialization": "2021063012",
+          "variable": "TMP",
+          "level": "2 m above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 64,
+          "offset": 11917791,
+          "initialization": "2021063012",
+          "variable": "RH",
+          "level": "2 m above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 65,
+          "offset": 12135106,
+          "initialization": "2021063012",
+          "variable": "TMAX",
+          "level": "2 m above ground",
+          "period": "96-102 hour max fcst"
+        },
+        {
+          "number": 66,
+          "offset": 12276442,
+          "initialization": "2021063012",
+          "variable": "TMIN",
+          "level": "2 m above ground",
+          "period": "96-102 hour min fcst"
+        },
+        {
+          "number": 67,
+          "offset": 12416652,
+          "initialization": "2021063012",
+          "variable": "UGRD",
+          "level": "10 m above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 68,
+          "offset": 12682331,
+          "initialization": "2021063012",
+          "variable": "VGRD",
+          "level": "10 m above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 69,
+          "offset": 12946171,
+          "initialization": "2021063012",
+          "variable": "APCP",
+          "level": "surface",
+          "period": "96-102 hour acc fcst"
+        },
+        {
+          "number": 70,
+          "offset": 13043730,
+          "initialization": "2021063012",
+          "variable": "CSNOW",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 71,
+          "offset": 13050450,
+          "initialization": "2021063012",
+          "variable": "CICEP",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 72,
+          "offset": 13050697,
+          "initialization": "2021063012",
+          "variable": "CFRZR",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 73,
+          "offset": 13051369,
+          "initialization": "2021063012",
+          "variable": "CRAIN",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 74,
+          "offset": 13080455,
+          "initialization": "2021063012",
+          "variable": "LHTFL",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 75,
+          "offset": 13240338,
+          "initialization": "2021063012",
+          "variable": "SHTFL",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 76,
+          "offset": 13482129,
+          "initialization": "2021063012",
+          "variable": "PWAT",
+          "level": "entire atmosphere (considered as a single layer)",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 77,
+          "offset": 13642774,
+          "initialization": "2021063012",
+          "variable": "TCDC",
+          "level": "entire atmosphere",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 78,
+          "offset": 13816363,
+          "initialization": "2021063012",
+          "variable": "DSWRF",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 79,
+          "offset": 13949645,
+          "initialization": "2021063012",
+          "variable": "DLWRF",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 80,
+          "offset": 14109604,
+          "initialization": "2021063012",
+          "variable": "USWRF",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 81,
+          "offset": 14206690,
+          "initialization": "2021063012",
+          "variable": "ULWRF",
+          "level": "surface",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 82,
+          "offset": 14326689,
+          "initialization": "2021063012",
+          "variable": "ULWRF",
+          "level": "top of atmosphere",
+          "period": "96-102 hour ave fcst"
+        },
+        {
+          "number": 83,
+          "offset": 14474742,
+          "initialization": "2021063012",
+          "variable": "CAPE",
+          "level": "180-0 mb above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 84,
+          "offset": 14637706,
+          "initialization": "2021063012",
+          "variable": "CIN",
+          "level": "180-0 mb above ground",
+          "period": "102 hour fcst"
+        },
+        {
+          "number": 85,
+          "offset": 14746535,
+          "initialization": "2021063012",
+          "variable": "PRMSL",
+          "level": "mean sea level",
+          "period": "102 hour fcst"
+        }
+      ]
+    }
+  ],
+  "complete": true,
+  "forecast_temp_c": 17.440055338541697,
+  "forecast_precip_mm": 4.216666666666667
+}
