@@ -1,5 +1,10 @@
 """Known binary layouts and index boundary failures; no network."""
 from experiments.e221_gefs_headers import identification, inventory
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import MagicMock, patch
+import experiments.e221_gefs_headers as E
 
 
 def test_headers():
@@ -26,6 +31,31 @@ def test_headers():
         raise AssertionError('malformed index accepted')
 
 
+def test_ignored_range_never_reads_body():
+    source = json.loads((E.ROOT / 'results/e220_gefs_metadata.json').read_text())
+    responses = []
+
+    def get(url, **kwargs):
+        assert kwargs['stream'] and not kwargs['allow_redirects'] and kwargs['timeout'] == 20
+        response = MagicMock()
+        response.__enter__.return_value = response
+        response.status_code = 404 if url.endswith('.idx') else 200
+        response.raw.read.side_effect = AssertionError('uncertified body read')
+        responses.append(response)
+        return response
+
+    with TemporaryDirectory() as folder:
+        root = Path(folder); (root / 'results').mkdir()
+        (root / 'results/e220_gefs_metadata.json').write_text(json.dumps(source))
+        with patch.object(E, 'ROOT', root), patch.object(E.requests, 'get', side_effect=get) as request, patch('builtins.print'):
+            E.main()
+        output = json.loads((root / 'results/e221_gefs_headers.json').read_text())
+        assert request.call_count == 6 and not output['source_gate']
+        assert all(not r.raw.read.called for r in responses)
+        assert all(not r['header_gate'] and not r['inventory_gate'] for r in output['rows'])
+
+
 if __name__ == '__main__':
     test_headers()
+    test_ignored_range_never_reads_body()
     print('GEFS identification/index tests ok')
