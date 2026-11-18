@@ -298,3 +298,11 @@ Explicitnewprotocolrecognizesmin_train2019withall82requiredforecastyears2019–2
 Winner32/61=52.459%, identicalall61winnerpickstoE168. Points29/61,ens30/61,nullseed22414/61. Strictpodium119/183=.650273vs117/183=.639344; normalizedlogloss1.573599vs1.564779/Brier.686669vs.683259worsepointestimates. PairedwinnerΔvsE1680[0,0];vspoints+.04918CI[-.06557,.16393],vsens+.03279CI[-.04918,.11475]. Gatefails,noouter/2026look,nopromotion/retuning. Exactformulationclosed;notallpossibleweathermechanismsdisproved.
 
 Fiveguardsandnewsynthetic/realcurrent-futureactualweather+label/lateforecast/prefix/scalar2060rowauditpass;independentartifactmetrics/probabilities/bootstrap/picks/featurespass. Savedresults/e224_*;tests/test_forecast_winner_{leak,real_leak,artifact}. Sharedmodelunchanged. Goal75%exactwinneractive/unmet;bestexploratoryouterstillE17934/70=48.6%,unestablishedvs32/70baseline. Nextavenuecouldbeensembleforecastrainprobability,butmustfirstshownewmeasurementutilityunderfreshfixedprotocolratherthanretuningthisfailedcontrol-responsemodel.
+
+## E225 wet-tyre support/headroom diagnostic (2026-11-18; latest)
+
+Setup6ef3e16beforecachemeasurement.82cached2019–22sessions,80supportedtyrelabels(≥10drivers,≥90%knowncompounds);2021R12/2022R11unsupported=>missing,notdry. Wet=≥5driverswith≥2inter/wetlaps;11/80wet,10/59supportedinner. Control>1mmclassification10errors/59,Brier.169492vsstrictpastBeta(1,9)climatology.147097;gainclim−control−.022395CI[-.101582,.052325],nostatisticalimprovement. Noensembleyet.
+
+FrozenE16832/61winners,sixmissesonobservedwetlabels. Perfectlycorrectingonlythosewithallotherpicksunchangedgivesconditional38/61=62.3%,notamodel/generalceiling. Points/ensconditional37/61. Sourceandprioritygatepass(≥8wet,≥3E168wetmisses,≥3controlclassificationerrors). IndependentrawCounter/chronology/Brier/permutation/bootstrap/conditionalauditsandunitboundariespass. Savedresults/e225_*,tests/test_wet_headroom{,_artifact}. Noauth/newsource/winnerfit/outer/2026look;goalactive/unmet.
+
+Next: preregistercommon21memberensemble(control+01–20;modernhasadditionalmembers),all82nominalwindows2019–22,precutoffpermemberreceipts/identity. Wet-tyreBrierutilitybeforewinnerfit;fixed59supportedinnerlabels,nooutcome-conditionedacquisition;predeclaremissingforecastfallbackandgates. E224control-responsewinnerformulationstaysclosed.
