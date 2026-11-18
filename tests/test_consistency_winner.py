@@ -17,6 +17,7 @@ def test_measurement():
     scaled=stint_spreads(laps((seconds+np.tile([-.3,.3],8))*2))
     np.testing.assert_allclose(varied.spread,scaled.spread,atol=1e-12)
     assert stint_spreads(laps(seconds).iloc[:7]).empty
+    assert len(stint_spreads(laps(seconds).iloc[:8]))==1
     assert stint_spreads(laps(seconds).assign(TrackStatus='4')).empty
     assert stint_spreads(laps(seconds).iloc[:0]).empty
     try:
