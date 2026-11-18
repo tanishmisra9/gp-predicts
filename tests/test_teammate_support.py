@@ -2,7 +2,7 @@
 import numpy as np
 import pandas as pd
 
-from experiments.e215_teammate_support import BASE,EXTRA,forecasts,probability
+from experiments.e215_teammate_support import BASE,EXTRA,call_labels,forecasts,probability
 
 
 def test_support():
@@ -30,6 +30,9 @@ def test_support():
     tr=X.iloc[:2].assign(correct=[1.,0.]); te=X.iloc[2:3]
     np.testing.assert_array_equal(probability(tr,te,BASE+EXTRA),[.5])
     np.testing.assert_array_equal(probability(tr.iloc[:0],te,BASE),[.5])
+    labels=call_labels(pd.DataFrame(dict(prior_gap=[0.,0.,-.2,.2,0.,0.],
+        observed_gap=[-.1,.1,-.1,.1,0.,-.1],history_events=[1,1,1,1,1,0])))
+    np.testing.assert_allclose(labels,[1,0,1,1,np.nan,np.nan])
 
 
 if __name__=='__main__':

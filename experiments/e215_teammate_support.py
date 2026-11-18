@@ -55,6 +55,12 @@ def probability(train,current,cols,shuffled=False):
     return model.predict_proba(current[cols])[:,1]
 
 
+def call_labels(frame):
+    correct=(frame.prior_gap.le(0)==frame.observed_gap.lt(0)).astype(float)
+    correct.loc[frame.observed_gap.isna()|frame.observed_gap.eq(0)|frame.history_events.eq(0)]=np.nan
+    return correct
+
+
 def main():
     results=load_results().loc[lambda d:d.season.between(2018,2022)]
     times=results[['season','round']].drop_duplicates().sort_values(['season','round']).reset_index(drop=True)
@@ -67,8 +73,7 @@ def main():
     source=pd.read_csv(PART).loc[lambda d:d.season.between(2018,2022)&d.code.lt(d.mate)].copy()
     X=forecasts(targets,source)
     X=X.merge(source[KEYS+['gap']].rename(columns={'gap':'observed_gap'}),on=KEYS,how='left',validate='one_to_one')
-    X['correct']=(X.prior_gap.lt(0)==X.observed_gap.lt(0)).astype(float)
-    X.loc[X.observed_gap.isna()|X.observed_gap.eq(0)|X.history_events.eq(0),'correct']=np.nan
+    X['correct']=call_labels(X)
     X.to_csv(ROOT/'results/e215_pair_forecasts.csv',index=False)
     scored=[]
     for k,current in X[X.season.ge(2020)].groupby('k',sort=True):
