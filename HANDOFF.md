@@ -270,3 +270,7 @@ Honest odds: a typical season likely lands 0.70–0.73; 0.75 needs a season like
 ## E219 weather audit (2026-11-18; latest)
 
 Known target actual-weather and uncertified rolling fc3 names now blocked by the shared pre-weekend guard; regression reproduced red before fix and all five standard suites green. Frozen feature selection never included them; no forecast/model/outcome evaluation changed. Open-Meteo rolling previous-day offsets are relative to valid hour, not fixed publication cutoff; single-run historical coverage misses inner2020–22. Next: bounded anonymous NOAA GEFS metadata audit for explicitly older cycles, distinguish initialization from publication, acquire no weather values until source admissibility is established. No external social-media agent verified live. Goal active/unmet.
+
+## E220 GEFS metadata success (2026-11-18; latest)
+
+Setup2a1ef0d pushed before exactly9anonymousHEADs. All3dates have positive-lengthHTTP200forecast objects with S3Last-Modified beforeThursday00Z: 20190508/20200812 legacy12/pgrb2a/gec00.t12z.pgrb2af96 and20220518 modern12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f096. Sixothercandidatepaths404. Supporting availability receipts pass fixed3dategate; no forecastbody/value/model/predictions. Savedresults/e220_gefs_metadata.json; puretests andindependentmock/savedreceipt auditpass. Next: pre-register boundedGRIBheader/reference-time andfieldinventory audit onexact3files; initialization/publication/content/provenance remain distinct. Fullhistoricalcoverage andwinnerutilityunverified. 75%winnergoalactive/unmet.
