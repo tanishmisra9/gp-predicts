@@ -22,6 +22,11 @@ def test_transit():
     pd.testing.assert_frame_equal(acceleration(pd.concat([car,car]).iloc[::-1],origin),acceleration(car,origin))
     changed=car.copy(); changed['Date']=origin+pd.to_timedelta(t*5,unit='s')
     assert acceleration(changed,origin).empty
+    from experiments.e211_braking_signature import team_table
+    empty=acceleration(car.iloc[:0],origin).assign(season=2019,round=1,driver='AAA',lap=2)
+    entries=pd.DataFrame(dict(season=[2019,2019],round=[1,1],team=['T','T'],code=['AAA','BBB']))
+    table=team_table(empty,entries)
+    assert len(table)==1 and table.response.isna().all()
     print('E232 synthetic observed/full-throttle/brake/gap/monotone/empty/duplicate/DRS checks pass')
 
 

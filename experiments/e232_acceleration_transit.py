@@ -34,7 +34,7 @@ def acceleration(car,origin):
                         consumed=j
                 break
             j+=1
-    return pd.DataFrame(rows,columns=COLS)
+    return pd.DataFrame(rows,columns=COLS).astype({'duration':float})
 
 
 def source_segments(laps,cars):
@@ -49,7 +49,7 @@ def source_segments(laps,cars):
         for lap in g.itertuples():
             kept=segments[segments.first_sample.ge(lap.LapStartTime.total_seconds())&segments.last_sample.lt(lap.Time.total_seconds())].copy()
             parts.append(kept.assign(driver=driver,lap=int(lap.LapNumber)))
-    return pd.concat(parts,ignore_index=True) if parts else pd.DataFrame(columns=COLS+['driver','lap'])
+    return (pd.concat(parts,ignore_index=True) if parts else pd.DataFrame(columns=COLS+['driver','lap'])).astype({'duration':float})
 
 
 def main():
