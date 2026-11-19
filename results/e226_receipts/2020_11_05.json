@@ -1,0 +1,183 @@
+{
+  "plan": {
+    "season": 2020,
+    "round": 11,
+    "date": "2020-10-11",
+    "circuit": "nurburgring",
+    "lat": 50.3356,
+    "lon": 6.9475,
+    "zone": "Europe/Berlin",
+    "local_start": "2020-10-11T12:00:00+02:00",
+    "window_start": "2020-10-11T10:00:00+00:00",
+    "window_stop": "2020-10-11T16:00:00+00:00",
+    "cutoff": "2020-10-08T00:00:00+00:00",
+    "initialization": "2020-10-07T12:00:00+00:00",
+    "intervals": [
+      {
+        "end": 96,
+        "overlap_hours": 2.0,
+        "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20201007/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f096"
+      },
+      {
+        "end": 102,
+        "overlap_hours": 4.0,
+        "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20201007/12/atmos/pgrb2ap5/gec00.t12z.pgrb2a.0p50.f102"
+      }
+    ]
+  },
+  "member": 5,
+  "objects": [
+    {
+      "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20201007/12/atmos/pgrb2ap5/gep05.t12z.pgrb2a.0p50.f096",
+      "end": 12878761,
+      "overlap_hours": 2.0,
+      "receipt": {
+        "status": 200,
+        "content_length": "14801751",
+        "last_modified": "Wed, 07 Oct 2020 16:18:08 GMT",
+        "etag": "\"4627aadc1f436c6ee92786f0081dd0ec\"",
+        "cutoff": "2020-10-08T00:00:00+00:00",
+        "accessed": "2026-11-18T13:36:50.556649-05:00"
+      },
+      "index_record": {
+        "number": 69,
+        "offset": 12788806,
+        "initialization": "2020100712",
+        "variable": "APCP",
+        "level": "surface",
+        "period": "90-96 hour acc fcst"
+      },
+      "next_index_record": {
+        "number": 70,
+        "offset": 12878762,
+        "initialization": "2020100712",
+        "variable": "CSNOW",
+        "level": "surface",
+        "period": "90-96 hour ave fcst"
+      },
+      "start": 12788806,
+      "index_sha256": "52bd5e9e33485a9425a3400de78329ec24e6e2ee56a0cf99fad00354fb680d54",
+      "range_response": {
+        "status": 206,
+        "etag": "\"4627aadc1f436c6ee92786f0081dd0ec\"",
+        "content_range": "bytes 12788806-12878761/14801751"
+      },
+      "path": "data/parts/gefs_e226/2020_11_05_96.grib2",
+      "sha256": "adeb806ae0777c3bd2f7a1c3353ab30c5ee8858837ae42765d9efa1b64eedff8",
+      "last_modified": "Wed, 07 Oct 2020 16:18:08 GMT",
+      "metadata": {
+        "edition": 2,
+        "discipline": 0,
+        "parameterCategory": 1,
+        "parameterNumber": 8,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "typeOfLevel": "surface",
+        "level": 0,
+        "dataDate": 20201007,
+        "dataTime": 1200,
+        "validityDate": 20201011,
+        "validityTime": 1200,
+        "startStep": 90,
+        "endStep": 96,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "gridType": "regular_ll",
+        "Ni": 720,
+        "Nj": 361,
+        "iDirectionIncrementInDegrees": 0.5,
+        "jDirectionIncrementInDegrees": 0.5,
+        "packingType": "grid_complex_spatial_differencing",
+        "numberOfMissing": 0,
+        "numberOfDataPoints": 259920,
+        "perturbationNumber": 5,
+        "numberOfForecastsInEnsemble": 30
+      },
+      "nearest": {
+        "lat": 50.5,
+        "lon": 7.0,
+        "value": 0.2,
+        "distance": 18.65572142300588,
+        "index": 56894
+      },
+      "value": 0.2
+    },
+    {
+      "url": "https://noaa-gefs-pds.s3.amazonaws.com/gefs.20201007/12/atmos/pgrb2ap5/gep05.t12z.pgrb2a.0p50.f102",
+      "end": 12715250,
+      "overlap_hours": 4.0,
+      "receipt": {
+        "status": 200,
+        "content_length": "14582305",
+        "last_modified": "Wed, 07 Oct 2020 16:22:53 GMT",
+        "etag": "\"157f7dfe928c665ad8bedba4b5ab8b6b\"",
+        "cutoff": "2020-10-08T00:00:00+00:00",
+        "accessed": "2026-11-18T13:36:51.030205-05:00"
+      },
+      "index_record": {
+        "number": 69,
+        "offset": 12623888,
+        "initialization": "2020100712",
+        "variable": "APCP",
+        "level": "surface",
+        "period": "96-102 hour acc fcst"
+      },
+      "next_index_record": {
+        "number": 70,
+        "offset": 12715251,
+        "initialization": "2020100712",
+        "variable": "CSNOW",
+        "level": "surface",
+        "period": "96-102 hour ave fcst"
+      },
+      "start": 12623888,
+      "index_sha256": "94ddb75609e573b91b5792e2ae186410fcf6741a90068fe286598288d0bbe35d",
+      "range_response": {
+        "status": 206,
+        "etag": "\"157f7dfe928c665ad8bedba4b5ab8b6b\"",
+        "content_range": "bytes 12623888-12715250/14582305"
+      },
+      "path": "data/parts/gefs_e226/2020_11_05_102.grib2",
+      "sha256": "653e2034497db81ffb21bb18f8bc26d62ea2a145c586a52c1db8e7fc01461132",
+      "last_modified": "Wed, 07 Oct 2020 16:22:53 GMT",
+      "metadata": {
+        "edition": 2,
+        "discipline": 0,
+        "parameterCategory": 1,
+        "parameterNumber": 8,
+        "shortName": "tp",
+        "units": "kg m**-2",
+        "typeOfLevel": "surface",
+        "level": 0,
+        "dataDate": 20201007,
+        "dataTime": 1200,
+        "validityDate": 20201011,
+        "validityTime": 1800,
+        "startStep": 96,
+        "endStep": 102,
+        "stepUnits": 1,
+        "stepType": "accum",
+        "gridType": "regular_ll",
+        "Ni": 720,
+        "Nj": 361,
+        "iDirectionIncrementInDegrees": 0.5,
+        "jDirectionIncrementInDegrees": 0.5,
+        "packingType": "grid_complex_spatial_differencing",
+        "numberOfMissing": 0,
+        "numberOfDataPoints": 259920,
+        "perturbationNumber": 5,
+        "numberOfForecastsInEnsemble": 30
+      },
+      "nearest": {
+        "lat": 50.5,
+        "lon": 7.0,
+        "value": 0.4,
+        "distance": 18.65572142300588,
+        "index": 56894
+      },
+      "value": 0.4
+    }
+  ],
+  "complete": true,
+  "forecast_rain": 0.3333333333333333
+}

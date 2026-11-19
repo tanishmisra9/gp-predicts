@@ -1,6 +1,6 @@
 # Research avenues after E100
 
-**Current winner research:** 75% exact pre-weekend winners across all races, with podium overlap secondary. E190 established cache-only start-of-lap traffic measurement feasibility (344 disjoint pairs on three fixed 2019 sessions). E191 completed the registered test: enough samples, but split-half correlation .2654 and temporal correlation −.1155 failed the gates; forecast MSE was worse than zero. No winner model or accuracy claim followed, and this fixed formulation is closed without tuning. The original podium-focused backlog below is historical.
+**Current winner research (2026-11-19):** target remains 75% exact pre-weekend winners across all races, with strict podium overlap secondary. E224's verified forecast × prior driver weather-response model tied E168 at 32/61 inner winners with every winner pick unchanged. E226 acquired all common21-member rainfall forecasts for 82 races; wet-tyre Brier improved in point estimates (.11945 vs control .16949 / climatology .14710), but paired 95% intervals crossed zero against both, failing its frozen measurement gate. No winner fit or outer/2026 evaluation followed. Do not retune that exact weather route. Best exploratory outer winner result remains 34/70 versus 32/70 points/ens, with superiority unestablished. The original podium-focused backlog below is historical.
 
 **Audit correction (E188, 2026-11-16):** references below to E99/E100 fusion gains are historical and timing-invalid because indicators were scaled with full-sample standard deviations. A repaired 2018-calibrated inner winning-team probe reached 28/61 winners versus E168 32/61 and failed its gate. Do not use the old gain as evidence for a new route.
 
@@ -392,3 +392,6 @@ specific reliability/driver comparisons. Their value is assumed, not verified.
 If they fail, the honest conclusion is that the tested permitted sources have
 not demonstrated a path to 75%, not that the metric should be loosened or that
 every possible pre-weekend predictor has been mathematically ruled out.
+
+
+**E219–E226 forecast-weather update (2026-11-19):** actual target weather and uncertified rolling fc3 fields are blocked by the pre-weekend guard. NOAA GEFS operational pre-cutoff source identity is verified, including raw ensemble member and forecast-period checks. E223's full2018–22 coverage gate failed (early2018 missing); a separately registered E224 fit used the complete required2019–22 forecast cohort with the unchanged full61 inner winner denominator and no winner gain. E225 established wet-tyre proxy support on80/82 events and a fixed59-event inner measurement set. E226's common21-member probability passed source coverage but failed the paired Brier utility gate against both control and prior climatology. This closes the exact probability/window/proxy test without threshold, member, calibration or cohort rescue; it does not establish universal weather irrelevance. No 2026 look or model promotion.
