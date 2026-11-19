@@ -42,5 +42,29 @@ def test_windows():
     print('E237 SC episode/stable tyre-position/first raw lap/caution/empty/duplicate/team support checks pass')
 
 
+
+
+def test_missing_cached_fields():
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    import experiments.e237_restart_warmup_support as E
+    class Broken:
+        @property
+        def laps(self): raise RuntimeError('cached session has no laps')
+    laps,status=fixture()
+    entries=pd.DataFrame([dict(season=2018,round=r,code=f'D{d}',team=f'T{d//2}') for r in (1,2) for d in range(12)])
+    with tempfile.TemporaryDirectory() as folder:
+        (Path(folder)/'results').mkdir()
+        with patch.object(E,'ROOT',Path(folder)),patch.object(E,'load_results',return_value=entries),patch.object(E,'cached_session',side_effect=[Broken(),SimpleNamespace(laps=laps,track_status=status)]):
+            E.main()
+        report=json.loads((Path(folder)/'results/e237_support_summary.json').read_text())
+        assert not report['sessions'][0]['available'] and report['sessions'][0]['error_type']=='RuntimeError'
+        assert report['sessions'][1]['available']
+
+
 if __name__=='__main__':
     test_windows()
+    test_missing_cached_fields()

@@ -81,10 +81,11 @@ def main():
         report=dict(season=int(season),round=int(round_),available=False)
         try:
             session=cached_session(fastf1,int(season),int(round_))
+            laps=pd.DataFrame(session.laps); status=pd.DataFrame(session.track_status)
         except Exception as exc:
             report['error_type']=type(exc).__name__
         else:
-            source,restarts=blocks(pd.DataFrame(session.laps),pd.DataFrame(session.track_status))
+            source,restarts=blocks(laps,status)
             parts.append(source.assign(season=season,round=round_))
             report.update(available=True,restarts=restarts,blocks=len(source))
         reports.append(report)
