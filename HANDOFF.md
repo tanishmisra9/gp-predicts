@@ -337,3 +337,8 @@ Important: savednumericpathprojectionnormalizesarrayindicesas[],somixesaxis/chan
 Independentallnumeric-projection/profile/range/count/roster-key/status/scope/gateconsistencyauditandpoisonedtext/sourceboundariespass;notindependentraw-bodyprojectionorsemanticverification. Savedresults/e230_native_schema.jsonand6e230_*numeric.json.gz;tests/test_native_score_schema{,_artifact}. No model/prediction/outer/2026look. Existingwinnerfiguresunchanged;goalactive/unmet.
 
 Next: freshregisteredDriverScoresemantic/provenanceprojectionpreservingarrayindices;wouldrequireexplicitsame3bodyreacquisitionbecauseoriginalrawbodydiscarded,matchE230rawSHA256. Verifydriverassignment/componentaxis/cumulativevsperlap/normalization/publicationavailabilitybeforeanyreliability/utility/winnerstudy. Do notselectSPFeedfieldsonwinnercorrelationsorcallobservability75%success.
+
+
+## E231 indexed DriverScore qualification failed (2026-11-19)
+
+Three same-body re-GET hashes match E230; all 69,413 numeric values independently match the earlier projection. Frozen lap-axis matches only 3/108, 3/120 and 5/120; zero drivers qualify. All Last-Modified headers are June 2024, failing historical publication admission without proving original data unavailable. Joint gate 0/3 FAIL. Do not transpose axes to rescue this experiment or interpret its delay diagnostics as validated lap latency. Source observability from E230 remains true; physical channel semantics and historical availability remain unverified. Artifact and synthetic tests pass; no winner fit, production feature, outer or 2026 look. Results and audit saved under e231. Winner goal active/unmet; next work requires distinct evidence rather than relaxing these gates.
