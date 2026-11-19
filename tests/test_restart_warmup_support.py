@@ -19,6 +19,10 @@ def test_windows():
     laps,status=fixture(); source,reports=blocks(laps,status)
     assert len(source)==12 and source.first_full_lap.eq(3).all() and source.previous_lap.eq(2).all()
     assert len(reports)==1 and reports[0]['sc_seconds']==100
+    tied=pd.concat([pd.DataFrame(dict(Time=pd.to_timedelta([-100,-100,-100],unit='s'),Status=['1','2','1'])),status],ignore_index=True)
+    assert len(blocks(laps,tied)[0])==12
+    caution=pd.concat([status,pd.DataFrame(dict(Time=pd.to_timedelta([200,200,200],unit='s'),Status=['1','2','1']))],ignore_index=True)
+    assert blocks(laps,caution)[0].empty
     for field,value in [('Position',99),('Compound','HARD'),('TyreLife',99),('Stint',2),('PitInTime',pd.Timedelta(seconds=300)),('IsAccurate',False),('TrackStatus','2'),('LapTime',pd.Timedelta(seconds=100))]:
         changed=laps.copy(); changed.loc[changed.Driver.eq('D0')&changed.LapNumber.eq(4),field]=value
         assert len(blocks(changed,status)[0])==11,field

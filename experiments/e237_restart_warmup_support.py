@@ -11,8 +11,8 @@ COLS=['restart','green_seconds','sc_seconds','driver','previous_lap','first_full
 
 def blocks(laps,status):
     assert not laps.duplicated(['Driver','LapNumber']).any()
-    assert status.Time.notna().all() and not status.Time.duplicated().any()
-    flags=status.sort_values('Time').copy()
+    assert status.Time.notna().all()
+    flags=status.sort_values('Time',kind='stable').copy()
     changes=flags[flags.Status.ne(flags.Status.shift(1))].copy()
     changes['previous']=changes.Status.shift(1)
     changes['duration']=changes.Time.diff().dt.total_seconds()
