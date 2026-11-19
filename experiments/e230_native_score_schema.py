@@ -1,5 +1,6 @@
 """Bounded numeric-only schema projection of two unmeasured 2019 native feeds."""
 import hashlib
+import gzip
 import json
 import math
 import os
@@ -116,8 +117,8 @@ def main():
                 row['stage']='schema_projection'
                 summary,records=stream_profile(raw,roster)
                 row.update(available=True,raw_bytes=len(raw),raw_sha256=hashlib.sha256(raw).hexdigest(),**summary)
-                path=ROOT/f'results/e230_{season}_{rnd}_{feed}_numeric.json'
-                path.write_text(json.dumps(records,indent=2)+'\n')
+                path=ROOT/f'results/e230_{season}_{rnd}_{feed}_numeric.json.gz'
+                path.write_bytes(gzip.compress((json.dumps(records,indent=2)+'\n').encode(),mtime=0))
             except Exception as exc:row['error_type']=type(exc).__name__
             finally:fastf1.Cache.offline_mode(True)
             reports.append(row)
