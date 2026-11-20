@@ -41,3 +41,10 @@ Winner accuracy is unchanged. The best exploratory outer result remains34/70(48.
 The existing2014–17 Q1 file was sufficient for the first source check; no earlier-year acquisition was needed. Requiring at least three qualifying teammate events per edge, older data adds historical bridges. Among the20 drivers at the final2019 event, connected pairs rise from38/190 (20.0%) to154/190 (81.1%). Independent scalar data reconstruction and disjoint-set graph checks reproduce the result.
 
 This removes one structural obstacle under a time-constant driver assumption. It does not establish current skill, bridge precision or winner improvement. A separately registered time-forward comparison must now test whether the old links improve future teammate contrasts against the same learner without old data and a simple teammate baseline. Future edges cannot anchor past predictions; failed earlier graph formulations remain closed.
+
+
+## E255: temporal utility failed
+
+The fixed historical-link Q1 learner did not lower future error against the identical modern-only learner: mean squared gap error0.607251 versus0.607046, paired gain−0.000205 with95%interval[−0.005474,+0.005051]. The direct-history comparison was also inconclusive. Qualifying teammate-order accuracy rose slightly, but this is not race-winner accuracy and did not pass the predeclared error gate.
+
+All610 forecasts over61inner races were retained;587 labels were available over60 races. Independent augmented-SVD fitting reproduced183 states and every forecast; source-time mutation tests and five guard suites passed. The exact source/history/edge-qualification/two-year-decay/ridge1 formulation is closed without retuning. The structural E254 graph improvement alone does not justify a winner feature or reopening earlier failed graphs.

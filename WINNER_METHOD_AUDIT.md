@@ -41,3 +41,6 @@ A separate pinnedF1/F2qualifying-skill project was reviewed in `EXTERNAL_METHOD_
 
 
 E254 subsequently qualified existing2014–17 Q1 teammate links structurally: pre2020 reference-pair connectivity increased from38/190 to154/190 after adding older edges supported by at least three events. Independent raw-field and graph audits pass. This is a distinct topology result, not driver-skill identification or a forecast metric; temporal transfer and aging remain untested. No closed graph formulation was retuned and no new winner feature was fitted.
+
+
+E255 tested the added historical Q1 links in one fixed chronological learner. It failed incremental MSE gates against modern-only and direct teammate history, despite a small teammate-order direction gain. Independent SVD/state/source-time/bootstrap audits and five guards pass. No winner feature was trained; E254 connectivity is not a demonstrated forecasting improvement. Do not retune the closed E255 decay/ridge/history/cohort formulation.
