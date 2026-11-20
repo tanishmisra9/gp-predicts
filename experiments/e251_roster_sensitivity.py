@@ -22,6 +22,7 @@ def prior_roster(results,season,round_):
 
 
 def history_target(results,pace,season,round_):
+    assert results.season.le(2022).all() and pace.season.le(2022).all()
     roster=prior_roster(results,season,round_)
     if roster is None:raise ValueError("first-round roster is not supplied by history")
     current=results[results.season.eq(season)&results["round"].eq(round_)]
@@ -72,8 +73,8 @@ def main():
             reference=old[old.season.eq(season)&old["round"].eq(round_)&old.model.eq(name)].set_index("driver").score
             np.testing.assert_allclose(actual[name],reference.reindex(current.driver),atol=1e-14,rtol=0)
         prior=prior_roster(results,season,round_)
-        now=set(map(tuple,current[["driver","team"]].to_numpy()))
-        previous=set(map(tuple,prior[["driver","team"]].to_numpy())) if prior is not None else now
+        now=set(map(tuple,current[["driver","code","team"]].to_numpy()))
+        previous=set(map(tuple,prior[["driver","code","team"]].to_numpy())) if prior is not None else now
         changed=now!=previous
         event=dict(season=int(season),round=int(round_),first_round_assumed=prior is None,changed=changed,
                    actual_only=[list(p) for p in sorted(now-previous)],prior_only=[list(p) for p in sorted(previous-now)])
