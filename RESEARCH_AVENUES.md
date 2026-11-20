@@ -447,3 +447,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E249 independent SPFeed schema evidence:** pinnedindependentclientcommitdatedNovember2019declaresScores.graphsixnamedfieldswith20driverintegerlistsandliveSPFeedsubscription. Pinnedtree/blobhashandindependentconnectorauditpasses. Thisisnewbranch-structureevidence,notrawphysics/formula/axis/publication/forecastvalidation;E231DriverScoreinterpretation remainsclosed. Separatelyregister full existing3projectionSPFeedScores indexedpatch/identity/updatecoveragequalification beforeanyfeature;initialarrayindiceslostinE230arenotguessablefromexamples. SeeSPFEED_SOURCE_AUDIT.md. Noaccuracygain.
+
+
+**E250 SPFeed patch qualification failed:** exactall-six-field/coordinate1dominancegate0/3. Fractions.7184/.7530/.7540vs.99required;allothercoordinatesarePerformance. FiveotherfieldsbroadsupportbutcannotdropPerformanceorretuneencodingafteroutcomes. Independent360row/allrejection/path/hash/countauditpasses. Closeexactprotocolwithoutfield/coordinate/threshold/yearrescue;E249schemaevidenceisnotphysicalmeaning/provenance/transfer/winnervalidation. No sourceacquisition/model/accuracygain.

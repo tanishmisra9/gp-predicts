@@ -33,3 +33,10 @@ Before any historical feature, register a separate full-cohort qualification of 
 This can begin offline with existing projections. It does not authorize acquiring other years, guessing physical units, retuning E231, treating timing prefixes as certified publication, or fitting a winner model. Any source pass still needs semantic/provenance resolution and a separately registered temporal/incremental utility test.
 
 The best exploratory outer winner result remains 34/70 (48.6%), versus points/ens 32/70 (45.7%). Those are reused development observations with no established superiority. The 75% exact pre-weekend winner goal remains unmet.
+
+
+## E250 qualification outcome
+
+The registered uniform-coordinate-1 test failed in all three saved 2019 pilots. Coordinate 1 accounts for only71.84%,75.30%,75.40% of explicit updates, below99% required. All other explicit coordinates occur in Performance. The other five fields have broad variable-update support, while Performance has no supported variable coordinate-1 series under this definition.
+
+All360field/driver rows, ambiguous initialization leaves and rejected paths were retained and independently reconstructed. This does not invalidate the named schema; it invalidates the registered uniform representation. Do not drop Performance, select a different coordinate or reduce thresholds after these results. No transfer/model/year expansion follows. Independent encoding and historical-availability evidence is required before reconsidering a different representation; physical meaning and winner utility remain unverified.
