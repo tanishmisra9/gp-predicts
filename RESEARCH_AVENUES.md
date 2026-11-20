@@ -450,3 +450,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E250 SPFeed patch qualification failed:** exactall-six-field/coordinate1dominancegate0/3. Fractions.7184/.7530/.7540vs.99required;allothercoordinatesarePerformance. FiveotherfieldsbroadsupportbutcannotdropPerformanceorretuneencodingafteroutcomes. Independent360row/allrejection/path/hash/countauditpasses. Closeexactprotocolwithoutfield/coordinate/threshold/yearrescue;E249schemaevidenceisnotphysicalmeaning/provenance/transfer/winnervalidation. No sourceacquisition/model/accuracygain.
+
+
+**E251 roster timing sensitivity:** historicaleventualentrantidentitiesareconditionalonprecutoffavailability.11withinseasonchangesin61inner2020–22races;usingpriorraceroster(withfirst-roundactual/assumedlineups)changes2mainmodelpicksbutnohit/missvectors:points29/61,ens30,E16832unchanged. Independentchronology/roster/metric/bootstrap/identity+label+paceinvarianceandfiveguardspass. Announcementtimes/firstseasonlineups/outerrostersnotcertified;doNOTcallallchangesleaksorzeroinnerdeltauniversalproof. Noalternatepolicy/modelpromoted,outer/2026notreevaluated. READMEnowstatesassumption.

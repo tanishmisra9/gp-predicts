@@ -4,6 +4,8 @@
 
 **Baseline clarification (E184):** historical tables labelled “standings” use prior race points, omit sprint points, and break ties with historical finishing form. They are frozen reproducible points priors, not exact official championship rankings. E184 tested a sprint-inclusive version on 61 inner races: winner-model picks stayed 32/61 and the points-selector picks stayed 29/61. No outer run; previous numbers are unchanged.
 
+**Roster timing assumption (E251):** historical backtests use each race’s eventual entrant identities and team assignments, assuming they were known before the cutoff. A previous-race-roster sensitivity check on all61inner2020–22races left every winner hit/miss unchanged, despite11within-season roster changes. Announcement times and season-opening lineups remain unverified; this is not a blanket certification of roster availability.
+
 **Original 75% podium target: not reached; final evaluation logged in E159.** Previously evaluated 2026 (19 races): **0.561** strict podium overlap, vs championship standings 0.526 and a shuffled-label null 0.228. Post-qualifying: 0.649 vs grid 0.614. These 2026 races have been inspected repeatedly and are restricted during further development. Hindsight pace and team-order selectors are diagnostic measurements, not proven ceilings; E166's combined true pace/retirers rule reaches 0.757 outer overlap. `HANDOFF.md` records current direction; `EXPERIMENTS.md` contains full results, including negatives.
 
 | setting | held-out 2026 podium accuracy | baseline | dev 2023-25 |
