@@ -1,0 +1,64 @@
+{
+  "reader": {
+    "PitStop": {
+      "stop_argument": "stop_duration",
+      "lane_input_keys": [
+        "PitLaneTime"
+      ],
+      "stop_input_keys": [
+        "PitStopTime"
+      ]
+    },
+    "PitStopSeries": {
+      "stop_argument": "stop_duration",
+      "lane_input_keys": [
+        "PitLaneTime",
+        "PitStop"
+      ],
+      "stop_input_keys": [
+        "PitStop",
+        "PitStopTime"
+      ]
+    },
+    "PitLaneTimeCollection": {
+      "stop_argument": "None",
+      "lane_input_keys": [
+        "Duration"
+      ],
+      "stop_input_keys": []
+    }
+  },
+  "service_topics": [
+    "PitStop",
+    "PitStopSeries"
+  ],
+  "sources": [
+    {
+      "season": 2019,
+      "round": 5,
+      "lane_present": true,
+      "service_topics_present": []
+    },
+    {
+      "season": 2019,
+      "round": 12,
+      "lane_present": true,
+      "service_topics_present": []
+    },
+    {
+      "season": 2019,
+      "round": 14,
+      "lane_present": true,
+      "service_topics_present": []
+    }
+  ],
+  "commit": "853ae3398a243487c52306b99093f067c951cb50",
+  "blob_sha1": "a57909bb0c6869ce3f31be93f289f275d42a7079",
+  "source_sha256": "c4a93283995bbfad4087a4fc3852594bb3c17b05b36a87fc8022d33f3701537c",
+  "index_sha256": "7896174b4ab0c3c283fd879f56352216ec5872b67fb2b54695938d728fea943e",
+  "primary_url": "https://github.com/br-g/openf1/blob/853ae3398a243487c52306b99093f067c951cb50/src/openf1/services/ingestor_livetiming/core/processing/collections/pit.py",
+  "raw_historical_service_fields_checked": false,
+  "historical_units_verified": false,
+  "winner_fit": false,
+  "post_inspection_audit": true
+}

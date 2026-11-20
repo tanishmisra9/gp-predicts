@@ -465,3 +465,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E255 temporal transfer failed:** older Q1 links improve topology but not future error in the fixed ridge1/two-year-decay learner. MSE.607251 versus modern.607046; paired gain−.000205CI[−.005474,.005051]; direct-history comparison also inconclusive. All610forecasts/61races retained,587labels/60races. Slight qualifying-pair accuracy gain is not winner accuracy. Independent raw/SVD/chronology/mutation/bootstrap audits and fiveguards pass. Close exactQ1/history/qualification/decay/ridge/cohort/control formulation without tuning; no winner feature or graph-model reopening justified.
+
+
+**E256 pit semantics:** independent OpenF1 reader maps PitLaneTimeCollection.Duration to lane time with stationary duration unset; actual service topics arePitStop/PitStopSeries. Neither is present in the three saved2019pilotindices. PitStop was omitted from E229's candidate set but is also absent; original gate was not rewritten and no endpoint reacquired. AST/hash/inventory audits pass. No stationary-data source or model gain qualified; E121/E210/E229 formulations remain closed. Primary-reader semantics do not prove every raw historical payload lacks service fields. SeePIT_SOURCE_AUDIT.md.
