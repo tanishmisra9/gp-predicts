@@ -473,3 +473,8 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 ## E257 source lead (2026-11-20)
 
 DHL stationary/award timing has an independently referenced structured-response route, but historical coverage, inclusion/slow-stop censoring, units, publication timing and extraction/transformation permission remain unqualified. See PIT_SOURCE_AUDIT.md for pinned reader evidence and official terms. No timing download, licence acceptance, model or accuracy improvement; do not execute that route or rehosted copies under current authorization. This is not proof every pit source is unavailable. E121/E210/E229 closures remain. Winner target75% remains unmet.
+
+
+## E258 stable-gear raw ratio observation (2026-11-20)
+
+Three sustained RPM/speed departures across two of three fixed2019pilots pass source-support counts. Independent raw-cache reconstruction passes; no outcome/forecast tested. Next distinguish rawchannel/reporting/parser artifacts from physical interpretation under separately registered rules before expanding source years or learning risk. This is not validated mechanical-warning information or winner gain;75% remains unmet. See EXPERIMENTS.md E258.
