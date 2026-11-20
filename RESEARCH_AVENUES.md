@@ -435,3 +435,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E245 utility update:** fixed prequential one-coefficient upshift correction failed advancement on159teamrows/16historical2019races. BaseMSE reduction1.895% is nominallypositive, but below fixed2%floor; it loses to existingE195team-bias correction, doesnotclearlybeat shuffledsourcehistory and doesnotimprovepaceorder. Independentlabel/history/fit/bootstrap/source-mutation audits and fiveguards pass. Close this exactgear/history/ridge/control/period formulation withoutretuningrescue; no expansion/winnerfeature/promotion justified by E244persistence alone. Goalunmet and winneraccuracyunchanged.
+
+
+**E246 explicit wet teammate support:** separatefromE224racefinishing-gainweatherresponse, a fixedconditionalrepresentationofexisting2018–22timingfailedsupport:606matchedwetlaps/63pair-events,23pairswith≥10laps/≥5eachparity(vs40required),8events/4seasons,only4drivers≥3supportedwetevents(vs8). Independent103eventrawcache/countauditandfiveguardspass. Close exactwetcompound/driver-compoundmedian/traffic/age/parity/count/cohortwithoutlooseningorouteryearrescue. Noresponse/winnerfit oraccuracygain. Thisdoesnotruleoutallwetdriverability;currentregisteredmeasurementisnotadvanced.

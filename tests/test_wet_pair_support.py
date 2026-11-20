@@ -10,8 +10,9 @@ def main():
         for driver,pos in [("AAA",1),("BBB",2)]:
             rows.append(dict(Driver=driver,LapNumber=lap,Time=pd.Timedelta(seconds=lap*120+2*(pos-1)),
                 Position=pos,LapTime=pd.Timedelta(seconds=120),PitInTime=pd.NaT,PitOutTime=pd.NaT,
-                TrackStatus="1",IsAccurate=True,Compound="INTERMEDIATE",TyreLife=lap))
+                TrackStatus="1",IsAccurate=True,Compound="INTERMEDIATE",TyreLife=float(lap)))
     raw=pd.DataFrame(rows)
+    for col in ("PitInTime","PitOutTime"):raw[col]=pd.Series(pd.NaT,index=raw.index,dtype="timedelta64[ns]")
     p=pairs(raw,entries)
     assert len(p)==12 and p.a.eq("AAA").all() and p.b.eq("BBB").all()
     c=raw.copy();c.loc[c.Driver.eq("BBB"),"TyreLife"]+=3
@@ -23,6 +24,9 @@ def main():
         assert pairs(c,entries).empty,(col,value)
     c=raw.copy();c.loc[c.Driver.eq("BBB"),"Time"]-=pd.Timedelta(seconds=.5)
     assert pairs(c,entries).empty
+    c=raw.copy();c.loc[c.Driver.eq("BBB"),"Compound"]="WET"
+    assert pairs(c,entries).empty
+    pd.testing.assert_frame_equal(pairs(raw.assign(order=99,winner=True),entries),p)
     assert pairs(raw.iloc[:0],entries).empty
     try:pairs(pd.concat([raw,raw.iloc[:1]]),entries)
     except AssertionError:pass
@@ -32,6 +36,10 @@ def main():
     report,table=support(p.assign(season=2019,round=1))
     assert report["supported_pairs"]==1 and table.iloc[0].half0==6 and not report["gate"]
     assert not report["response_fit"] and not report["winner_fit"]
+    source=pd.concat([p[p.lap.lt(12)].assign(team=f"T{t}",a=f"A{t}",b=f"B{t}",season=2019+i//3,round=i%3+1)
+                      for i in range(8) for t in range(5)],ignore_index=True)
+    assert support(source)[0]["gate"] and support(source)[0]["supported_pairs"]==40
+    assert not support(source.iloc[1:])[0]["gate"]
     print("E246 wet/samecompound/age boundary/traffic/green/accurate/pit/duplicate/empty/support synthetics PASS")
 
 
