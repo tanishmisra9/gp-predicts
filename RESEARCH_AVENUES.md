@@ -438,3 +438,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E246 explicit wet teammate support:** separatefromE224racefinishing-gainweatherresponse, a fixedconditionalrepresentationofexisting2018–22timingfailedsupport:606matchedwetlaps/63pair-events,23pairswith≥10laps/≥5eachparity(vs40required),8events/4seasons,only4drivers≥3supportedwetevents(vs8). Independent103eventrawcache/countauditandfiveguardspass. Close exactwetcompound/driver-compoundmedian/traffic/age/parity/count/cohortwithoutlooseningorouteryearrescue. Noresponse/winnerfit oraccuracygain. Thisdoesnotruleoutallwetdriverability;currentregisteredmeasurementisnotadvanced.
+
+
+**E247 underlying car-channel audit:** directCarData.z compressed2019Spain/Hungary/ItalyHTTPcachedstreams contain onlyalreadyparsedIDs0/2/3/4/5/45.21969records/1852840carupdatesreplayed, noextrachannelIDs. Rawsourceavailability3/3,novelty0/3FAIL. IndependentHTTP/framing/hash/deflate/allstats auditpasses. Closeexactfeed/pilot/countavenuewithoutnewyear/feed/aliasrescue;nohiddenphysicschannel/modelgainadmitted. No winnerlabeldefectfoundininitialcode trace;officialtargetunchanged.
