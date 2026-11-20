@@ -107,7 +107,7 @@ def main():
     source=extract()
     df=load_results().loc[lambda d:d.season.le(2022)]
     pace=pd.read_csv(DATA/"racepace_ff1.csv").loc[lambda d:d.season.le(2022)]
-    X=build_features(df,pace);base=pre_weekend_cols(X);X=add_history(X,source)
+    X=build_features(df,pace).merge(df[["season","round","code","date"]],on=["season","round","code"],validate="one_to_one");base=pre_weekend_cols(X);X=add_history(X,source)
     features=base+NEW;W.assert_pre_weekend(features)
     W.MODELS.update(standings=lambda tr,te,F:(-te.d_season_pts.fillna(0)*100+te.d10_order.fillna(11)*1e-3).to_numpy(),
                     pre_logit=lambda tr,te,F:W.m_logit_pod(tr,te,base,C=.03,hl=100),

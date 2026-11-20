@@ -26,6 +26,15 @@ def main():
                                                         dict(driver="B",available=False)])]
     table=observations(reports,X[["season","round","code"]])
     assert table.eligible.notna().sum()==1 and table.episodes.sum()==1
+    # Exercise the actual builder boundary: date is calendar metadata, not a feature.
+    from f1.data import load_results
+    from f1.features import build_features,pre_weekend_cols
+    df=load_results().loc[lambda d:d.season.le(2022)]
+    raw=build_features(df)
+    assert "date" not in raw
+    dated=raw.merge(df[["season","round","code","date"]],on=["season","round","code"],validate="one_to_one")
+    assert pre_weekend_cols(raw)==pre_weekend_cols(dated) and len(raw)==len(dated)
+    assert dated.date.notna().all()
     print("E260 hand shrinkage/empty/current-future/prefix/prior/invalid/missing mapping tests PASS")
 
 
