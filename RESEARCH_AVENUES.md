@@ -441,3 +441,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E247 underlying car-channel audit:** directCarData.z compressed2019Spain/Hungary/ItalyHTTPcachedstreams contain onlyalreadyparsedIDs0/2/3/4/5/45.21969records/1852840carupdatesreplayed, noextrachannelIDs. Rawsourceavailability3/3,novelty0/3FAIL. IndependentHTTP/framing/hash/deflate/allstats auditpasses. Closeexactfeed/pilot/countavenuewithoutnewyear/feed/aliasrescue;nohiddenphysicschannel/modelgainadmitted. No winnerlabeldefectfoundininitialcode trace;officialtargetunchanged.
+
+
+**E248 testing recovery clarification:** post-inspectionmetadataaudit(nooutcomes)showscachedFastF1schedulesadvertise0/6supportedtestingdaysin2020,0/3in2021,and3/6in2022(Bahrainonly). IndependentrawJSON/hash/UTCauditpasses. Earlierrawcacheabsencecannotbesafelytreatedasjustauthentication/cachefill. No newGET/flagoverride/testingmodelrescueperformed. Rawendpointabsence isnotproven; a genuinelyindependentpermissiblestructuredsourceor documentedrawsupport/provenance isneededbeforetryingtofill2020/21. This doesnotreopenE105/E176failedformulationsorclaimwinnergain.
