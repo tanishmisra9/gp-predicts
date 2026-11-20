@@ -459,3 +459,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E253 method screen:** feederingestionremainsE138restricted/noactualnewjuniorresults. Newexternalqualifying-skillrankingmethod suppliesnoreviewedallracepreweekendwinnerbenchmark. Exactindependentdriver/caroffsetcounterexample showsfield-normalizedalignmentdoesnotaloneidentifycar-neutralcrosscomponentdriverskill;conditionalpriors/jointpredictioncanstillbeuseful. SeeEXTERNAL_METHOD_SCREEN.md. Distinctunexecutedquestion: source/topologyqualificationofolderpre2018structuredqualifyingteammatebridges,afterlocalinventory/stopruleauditandfixedscope,notrenamedE116/E175/E181parameterrescue. Noactualdata/forecastaccuracychange.
+
+
+**E254 historical-link topology passed:** existing2014–17 structured Q1 observations (796 pair/events,32 qualified edges) connect modern2018–19 groups:38/190→154/190 reference pairs connected, with all source-year coverage>90%. Reference is the final2019 roster, never a future winner/entrant subset. Independent scalar/union-find/hash audits pass. No acquisition or forecast fit. Next requires a separately registered chronological old-link-vs-modern-only learner and simple teammate baseline comparison; time-constant topology does not establish stable current skill or justify retuning E116/E175/E181. Winner accuracy unchanged.

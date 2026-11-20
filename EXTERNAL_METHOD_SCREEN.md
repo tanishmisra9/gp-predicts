@@ -34,3 +34,10 @@ Do not reproduce this project as evidence of75% winner accuracy. It supplies no 
 A distinct source question is worth qualifying: can **older structured qualifying teammate links**, entirely before2018, connect groups that are disconnected in the current timing-history window? This would add actual earlier observations rather than choose arbitrary offsets. Before any acquisition, audit existing local historical files and the earlier stop rules, fix one source/year range, verify exact driver/team identities, then measure topology only. A source/topology pass would still need a separately registered temporal forecast test; it would not reopenE116/E175 by itself or justify importing external skill ratings. No historical data for this avenue was acquired inE253.
 
 Winner accuracy is unchanged. The best exploratory outer result remains34/70(48.6%), versus points/ens32/70(45.7%), with no established superiority and the documented roster-timing assumption. The75% goal remains active and unmet.
+
+
+## E254: older-link topology passed
+
+The existing2014–17 Q1 file was sufficient for the first source check; no earlier-year acquisition was needed. Requiring at least three qualifying teammate events per edge, older data adds historical bridges. Among the20 drivers at the final2019 event, connected pairs rise from38/190 (20.0%) to154/190 (81.1%). Independent scalar data reconstruction and disjoint-set graph checks reproduce the result.
+
+This removes one structural obstacle under a time-constant driver assumption. It does not establish current skill, bridge precision or winner improvement. A separately registered time-forward comparison must now test whether the old links improve future teammate contrasts against the same learner without old data and a simple teammate baseline. Future edges cannot anchor past predictions; failed earlier graph formulations remain closed.
