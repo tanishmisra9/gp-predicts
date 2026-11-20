@@ -59,6 +59,7 @@ def main():
                 with session.get(url,timeout=20,allow_redirects=False,stream=True) as response:
                     assert response.url==url
                     r["status"]=response.status_code
+                    if response.status_code in (401,403,429):denied=True
                     chunks=[];size=0
                     for chunk in response.iter_content(chunk_size=4096):
                         size+=len(chunk)
@@ -68,7 +69,6 @@ def main():
                     r.update(bytes=len(body),sha256=hashlib.sha256(body).hexdigest())
                     path=ROOT/f"results/e252_2019_{source['round']}_cdx_response.bin.gz"
                     path.write_bytes(gzip.compress(body,mtime=0))
-                    if response.status_code in (401,403,429):denied=True
                     if response.status_code==200:
                         r["rows"]=parse(json.loads(body),source["url"],dates[source["round"]])
                         r["available"]=True;r["limit_reached"]=len(r["rows"])==100

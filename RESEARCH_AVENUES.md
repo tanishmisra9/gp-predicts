@@ -453,3 +453,6 @@ Three same-body re-GET hashes match E230; all 69,413 numeric values independentl
 
 
 **E251 roster timing sensitivity:** historicaleventualentrantidentitiesareconditionalonprecutoffavailability.11withinseasonchangesin61inner2020–22races;usingpriorraceroster(withfirst-roundactual/assumedlineups)changes2mainmodelpicksbutnohit/missvectors:points29/61,ens30,E16832unchanged. Independentchronology/roster/metric/bootstrap/identity+label+paceinvarianceandfiveguardspass. Announcementtimes/firstseasonlineups/outerrostersnotcertified;doNOTcallallchangesleaksorzeroinnerdeltauniversalproof. Noalternatepolicy/modelpromoted,outer/2026notreevaluated. READMEnowstatesassumption.
+
+
+**E252 archive provenance:** publicCDXexact2019SPFeedpilotURL/pre2020queriesreturned3HTTP200emptyJSONresponses,0capturemetadata. Independentresponse/hash/scope/no-repeatchecks pass;oversized403-body denialhandlingbugreproducedandfixedwithoutrepeatingrealrequests. EmptyindexlookupisNOTprooforiginalunavailabilityanddoesnotclearprovenance/encodingorrescueE250. No broadpath/date/archive/feature/model expansion. Winneraccuracyunchanged,goalunmet.

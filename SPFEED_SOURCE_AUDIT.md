@@ -40,3 +40,8 @@ The best exploratory outer winner result remains 34/70 (48.6%), versus points/en
 The registered uniform-coordinate-1 test failed in all three saved 2019 pilots. Coordinate 1 accounts for only71.84%,75.30%,75.40% of explicit updates, below99% required. All other explicit coordinates occur in Performance. The other five fields have broad variable-update support, while Performance has no supported variable coordinate-1 series under this definition.
 
 All360field/driver rows, ambiguous initialization leaves and rejected paths were retained and independently reconstructed. This does not invalidate the named schema; it invalidates the registered uniform representation. Do not drop Performance, select a different coordinate or reduce thresholds after these results. No transfer/model/year expansion follows. Independent encoding and historical-availability evidence is required before reconsidering a different representation; physical meaning and winner utility remain unverified.
+
+
+## E252 independent archive lookup
+
+Three bounded public WaybackCDX queries, one for each exact2019pilotSPFeedURL with a pre-2020 date limit, returned HTTP200 with emptyJSON. The retained responses and independent scope/hash audit reproduce zero capture metadata. This does not prove original unavailability or universal archive absence; it supplies no publication receipt or matching archived body. The E250 representation remains unqualified. No broader paths/dates/archive search or historical-feature admission followed.

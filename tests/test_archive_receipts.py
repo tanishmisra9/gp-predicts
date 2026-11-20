@@ -16,6 +16,29 @@ def main():
     try:parse([["incorrect"]],original,"2019-05-12")
     except AssertionError:pass
     else:raise AssertionError("invalid header accepted")
+    import json,tempfile
+    from pathlib import Path
+    from unittest.mock import patch
+    import experiments.e252_archive_receipts as module
+    class Response:
+        status_code=403
+        def __init__(self,url):self.url=url
+        def __enter__(self):return self
+        def __exit__(self,*args):return False
+        def iter_content(self,chunk_size):yield b"x"*65536;yield b"x"
+    class Session:
+        def __init__(self):self.calls=0
+        def get(self,url,**kwargs):self.calls+=1;return Response(url)
+    with tempfile.TemporaryDirectory() as directory:
+        root=Path(directory);(root/"results").mkdir()
+        sources=[dict(season=2019,round=r,feed="SPFeed",url=original) for r in (5,12,14)]
+        (root/"results/e230_native_schema.json").write_text(json.dumps(dict(sources=sources)))
+        session=Session()
+        with patch.object(module,"ROOT",root),patch.object(module.requests,"Session",return_value=session):module.main()
+        report=json.loads((root/"results/e252_archive_receipts.json").read_text())
+        assert session.calls==1 and report["host_denial"] and report["complete"]
+        assert report["sources"][0]["error_type"]=="ValueError"
+        assert not any(r["attempted"] for r in report["sources"][1:])
     print("E252 exactURL/time/MIME/status/digest/empty/header/query-bound checks PASS")
 
 
