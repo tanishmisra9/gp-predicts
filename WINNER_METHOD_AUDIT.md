@@ -33,3 +33,8 @@ E186 subsequently tested driver-specific winner conversion conditional on known 
 E194 separately tested team-specific scales of prequential relative-pace forecast errors. It failed its registered measurement gate (contender log-score gain −.1212, correlation −.0539; no full-field gain). It supplies no justification for a new heterogeneous-noise winner simulator, and no winner accuracy was scored.
 
 E201 tested a distinct representation of existing inputs: native categorical driver/constructor/circuit IDs in the fixed winner GBM, with strictly earlier vocabularies. It scores32/61 inner winners versus numeric-only33/61 and E16832/61, with worse log-loss/Brier than numeric-only. Its registered gate fails; no outer run or categorical/tree-setting search. This is not evidence of a new data source or a test of all categorical learners.
+
+
+## E253 external skill-ranking screen
+
+A separate pinnedF1/F2qualifying-skill project was reviewed in `EXTERNAL_METHOD_SCREEN.md`. No chronological all-race exact-winner result is supplied by the reviewed description/ranking method. Its corrected field-relative cross-component alignment does not, without additional assumptions, identify driver-only effects separately from car effects. An independent exact two-world counterexample preserves allobservedlaps/normalizedsignals/centeringconstraints while reversing global same-car driver order. A real teammate bridge breaks that particular ambiguity. This does not invalidate explicit hierarchical priors or joint pace forecasting. No externalratings/juniordata/code were used as model inputs. A separately registered older structured-teammate-link source/topology audit is a distinct possible next question, notautomaticpermissiontoretunepriorfailedgraphs.

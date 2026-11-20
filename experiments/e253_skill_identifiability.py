@@ -43,8 +43,8 @@ def main():
     original_signals=signals(observed);other_signals=signals(other)
     first_pairs=[probability(DRIVERS,a,b) for a,b in (("A1","A2"),("B1","B2"))]
     other_pairs=[probability(alternative,a,b) for a,b in (("A1","A2"),("B1","B2"))]
-    before_bridge=Q(24,5)+DRIVERS["B1"]+CARS["A"]
-    after_bridge=Q(24,5)+alternative["B1"]+cars["A"]
+    before_bridge=[Q(24,5)+DRIVERS[d]+CARS["A"] for d in ("A1","B1")]
+    after_bridge=[Q(24,5)+alternative[d]+cars["A"] for d in ("A1","B1")]
     result=dict(observations_equal_exactly=observed==other,
         teammate_normalized_signals_equal=original_signals[0]==other_signals[0],
         field_normalized_signals_equal=original_signals[1]==other_signals[1],
