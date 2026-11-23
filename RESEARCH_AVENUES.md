@@ -513,3 +513,8 @@ Bonasorta's source verifies a post-qualifying podium method, not a new exact-win
 ## E266 qualifying-stage evolution: coverage failure (2026-11-22)
 
 A distinct same-compound actual Q1→Q3 relative change was measured across103cached sessions, without sector recombination.86events supplied sixpaired drivers, but2018provided118/210normalized observations (56.2%), below the registered60%year minimum. All other years passed. Independent all-session scalar/hash/phase-boundary audit and synthetic checks pass. No temporal prediction or winner feature followed; close the exact formulation without dropping2018or relaxingfilters/compound/phase/counts. Two diagnostic2018examples show blankQ1track-status/accuracy limitations; their cause is unverified. A native-source/parser audit could establish a real repair, but blankstatus cannot be assumedgreen. This source failure is not predictive evidence against every evolution measure.75%winner target remains unmet.
+
+
+## E267 initial track-status provenance (2026-11-22)
+
+The proposed parser-recovery route is unqualified. All21cached2018qualifying native TrackStatus bodies match SDKtimestamp/status sequences exactly;1251blanklap rows all begin before the first known rawstatus. No blankQ1lap has complete explicit nativegreen coverage, so no initialstate can be restored from this source. Independent rawhash/clock/bisect all6054lap audit passes; E266artifacts unchanged. Do not backfillgreen, removeaccuracyfilters or rerun its failed gate. This doesnot prove every independent source lacks flags or the cachedpayloadsarecomplete. No winner gain, productionchange or2026evaluation;75% remainsunmet.
