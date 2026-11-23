@@ -503,3 +503,8 @@ The813matchedpairs yield only4/5/6adequately repeated drivers in Spain/Hungary/I
 ## E264 section-shape test: source access stopped (2026-11-22)
 
 A distinct full-inner common-section shape × prior circuit-demand test was registered, beyond earlier whole-profile scalar experiments. The first uncached position request (2018 R1) returned HTTP403; the registered stop prevented further retrieval. Only three cached feeds were obtained, below95/99 required. The95 unattempted feeds remain unknown, not absent. No profile or winner model ran, so predictive utility remains untested. Preserve the gate and stop without cohort/year/endpoint rescue; independently justified access evidence is required before a future source attempt. No accuracy gain or new ceiling established;75% exact-winner target remains unmet. See EXPERIMENTS.md E264 for scope, tests and receipts.
+
+
+## E265 primary decay evidence (2026-11-22)
+
+Bonasorta's source verifies a post-qualifying podium method, not a new exact-winner result. Multiple tau/seed test-score reports and a test-inclusive XGBoost imputation branch limit transfer claims; the latter does not apply to its CatBoost headline. Actual adaptive selection history is unverified. No independent numerical decay gain established or E173 tuning reopened. See CREATOR_RESEARCH_AUDIT.md for pinned source/negative controls and the initial unfiltered paper's additional2026outcome exposure. No external model run or new accuracy;75%winner target remains unmet.
