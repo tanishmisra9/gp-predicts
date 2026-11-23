@@ -1,0 +1,92 @@
+{
+  "experiment": "E283",
+  "kind": "post-discovery technical access audit; no scientific measurement or acquisition",
+  "retrieved_on": "2026-11-23",
+  "decision": "No qualified, authorized additional OSM access path established. E280 remains closed; do not send new map requests or create an account.",
+  "source_docs": [
+    {
+      "url": "https://docs.ohsome.org/ohsome-api/stable/index.html",
+      "observed": "Current v2 documentation directs users to sign up for an API key."
+    },
+    {
+      "url": "https://api.heigit.org/",
+      "observed": "Provider landing page describes obtaining an API key through a HeiGIT account."
+    },
+    {
+      "url": "https://docs.ohsome.org/ohsome-api/stable/migration_guide.html",
+      "observed": "Migration guide requires an API key with every v2 request and describes a rewritten implementation/new database backend. It lists v2 base https://api.heigit.org/ohsome-api/v2/ and states v1 endpoints will be shut down on 2026-11-30. A scheduled shutdown does not establish present availability."
+    },
+    {
+      "url": "https://docs.ohsome.org/ohsome-api/stable/reference/api.html",
+      "observed": "Features extraction is documented in Parquet format, with spatial area, filter and time parameters. The current reference supports extraction GET and POST; no actual API extraction attempted."
+    },
+    {
+      "url": "https://docs.ohsome.org/ohsome-api/stable/reference/data_model.html",
+      "observed": "Schema documents osm_id, osm_type, edit_timestamp, major version, minor_version for geometry changes, WKB geometry and other metadata. No actual schema/data validation performed. Contributor/text fields and future valid_to_timestamp would require exclusion in any future projection."
+    },
+    {
+      "url": "https://docs.ohsome.org/ohsome-api/v2/reference/time.html",
+      "observed": "Time parameter supports single historical snapshot timestamps. This is documentation capability, not measured historical source coverage."
+    },
+    {
+      "url": "https://ohsome.org/copyrights",
+      "observed": "Provider attributes OSM contributors and distinguishes post-2012 ODbL history from older CC-BY-SA history. No older history is proposed, downloaded or licensed here; ODbL approval for E280 does not itself approve additional requests."
+    }
+  ],
+  "v1_documentation_observations": [
+    {
+      "requested": "https://docs.ohsome.org/ohsome-api/v1/index.html",
+      "observed_final": "https://docs.ohsome.org/ohsome-api/v2/"
+    },
+    {
+      "requested": "https://docs.ohsome.org/ohsome-api/v1/endpoints.html",
+      "observed_final": "https://docs.ohsome.org/ohsome-api/v2/"
+    },
+    {
+      "requested": "https://docs.ohsome.org/ohsome-api/v1/response-parameters.html",
+      "observed_final": "https://docs.ohsome.org/ohsome-api/v2/"
+    }
+  ],
+  "unknowns": [
+    "No v1 or v2 service/API/health endpoint was called; neither is proven live or unavailable.",
+    "No account/key presence or user entitlement inspected; no secrets or environment files read.",
+    "No acceptable-use/quota/account-terms review completed and no authenticated request mechanism approved.",
+    "No map body, geometry, historical feature coverage, physical-layout correctness, future pace utility or winner accuracy measured.",
+    "Direct extraction differs from E280 raw historical node/way records; an independent projection/source protocol would be required."
+  ],
+  "authorization": {
+    "existing_approval": "Approve the six-snapshot OSM pilot",
+    "existing_scope": "E280 exact Overpass six-query scope, one attempt each and global stop",
+    "e280_result": "First request timed out, no response/body; five unattempted unknown",
+    "e280_retried": false,
+    "new_heiGIT_account_approved": false,
+    "new_heiGIT_map_requests_approved": false,
+    "new_acquisition_performed": false
+  },
+  "other_candidates_screened": [
+    "Calendar spacing is already E71; no retest.",
+    "Coast-down speed loss is not identified aerodynamic drag: drivetrain losses, road slope, wind and mass remain unobserved. No in-gear speed derivative claimed to be a new drag measurement or used to rescue E213."
+  ],
+  "coastdown_primary_reference": {
+    "url": "https://www.epa.gov/sites/default/files/2020-05/documents/sae-2020-01-1064-use-trans-data-isola-indiv-loss-coastdown-road-load-coeff.pdf",
+    "interpretation": "EPA authors discuss transmission losses and describe neutral-transmission coastdown tests; this cautions against attributing F1 in-gear observed slowing solely to aerodynamics. It does not prove every observational deceleration statistic useless."
+  },
+  "verification": {
+    "v2_key_requirement_crosschecked": "Current documentation index, provider landing page and migration guide agree.",
+    "legacy_availability_claim_falsified": "Future v1 shutdown date is not present access evidence; v1 documentation URLs redirected to v2, not a live data test.",
+    "schema_scope_claim_limited": "Reference/schema/time pages support possible extraction capability only. Actual record/schema/coverage checks NOT executed.",
+    "approval_scope_crosschecked": "OSM_GEOMETRY_SOURCE_AUDIT.md explicitly excludes additional requests/accounts from E280 approval."
+  },
+  "unchanged": {
+    "models_fit": 0,
+    "forecast_features_changed": false,
+    "source_records_acquired": 0,
+    "new_accounts": 0,
+    "new_licences_accepted": false,
+    "outer_or_2026_accuracy_evaluations": 0,
+    "five_guards_last_fresh": "E277; no forecast path changed",
+    "inner_best": "33/61",
+    "exploratory_outer_best": "34/70 versus frozen standings/ens 32/70",
+    "goal": "75% exact all-race pre-weekend winner remains active and unmet"
+  }
+}

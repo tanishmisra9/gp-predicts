@@ -52,3 +52,9 @@ Requests' 35-second setting is its connection/read timeout, not a total wall-clo
 Next, commit the tested runner before these exact requests, then independently verify all raw responses, request/hash receipts, projections, timestamps, references, counts and source gate. Approval is limited to this six-snapshot ODbL source audit; it does not authorize additional datasets, requests, licences, spending, accounts or production changes.
 
 **Approval received:** “Approve the six-snapshot OSM pilot.” The immutable query proposal's `approval_received: false` records its pre-approval creation state; this dated update supersedes that status without changing the query manifest. The 75% exact pre-weekend winner goal remains active and unmet; approval supplies no accuracy gain.
+
+## E283 independent-access documentation screen (2026-11-23)
+
+HeiGIT documents an OSM-history API with historical geometry extraction, but its current v2 requires an account/API key. The migration guide's planned v1 shutdown date does not prove present access; inspected v1 documentation URLs redirect to v2. No service health/metadata/extraction request, map body or account action occurred. Usage terms, quota, credentials and actual source coverage remain unqualified. See `results/e283_osm_access_screen.json` and E283 in EXPERIMENTS.md for primary references and the limited claim audit.
+
+E280 approval and failed-source stop remain unchanged. This documentation screen supplies no authority for extra requests, alternate hosts, new accounts or another acquisition. Any independently qualified future access requires its own concrete scope; no such proposal or approval request is made here.
