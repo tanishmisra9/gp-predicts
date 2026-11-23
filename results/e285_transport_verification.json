@@ -1,0 +1,36 @@
+{
+  "experiment": "E285",
+  "kind": "fake transport only",
+  "immutable_hashes": {
+    "experiments/e280_osm_acquire.py": "d8dfeadbffe6e73e309faaf48675d543b6ecec93fe6918b51482a2642d40fbf0",
+    "results/e280_osm_query_proposal.json": "62f00d4e87ac68e19112123d82a0295da6a99c1e77617fe99618c6f2788a44fb",
+    "results/e280_source_summary.json": "bee73b04300eccf9b1f8020b4a245736f30258d07b6b13485b19c60533d7d4f5",
+    "results/e285_heigit_query_proposal.json": "e3fe7f9b688bd87f9095568bc3803a22d22af8b3ff7c6829a860da4c10070851",
+    "results/e285_source_metadata.json": "231a735a6114fa58b78b751c1d8f79e0ae26eb90fbdf91df30dec3db404f099e"
+  },
+  "real_HTTP_adapter_calls": 0,
+  "actual_Parquet_roundtrips": 0,
+  "real_credentials_read": 0,
+  "pyarrow_installed": false,
+  "approval_received": false,
+  "code_sha256": {
+    "experiments/e285_heigit_acquire.py": "4796a955d30986afd861b3114d6f9be85e24dcade3353436a3730493858d43f2",
+    "tests/test_heigit_acquire.py": "7b2a690f8711be0269d71cb1f1bdd794bac5238ff4a436be87fbbcf613134e9d"
+  },
+  "checks": [
+    "Fake exact six requests/header/timeout/spacing",
+    "Atomic pre-send checkpoint visible to fake transport",
+    "Completed-prefix immutable resume; no key retrieval on complete/failed/started cache",
+    "Sticky redirect/401/403/429/500/timeout/stream/size/magic/decoder/future-record failures",
+    "Orphan/corrupt/cache-path and concurrent-lock rejection before send",
+    "Interrupted attempt retains started checkpoint; no automatic retry",
+    "Dummy authorization values excluded from receipt/files/stdout/exception diagnostics",
+    "Default Session trust_env false and HTTPS retries zero"
+  ],
+  "limitations": [
+    "Fake envelopes are not Parquet; no actual decoder/CRS-file/column-selection integration tested.",
+    "Dummy provider is not a Keychain or actual credential integration.",
+    "No additional user approval received; no account, wheel or map action.",
+    "No source coverage, geometry validation, forecast feature or performance result."
+  ]
+}
