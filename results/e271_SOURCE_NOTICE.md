@@ -1,0 +1,7 @@
+# E271 supplier-history transformation notice
+
+Source: F1DB and its contributors, pinned commit [9dbbb9f67dc5fa3d499061efb56d24aa4f1e261d](https://github.com/f1db/f1db/tree/9dbbb9f67dc5fa3d499061efb56d24aa4f1e261d), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Original licence and exact 108-file provenance are retained with E270's `e270_SOURCE_NOTICE.md`, receipts and projections. No endorsement is implied.
+
+Additional E271 modifications: from the E270 race projections, infer a raw team's supplier only from its latest covered earlier event in the same season. Retain literal recorded brands, with unknown fallback. Join earlier official Jolpica points to other teams sharing that brand; center their team mean points against the entire earlier field and apply the registered 10-event decay and five-zero-observation shrinkage. Exclude the target raw team's observations. Annual entrants and target-event supplier records do not supply forecast membership. Export features, supplier/legacy cohort observations and evaluation artifacts; no raw F1DB outcome/grid/time/text field is used.
+
+Physical OEM/hardware identity and original historical publication timing remain unverified. Any retrospective forecast result is conditional on earlier availability of the snapshot's historical assignments. It cannot alone verify a deployable pre-weekend accuracy claim. The matched hand-entered legacy-map control does not validate physical assignments either.
