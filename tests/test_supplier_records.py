@@ -30,6 +30,11 @@ def main():
     fails(lambda: project(yaml.safe_dump([row, row])))
     fails(lambda: project('!!python/object:os.system [echo forbidden]'))
     fails(lambda: project(yaml.safe_dump([dict(row, driverNumber=True)])))
+    fails(lambda: project(yaml.safe_dump([dict(row, driverNumber=5.5)])))
+    fails(lambda: project(yaml.safe_dump([dict(row, engineManufacturerId=['malformed'])])))
+    fails(lambda: project('driverNumber: 5'))
+    fails(lambda: project('- malformed-row'))
+    fails(lambda: project(yaml.safe_dump([row, dict(row, driverNumber='005')])))
     assert project('- driverNumber: 5\n')[0]['engineManufacturerId'] is None
     assert identities(pd.DataFrame({'DriverNumber': ['5', '5', '44'], 'Driver': ['VET', 'VET', 'HAM']})) == {'5': 'VET', '44': 'HAM'}
     fails(lambda: identities(pd.DataFrame({'DriverNumber': ['5', '5'], 'Driver': ['A', 'B']})))
