@@ -478,3 +478,8 @@ DHL stationary/award timing has an independently referenced structured-response 
 ## E258 stable-gear raw ratio observation (2026-11-20)
 
 Three sustained RPM/speed departures across two of three fixed2019pilots pass source-support counts. Independent raw-cache reconstruction passes; no outcome/forecast tested. Next distinguish rawchannel/reporting/parser artifacts from physical interpretation under separately registered rules before expanding source years or learning risk. This is not validated mechanical-warning information or winner gain;75% remains unmet. See EXPERIMENTS.md E258.
+
+
+## E259/E260: ratio pattern reached a winner test and failed (2026-11-22)
+
+Native packet provenance passed for the three fixed pilot episodes; physical fault meaning remains unverified. Expanded unchanged measurement supplies187episodes over99available2018–22events. One prior-team rate feature leaves all61innerwinnernames identical toE168:32/61 versuspoints29/61,ens30/61. Probability gains are unestablished too. Close the exact source/history/prior/model formulation without tuning rescue. Allsource/feature/ranking/leak audits pass; noouter/2026look. User-supplied creator research HTML is now available for primary-method and novelty review; its proposed empirical ceilings must not be treated as proven bounds.
