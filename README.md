@@ -31,6 +31,8 @@ python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt
 `data/results.csv`, `data/racepace_ff1.csv`, `data/laps.csv` are committed so everything reruns offline. To refresh: `python -m f1.data`, and for
 FastF1 extractors (need FastF1>=3.9 and an F1 account): `F1_MODULE=f1.<ff1|sessions|telemetry|strategy|pits> ./scripts_run_ff1.sh <.env with F1_USERNAME/F1_PASSWORD> <first> <last>`, then `python -m f1.ff1 merge` for race pace. Experiments: `python experiments/e9_profile.py`, `e10_similarity.py`, `e11_blocks.py`.
 
+E268's optional CatBoost experiment uses `requirements-research.txt`. Its fixed ordered categorical model scored **33/61 inner winners**, tied the existing numeric GBM, and failed its improvement gate. It is not used by the production predictor; the saved artifacts avoid rerunning an already scored experiment.
+
 ## Data (and why it is split this way)
 - **Jolpica-F1 (Ergast successor)**: official results, grid, qualifying, sprints, status, 2018-2026. Source of truth for labels.
 - **FastF1**: race laps -> clean-lap race pace per driver, 2018-2026 (validated: corr 0.993 vs. OpenF1 on 1,718 driver-races). I tried FastF1 for

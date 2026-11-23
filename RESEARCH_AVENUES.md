@@ -518,3 +518,8 @@ A distinct same-compound actual Q1→Q3 relative change was measured across103ca
 ## E267 initial track-status provenance (2026-11-22)
 
 The proposed parser-recovery route is unqualified. All21cached2018qualifying native TrackStatus bodies match SDKtimestamp/status sequences exactly;1251blanklap rows all begin before the first known rawstatus. No blankQ1lap has complete explicit nativegreen coverage, so no initialstate can be restored from this source. Independent rawhash/clock/bisect all6054lap audit passes; E266artifacts unchanged. Do not backfillgreen, removeaccuracyfilters or rerun its failed gate. This doesnot prove every independent source lacks flags or the cachedpayloadsarecomplete. No winner gain, productionchange or2026evaluation;75% remainsunmet.
+
+
+## E268 ordered-boosting learner: no verified winner gain (2026-11-22)
+
+A distinct untried CatBoost ordered learner on existing numeric histories plus identities was tested with fixedparameters andmatchedPlain/ordered-numeric controls. Candidate33/61innerwinners(54.1%) ties existingnumericLightGBM33, versusE16832/standings29/ens30; allpairedwinnerintervalsincludezero andthe37hitgatefails. No outer/2026run orpromotion. This addsalgorithmiccoverage, notnewphysicaldata; stoptheexactconfigurationwithoutaCatBoostparameter/seed/encoding/order sweep. Allsource/fittedinvariance/fiveguards/all61artifact/directAPIchecks pass; optionaldependencyreceipt preservespackageversions. Bestexploratoryouter48.6%unchanged and75%unmet.
