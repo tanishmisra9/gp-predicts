@@ -1,6 +1,18 @@
 # Historical engine-supplier source audit — E269
 
-**Update 2026-11-23 (E270):** The user explicitly approved the proposed historical supplier-data use. E269’s pending-approval statements below record its earlier state. E270 was registered/pushed before acquisition (dc0f4ec); all108 permitted pinned bodies are now locally cached and pass Git hash/projection checks. The first full identity audit exited on a wrong local checksum filename; the verified correction uses `_extended_timing_data.ff1pkl`. Full identity/coverage audit has not yet been rerun, so no source pass or prediction gain is established. See TAKEOVER_PROMPT.md for exact resume instructions and results/e270_SOURCE_NOTICE.md for attribution.
+**Update 2026-11-23 (E270 completed):** Explicit user approval covers this pinned historical dataset; do not request it again. Registration dc0f4ec and implementation ce5b7dc preceded acquisition. All 108 source hashes/projections and all 103 offline identity joins independently verify. The fixed recorded-brand coverage gate **passes**: 2,051/2,060 official entries, no within-event constructor/brand contradictions. This does not verify physical OEM/hardware, historical publication timing or predictive utility. No model or production map changed. See `results/e270_SOURCE_NOTICE.md` for attribution and `results/e270_independent_audit.json` for all team counts, unknowns and exact comparable disagreements. E269's approval-pending/no-records statements below are historical.
+
+| Season | Official entries | Recorded brand covered | Coverage | Comparable legacy disagreements |
+|---|---:|---:|---:|---:|
+| 2018 | 420 | 416 | 99.05% | 0 |
+| 2019 | 420 | 418 | 99.52% | 42 |
+| 2020 | 340 | 340 | 100.00% | 34 |
+| 2021 | 440 | 438 | 99.55% | 0 |
+| 2022 | 440 | 439 | 99.77% | 0 |
+
+All 2,051 covered links are annually consistent; annual lists did not supply membership. Nine source entries cannot join through the required Q-lap number/code identities and remain unknown, with nine unmatched source rows retained. Do not fill these by names, outcome order or annual unions. Of 1,364 comparable entries, 76 disagree: Red Bull in 2019/2020 has legacy `ren` versus recorded `honda` (42/34). These are recorded-brand disagreements, not independently verified hardware findings. Another 85 covered entries with a known legacy value are noncomparable (2018 `tag-heuer`:41; 2022 `rbpt`:44); `bwt-mercedes` also stays distinct where the legacy team is unknown. No rebadge equivalence is inferred.
+
+The first audit (70196) failed because it requested `timing_data.ff1pkl`; the independently demonstrated path correction to `_extended_timing_data.ff1pkl` was already committed in 093cfec. Resumed main handle 43438 finished exit0. Independent verification reconstructs every receipt/projection, poisons every discarded outcome/grid/text field in all 108 actual files, checks supplier responsiveness, and rebuilds every official join and season/team count. All 103 timing hashes match earlier E266 receipts; source/timing caches remain unchanged; HTTP sends/token lookups are zero. The identity verification shares FastF1's cached lap parser, not an independent raw decoder. Synthetic duplicate/ambiguous/malformed/unsafe-YAML/hash negatives pass. Five forecast guards last freshly passed E268; no forecast feature changed in E270 and no new 2026 data/evaluation was used.
 
 Reviewed 2026-11-22. **No F1DB data-record bodies have been acquired or used.** This is a technical-source and file-metadata audit, pending the user's licence approval.
 
