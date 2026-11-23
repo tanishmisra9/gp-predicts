@@ -523,3 +523,8 @@ The proposed parser-recovery route is unqualified. All21cached2018qualifying nat
 ## E268 ordered-boosting learner: no verified winner gain (2026-11-22)
 
 A distinct untried CatBoost ordered learner on existing numeric histories plus identities was tested with fixedparameters andmatchedPlain/ordered-numeric controls. Candidate33/61innerwinners(54.1%) ties existingnumericLightGBM33, versusE16832/standings29/ens30; allpairedwinnerintervalsincludezero andthe37hitgatefails. No outer/2026run orpromotion. This addsalgorithmiccoverage, notnewphysicaldata; stoptheexactconfigurationwithoutaCatBoostparameter/seed/encoding/order sweep. Allsource/fittedinvariance/fiveguards/all61artifact/directAPIchecks pass; optionaldependencyreceipt preservespackageversions. Bestexploratoryouter48.6%unchanged and75%unmet.
+
+
+## E269 structured supplier metadata: source lead, licence approval pending (2026-11-22)
+
+F1DB's pinned technical schemas include race-specific engine-manufacturer IDs; filemetadata listsall1032018–22races plus5annualentrantfiles. Noactualrecordsacquired orcoverage/physicalbrand/timingvalidated. TheexistingmanualPUmapleaves606/2060rowsunmapped; evenmappedassignmentsareunverified. Thisqualifiesa concretepotentialdatarepair audit, notamodelinput/gain orE193simulatorrescue. See ENGINE_SUPPLIER_SOURCE_AUDIT.md forpinnedsourceandproposedscope. ActualdatauseunderitsCCBY4.0licencerequiresuserapprovalpermissionhardrule; awaitexplicitreplybeforefirstbody. Noaccount/payment/newnativeF1call/fantasyretry/feature/2026evaluation. E268inner54.1%tiesGBM;75%remainsunmet.

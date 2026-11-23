@@ -1,0 +1,718 @@
+{
+  "repo": "f1db/f1db",
+  "pin": "9dbbb9f67dc5fa3d499061efb56d24aa4f1e261d",
+  "technical_sources": {
+    "LICENSE": {
+      "git_blob": "4ea99c213c5c0c005ae4e80df8e52169d06896ec",
+      "sha256": "9e5f1b3c610b9c2da5c313bf81d577a7d1acec686bdb0384edefa6df0f90cd94",
+      "bytes": 18656
+    },
+    "README.md": {
+      "git_blob": "1ff1c2b35ff0e7ba8a7a496397d8342f5e7f336d",
+      "sha256": "6a1e76e804dac7bb5a11f7d3463f0c3db3738166514eeeab7edf22780ea0b766",
+      "bytes": 11207
+    },
+    "src/schema/current/splitted/f1db-races-race-results.schema.json": {
+      "git_blob": "ad4c7c0ef9a041d415d624eab6e53d07b5c2cf95",
+      "sha256": "521c3da01ebb99c47b7b107845abf5f1c76c556accf229aec2214b23ad874678",
+      "bytes": 6982
+    },
+    "src/schema/current/splitted/f1db-engines.schema.json": {
+      "git_blob": "a4bdfc68e2d58c207b571f43ffdbfa2e4a1e0c1a",
+      "sha256": "90db31050f6629bee584d61637b51216a34d05be828ab0a418371f4918dd1fa7",
+      "bytes": 2319
+    },
+    "src/schema/current/splitted/f1db-seasons-entrants-engines.schema.json": {
+      "git_blob": "e3c54c1d5865e88158e4351bbf6188b41109e3bb",
+      "sha256": "d6eb35672346847dafa604cbabf1b9b99ab27b536f4933077d518d0876f5d68f",
+      "bytes": 1264
+    },
+    "src/schema/current/splitted/f1db-seasons-entrants-constructors.schema.json": {
+      "git_blob": "97c8a0e2352bf3472c58cfc10c80aeba2f8dafdf",
+      "sha256": "7e843ad7dd990a2cc69e3f5eb4d006d3a703be9dd21ee619ff5aa0c243dbf75c",
+      "bytes": 1146
+    },
+    "build-logic/src/main/kotlin/com/f1db/plugin/reader/F1DBReader.kt": {
+      "git_blob": "1f0c883c26858b48d90d84dac9db1b2bde797c51",
+      "sha256": "cdfc3de828f0eebc9f07f3aa0ea8970295079c3c70883cd8ef50f6410b2c9d04",
+      "bytes": 57668
+    },
+    "build-logic/src/main/kotlin/com/f1db/plugin/reader/databind/RaceResultConverter.kt": {
+      "git_blob": "4398b35a8c7ea2e9d9ac12ba77ac14f451e60540",
+      "sha256": "cb3194117bb7dd50f07cc285ce7aa672c640190d0eb089ed854de68958311ef6",
+      "bytes": 1186
+    },
+    "build-logic/src/main/kotlin/com/f1db/plugin/reader/databind/RaceResultMixIn.kt": {
+      "git_blob": "04f29a82597921e0bf6f1958ace9a45b15f1dd03",
+      "sha256": "64eefe1b50e6a5da890e9da2dd5ff26a1e1105670283af9b73d7d76e5d968da7",
+      "bytes": 626
+    },
+    "build-logic/src/main/kotlin/com/f1db/plugin/schema/mapper/RaceRaceResultMapper.kt": {
+      "git_blob": "6dfec0d4caf1c8ebf3d9a64d29fa68faba417519",
+      "sha256": "a21db9af661bc86f1ac78691de00c7cf2cd2b3f823dda339a5d903b53de176dd",
+      "bytes": 1065
+    }
+  },
+  "race_file_metadata": [
+    {
+      "season": 2018,
+      "round": 1,
+      "path": "src/data/seasons/2018/races/01-australia/race-results.yml",
+      "git_blob": "87e213e88410924e0d01bb5c77763fc6e27995d9"
+    },
+    {
+      "season": 2018,
+      "round": 2,
+      "path": "src/data/seasons/2018/races/02-bahrain/race-results.yml",
+      "git_blob": "9055ba0ac1ac430d40bc494a981015973e961678"
+    },
+    {
+      "season": 2018,
+      "round": 3,
+      "path": "src/data/seasons/2018/races/03-china/race-results.yml",
+      "git_blob": "4eb9c789e7c32dd62e766c12befbc4158c1abd7c"
+    },
+    {
+      "season": 2018,
+      "round": 4,
+      "path": "src/data/seasons/2018/races/04-azerbaijan/race-results.yml",
+      "git_blob": "3aec10f35c647c184bb244d3ecd5b913b0219fa1"
+    },
+    {
+      "season": 2018,
+      "round": 5,
+      "path": "src/data/seasons/2018/races/05-spain/race-results.yml",
+      "git_blob": "3160ada6a3fc8d7c90829aa631a34b567814515d"
+    },
+    {
+      "season": 2018,
+      "round": 6,
+      "path": "src/data/seasons/2018/races/06-monaco/race-results.yml",
+      "git_blob": "b7798029806caa2a7f88371b29e632d4d679d0a0"
+    },
+    {
+      "season": 2018,
+      "round": 7,
+      "path": "src/data/seasons/2018/races/07-canada/race-results.yml",
+      "git_blob": "8eedbfb04c54168497a1ecf52ee6fbc7b638b7c1"
+    },
+    {
+      "season": 2018,
+      "round": 8,
+      "path": "src/data/seasons/2018/races/08-france/race-results.yml",
+      "git_blob": "127480d847551a8659ca0406170a479f470ac0ff"
+    },
+    {
+      "season": 2018,
+      "round": 9,
+      "path": "src/data/seasons/2018/races/09-austria/race-results.yml",
+      "git_blob": "bca22a8a02a0117e18cffda0a22db8d8954fbc4a"
+    },
+    {
+      "season": 2018,
+      "round": 10,
+      "path": "src/data/seasons/2018/races/10-great-britain/race-results.yml",
+      "git_blob": "849e6eb071ec7b91b60634cb78fc3524c499286e"
+    },
+    {
+      "season": 2018,
+      "round": 11,
+      "path": "src/data/seasons/2018/races/11-germany/race-results.yml",
+      "git_blob": "cdce60a64ff6188a7e06325eac5d6f86f82f3778"
+    },
+    {
+      "season": 2018,
+      "round": 12,
+      "path": "src/data/seasons/2018/races/12-hungary/race-results.yml",
+      "git_blob": "e1de13f34613bff25f68d236ecfeaf03c6c999cc"
+    },
+    {
+      "season": 2018,
+      "round": 13,
+      "path": "src/data/seasons/2018/races/13-belgium/race-results.yml",
+      "git_blob": "38afc2b9813f3b66f4300413d7afac98069e057d"
+    },
+    {
+      "season": 2018,
+      "round": 14,
+      "path": "src/data/seasons/2018/races/14-italy/race-results.yml",
+      "git_blob": "223a30df693afdda2fb7b74d68ee5a8b0440972a"
+    },
+    {
+      "season": 2018,
+      "round": 15,
+      "path": "src/data/seasons/2018/races/15-singapore/race-results.yml",
+      "git_blob": "7528c62cbeb96c57a4b4c1af269a8053846f7547"
+    },
+    {
+      "season": 2018,
+      "round": 16,
+      "path": "src/data/seasons/2018/races/16-russia/race-results.yml",
+      "git_blob": "fd48f3bd591de3c0919fc4d17cfe00bf30b184d2"
+    },
+    {
+      "season": 2018,
+      "round": 17,
+      "path": "src/data/seasons/2018/races/17-japan/race-results.yml",
+      "git_blob": "c12452db27f2bcc8ff7b47e6f2cb1da0bcfdbddf"
+    },
+    {
+      "season": 2018,
+      "round": 18,
+      "path": "src/data/seasons/2018/races/18-united-states/race-results.yml",
+      "git_blob": "97539584ba11bb55fe4d1558fe933e4b38fd2f37"
+    },
+    {
+      "season": 2018,
+      "round": 19,
+      "path": "src/data/seasons/2018/races/19-mexico/race-results.yml",
+      "git_blob": "1c46c3720d6a1afdf5a77130b3e627c09556fd18"
+    },
+    {
+      "season": 2018,
+      "round": 20,
+      "path": "src/data/seasons/2018/races/20-brazil/race-results.yml",
+      "git_blob": "bf23c82774c1e6c33e87a177e2cda3b5a23abd4d"
+    },
+    {
+      "season": 2018,
+      "round": 21,
+      "path": "src/data/seasons/2018/races/21-abu-dhabi/race-results.yml",
+      "git_blob": "15939b5f36fe4f1b308b58a875feeceac50f8209"
+    },
+    {
+      "season": 2019,
+      "round": 1,
+      "path": "src/data/seasons/2019/races/01-australia/race-results.yml",
+      "git_blob": "3002175b6bdfe9b5fda02617d69142ec452c5da7"
+    },
+    {
+      "season": 2019,
+      "round": 2,
+      "path": "src/data/seasons/2019/races/02-bahrain/race-results.yml",
+      "git_blob": "9f92236c7dce08e35cb1eed97b0dfa75caf6d017"
+    },
+    {
+      "season": 2019,
+      "round": 3,
+      "path": "src/data/seasons/2019/races/03-china/race-results.yml",
+      "git_blob": "01ea328a2842a5b1f775a02451fc77e66a1f302c"
+    },
+    {
+      "season": 2019,
+      "round": 4,
+      "path": "src/data/seasons/2019/races/04-azerbaijan/race-results.yml",
+      "git_blob": "f839fd214d8c6f4c02ad02a14b51d683ba92bfed"
+    },
+    {
+      "season": 2019,
+      "round": 5,
+      "path": "src/data/seasons/2019/races/05-spain/race-results.yml",
+      "git_blob": "3993378c0c7900b94e8489cbc0c0149b66973229"
+    },
+    {
+      "season": 2019,
+      "round": 6,
+      "path": "src/data/seasons/2019/races/06-monaco/race-results.yml",
+      "git_blob": "18da6a444fcaff2b59b45649c1660a5a1ab2fdab"
+    },
+    {
+      "season": 2019,
+      "round": 7,
+      "path": "src/data/seasons/2019/races/07-canada/race-results.yml",
+      "git_blob": "0b485f2b0d0a4324385871c7e11a37625ec4cdb6"
+    },
+    {
+      "season": 2019,
+      "round": 8,
+      "path": "src/data/seasons/2019/races/08-france/race-results.yml",
+      "git_blob": "1417560663d5647fe1ca093a6e94ff67d802fd9b"
+    },
+    {
+      "season": 2019,
+      "round": 9,
+      "path": "src/data/seasons/2019/races/09-austria/race-results.yml",
+      "git_blob": "c2b98cc92d20e15531450d2de2ce56ea2a3c0ffd"
+    },
+    {
+      "season": 2019,
+      "round": 10,
+      "path": "src/data/seasons/2019/races/10-great-britain/race-results.yml",
+      "git_blob": "2bae6ad384323d7c0344f58dcd8b901f1c75111a"
+    },
+    {
+      "season": 2019,
+      "round": 11,
+      "path": "src/data/seasons/2019/races/11-germany/race-results.yml",
+      "git_blob": "a8acb86af6aa8214443747da44ee81d731ddfde6"
+    },
+    {
+      "season": 2019,
+      "round": 12,
+      "path": "src/data/seasons/2019/races/12-hungary/race-results.yml",
+      "git_blob": "b198a6aab7341fc79fb465e0edb059e0b1d6b91e"
+    },
+    {
+      "season": 2019,
+      "round": 13,
+      "path": "src/data/seasons/2019/races/13-belgium/race-results.yml",
+      "git_blob": "46edadd301180fd64248448328451a036bd03977"
+    },
+    {
+      "season": 2019,
+      "round": 14,
+      "path": "src/data/seasons/2019/races/14-italy/race-results.yml",
+      "git_blob": "dce1ea736cc64f27874532a0b1094bc2b4dfa090"
+    },
+    {
+      "season": 2019,
+      "round": 15,
+      "path": "src/data/seasons/2019/races/15-singapore/race-results.yml",
+      "git_blob": "af4d694a2c09e74dc8967ff6cf877fb7c5636eee"
+    },
+    {
+      "season": 2019,
+      "round": 16,
+      "path": "src/data/seasons/2019/races/16-russia/race-results.yml",
+      "git_blob": "77546ed666e02ed0a6f93d681bc2e2d011046686"
+    },
+    {
+      "season": 2019,
+      "round": 17,
+      "path": "src/data/seasons/2019/races/17-japan/race-results.yml",
+      "git_blob": "8dc10de592bb4ca11ff5567ae1a23f8bdad2dfbe"
+    },
+    {
+      "season": 2019,
+      "round": 18,
+      "path": "src/data/seasons/2019/races/18-mexico/race-results.yml",
+      "git_blob": "9ec743bfe4d1e2176d32e4f600488035a3d7dcd9"
+    },
+    {
+      "season": 2019,
+      "round": 19,
+      "path": "src/data/seasons/2019/races/19-united-states/race-results.yml",
+      "git_blob": "c81966992c3bd07c443e2e03813663ca911de1cd"
+    },
+    {
+      "season": 2019,
+      "round": 20,
+      "path": "src/data/seasons/2019/races/20-brazil/race-results.yml",
+      "git_blob": "f449d2eca30405e7d721f27a67e2d1cfce9d574c"
+    },
+    {
+      "season": 2019,
+      "round": 21,
+      "path": "src/data/seasons/2019/races/21-abu-dhabi/race-results.yml",
+      "git_blob": "feb2adf83faa3ef683a0a5ba96f8034b18705aa9"
+    },
+    {
+      "season": 2020,
+      "round": 1,
+      "path": "src/data/seasons/2020/races/01-austria/race-results.yml",
+      "git_blob": "8d46e4303f9435fc7105159cb2e756e0d20cb695"
+    },
+    {
+      "season": 2020,
+      "round": 2,
+      "path": "src/data/seasons/2020/races/02-styria/race-results.yml",
+      "git_blob": "90449245b39c2aa843495f9e6ad35fc457edefbf"
+    },
+    {
+      "season": 2020,
+      "round": 3,
+      "path": "src/data/seasons/2020/races/03-hungary/race-results.yml",
+      "git_blob": "8658a8b33999f9cb504f84f829e93cf56989a24a"
+    },
+    {
+      "season": 2020,
+      "round": 4,
+      "path": "src/data/seasons/2020/races/04-great-britain/race-results.yml",
+      "git_blob": "eebb715b763606d0c1b49b5e01927e06eb217c1a"
+    },
+    {
+      "season": 2020,
+      "round": 5,
+      "path": "src/data/seasons/2020/races/05-70th-anniversary/race-results.yml",
+      "git_blob": "9b9430097c501926b843a909ce5e02206c250355"
+    },
+    {
+      "season": 2020,
+      "round": 6,
+      "path": "src/data/seasons/2020/races/06-spain/race-results.yml",
+      "git_blob": "8f7c5466ca653971ee761b449a243e91138d12c1"
+    },
+    {
+      "season": 2020,
+      "round": 7,
+      "path": "src/data/seasons/2020/races/07-belgium/race-results.yml",
+      "git_blob": "16643984cfbd317223c84208a71aa457d4cc43c0"
+    },
+    {
+      "season": 2020,
+      "round": 8,
+      "path": "src/data/seasons/2020/races/08-italy/race-results.yml",
+      "git_blob": "4fac5520629975cc0222933c9d1414d4a53b0436"
+    },
+    {
+      "season": 2020,
+      "round": 9,
+      "path": "src/data/seasons/2020/races/09-tuscany/race-results.yml",
+      "git_blob": "776f60026d43a96914e6844ade38fde71475d2c0"
+    },
+    {
+      "season": 2020,
+      "round": 10,
+      "path": "src/data/seasons/2020/races/10-russia/race-results.yml",
+      "git_blob": "ac645bee243c689aa4454b6c0c22be24cc9d2601"
+    },
+    {
+      "season": 2020,
+      "round": 11,
+      "path": "src/data/seasons/2020/races/11-eifel/race-results.yml",
+      "git_blob": "882def72271e30f0ab47d7de8d219c9de4d35952"
+    },
+    {
+      "season": 2020,
+      "round": 12,
+      "path": "src/data/seasons/2020/races/12-portugal/race-results.yml",
+      "git_blob": "a496d01e52aa4c53c52fa6f9485354b8a3149635"
+    },
+    {
+      "season": 2020,
+      "round": 13,
+      "path": "src/data/seasons/2020/races/13-emilia-romagna/race-results.yml",
+      "git_blob": "66fe111ab25e263ecd7e883b3bad6e6b2c890edd"
+    },
+    {
+      "season": 2020,
+      "round": 14,
+      "path": "src/data/seasons/2020/races/14-turkey/race-results.yml",
+      "git_blob": "4d630badc007b99531e21ee347a45e6278b2b949"
+    },
+    {
+      "season": 2020,
+      "round": 15,
+      "path": "src/data/seasons/2020/races/15-bahrain/race-results.yml",
+      "git_blob": "78144770005aba2906e56d2dde097e7f8957932d"
+    },
+    {
+      "season": 2020,
+      "round": 16,
+      "path": "src/data/seasons/2020/races/16-sakhir/race-results.yml",
+      "git_blob": "b2b6801fb58c7df0e4fac5087cf5961ff3a0af9b"
+    },
+    {
+      "season": 2020,
+      "round": 17,
+      "path": "src/data/seasons/2020/races/17-abu-dhabi/race-results.yml",
+      "git_blob": "5b5e5ce9de7a7f9f623cda0aa922b4a003bce0ca"
+    },
+    {
+      "season": 2021,
+      "round": 1,
+      "path": "src/data/seasons/2021/races/01-bahrain/race-results.yml",
+      "git_blob": "a8b2d83b324f41000fa80b03272b708a6eb7d414"
+    },
+    {
+      "season": 2021,
+      "round": 2,
+      "path": "src/data/seasons/2021/races/02-emilia-romagna/race-results.yml",
+      "git_blob": "c78f9f2e9e0000da28c1c4099e5a63df7fe86664"
+    },
+    {
+      "season": 2021,
+      "round": 3,
+      "path": "src/data/seasons/2021/races/03-portugal/race-results.yml",
+      "git_blob": "c974546bc3c3aeaffb742f3438a5c1d71daa5505"
+    },
+    {
+      "season": 2021,
+      "round": 4,
+      "path": "src/data/seasons/2021/races/04-spain/race-results.yml",
+      "git_blob": "31173323cea50117d90072756d250b500ab34383"
+    },
+    {
+      "season": 2021,
+      "round": 5,
+      "path": "src/data/seasons/2021/races/05-monaco/race-results.yml",
+      "git_blob": "2be3874d2d2003731dd4a2fdeed8b69dc904e713"
+    },
+    {
+      "season": 2021,
+      "round": 6,
+      "path": "src/data/seasons/2021/races/06-azerbaijan/race-results.yml",
+      "git_blob": "97511a67989bcfbe1a9cc9e086f774788248be26"
+    },
+    {
+      "season": 2021,
+      "round": 7,
+      "path": "src/data/seasons/2021/races/07-france/race-results.yml",
+      "git_blob": "826d2126b440f1c608123c068b15f48a82743782"
+    },
+    {
+      "season": 2021,
+      "round": 8,
+      "path": "src/data/seasons/2021/races/08-styria/race-results.yml",
+      "git_blob": "ad3876e3c644b9acf62719d3ecb84062398dc705"
+    },
+    {
+      "season": 2021,
+      "round": 9,
+      "path": "src/data/seasons/2021/races/09-austria/race-results.yml",
+      "git_blob": "f762acbf2e666f3d8c09926576255f2df8023a0f"
+    },
+    {
+      "season": 2021,
+      "round": 10,
+      "path": "src/data/seasons/2021/races/10-great-britain/race-results.yml",
+      "git_blob": "add345a90c835262b60bfa78f51998ab9dd47e7e"
+    },
+    {
+      "season": 2021,
+      "round": 11,
+      "path": "src/data/seasons/2021/races/11-hungary/race-results.yml",
+      "git_blob": "e3f81bc55162f27e03528d0e1e09d9bb6ff6ad25"
+    },
+    {
+      "season": 2021,
+      "round": 12,
+      "path": "src/data/seasons/2021/races/12-belgium/race-results.yml",
+      "git_blob": "b54149fe8081e4979449c782bdfddae4772f06df"
+    },
+    {
+      "season": 2021,
+      "round": 13,
+      "path": "src/data/seasons/2021/races/13-netherlands/race-results.yml",
+      "git_blob": "de73a3eb5c82522c961e052fd67472f1ab05a352"
+    },
+    {
+      "season": 2021,
+      "round": 14,
+      "path": "src/data/seasons/2021/races/14-italy/race-results.yml",
+      "git_blob": "fdda914b75beef26996ab400be1cdd84565200ad"
+    },
+    {
+      "season": 2021,
+      "round": 15,
+      "path": "src/data/seasons/2021/races/15-russia/race-results.yml",
+      "git_blob": "fbbc8d148e546b47dd7bd52beffef8429f60eae8"
+    },
+    {
+      "season": 2021,
+      "round": 16,
+      "path": "src/data/seasons/2021/races/16-turkey/race-results.yml",
+      "git_blob": "4e8a2a2d11132eda79da207ce0ac1271c099803b"
+    },
+    {
+      "season": 2021,
+      "round": 17,
+      "path": "src/data/seasons/2021/races/17-united-states/race-results.yml",
+      "git_blob": "0df6abd58d95c8fd7808474efb02d342a53f2d61"
+    },
+    {
+      "season": 2021,
+      "round": 18,
+      "path": "src/data/seasons/2021/races/18-mexico/race-results.yml",
+      "git_blob": "c5208405719bbc1ea48b6e1339d457e23ab407f3"
+    },
+    {
+      "season": 2021,
+      "round": 19,
+      "path": "src/data/seasons/2021/races/19-sao-paulo/race-results.yml",
+      "git_blob": "5529a312610d0987a38e567b717d97f470da91e3"
+    },
+    {
+      "season": 2021,
+      "round": 20,
+      "path": "src/data/seasons/2021/races/20-qatar/race-results.yml",
+      "git_blob": "18e67e8620c13d81afd1cc2785518e4ea68348b9"
+    },
+    {
+      "season": 2021,
+      "round": 21,
+      "path": "src/data/seasons/2021/races/21-saudi-arabia/race-results.yml",
+      "git_blob": "9deedfca64267b51e26a4a4fe643756948b99b32"
+    },
+    {
+      "season": 2021,
+      "round": 22,
+      "path": "src/data/seasons/2021/races/22-abu-dhabi/race-results.yml",
+      "git_blob": "f41186e801f4b269e9f90d801748c6baa4de13a0"
+    },
+    {
+      "season": 2022,
+      "round": 1,
+      "path": "src/data/seasons/2022/races/01-bahrain/race-results.yml",
+      "git_blob": "d5b86281979a1c08f339e1b7e47817bf93deecab"
+    },
+    {
+      "season": 2022,
+      "round": 2,
+      "path": "src/data/seasons/2022/races/02-saudi-arabia/race-results.yml",
+      "git_blob": "f53836b1016aeb3c1628b7e451d7f17c4129d911"
+    },
+    {
+      "season": 2022,
+      "round": 3,
+      "path": "src/data/seasons/2022/races/03-australia/race-results.yml",
+      "git_blob": "5f2934f423ca71d5bf5fbd4f776e871ab43f9085"
+    },
+    {
+      "season": 2022,
+      "round": 4,
+      "path": "src/data/seasons/2022/races/04-emilia-romagna/race-results.yml",
+      "git_blob": "e3bdc6e9df643b48f8d0a590bb6fa471bb332aee"
+    },
+    {
+      "season": 2022,
+      "round": 5,
+      "path": "src/data/seasons/2022/races/05-miami/race-results.yml",
+      "git_blob": "0999fe185143b3a6eeaa05ac6abaa9f5b4989af8"
+    },
+    {
+      "season": 2022,
+      "round": 6,
+      "path": "src/data/seasons/2022/races/06-spain/race-results.yml",
+      "git_blob": "9cf49bc8dcf227fd5684966d498d4aadc76ae52f"
+    },
+    {
+      "season": 2022,
+      "round": 7,
+      "path": "src/data/seasons/2022/races/07-monaco/race-results.yml",
+      "git_blob": "c88e575a8b897e5466b3df949a22a678c91c1077"
+    },
+    {
+      "season": 2022,
+      "round": 8,
+      "path": "src/data/seasons/2022/races/08-azerbaijan/race-results.yml",
+      "git_blob": "5cf6843b5213dfe741a7bddd4a7c46892968d8ee"
+    },
+    {
+      "season": 2022,
+      "round": 9,
+      "path": "src/data/seasons/2022/races/09-canada/race-results.yml",
+      "git_blob": "c1daf7d91f95463d465ca8ebd4d6b19899a128f0"
+    },
+    {
+      "season": 2022,
+      "round": 10,
+      "path": "src/data/seasons/2022/races/10-great-britain/race-results.yml",
+      "git_blob": "d5d272ed53ffdb6552f55af93f0d31f16f21a92a"
+    },
+    {
+      "season": 2022,
+      "round": 11,
+      "path": "src/data/seasons/2022/races/11-austria/race-results.yml",
+      "git_blob": "e602d7aa21c65f59cbb040af1d4d1fbd0556aa49"
+    },
+    {
+      "season": 2022,
+      "round": 12,
+      "path": "src/data/seasons/2022/races/12-france/race-results.yml",
+      "git_blob": "e59f7be302e4e19927e3b097c54b14712a2d2668"
+    },
+    {
+      "season": 2022,
+      "round": 13,
+      "path": "src/data/seasons/2022/races/13-hungary/race-results.yml",
+      "git_blob": "96824e3b61089bf0df39878a5a3f88988a49f3ed"
+    },
+    {
+      "season": 2022,
+      "round": 14,
+      "path": "src/data/seasons/2022/races/14-belgium/race-results.yml",
+      "git_blob": "4f476e4f1362bc7cc67db382e295a84b67b43bf5"
+    },
+    {
+      "season": 2022,
+      "round": 15,
+      "path": "src/data/seasons/2022/races/15-netherlands/race-results.yml",
+      "git_blob": "04d0c7926e1dcd6d3b76dadd9d89127d3a245c91"
+    },
+    {
+      "season": 2022,
+      "round": 16,
+      "path": "src/data/seasons/2022/races/16-italy/race-results.yml",
+      "git_blob": "58d657045f892f37df330ab9d87bce50f50f34cf"
+    },
+    {
+      "season": 2022,
+      "round": 17,
+      "path": "src/data/seasons/2022/races/17-singapore/race-results.yml",
+      "git_blob": "c84f6f5041e47340158b34b800599c1399e5b9f0"
+    },
+    {
+      "season": 2022,
+      "round": 18,
+      "path": "src/data/seasons/2022/races/18-japan/race-results.yml",
+      "git_blob": "91ebfbecd463892dd4e840f8a643ac746a82430c"
+    },
+    {
+      "season": 2022,
+      "round": 19,
+      "path": "src/data/seasons/2022/races/19-united-states/race-results.yml",
+      "git_blob": "df91fd0d9c3ca1f5ea04601b4b7096c2f3211c96"
+    },
+    {
+      "season": 2022,
+      "round": 20,
+      "path": "src/data/seasons/2022/races/20-mexico/race-results.yml",
+      "git_blob": "6dea54e0cf3241702df6c81d0513aa77386d2812"
+    },
+    {
+      "season": 2022,
+      "round": 21,
+      "path": "src/data/seasons/2022/races/21-sao-paulo/race-results.yml",
+      "git_blob": "c475859797257589503fef1d8d58d759c50bc588"
+    },
+    {
+      "season": 2022,
+      "round": 22,
+      "path": "src/data/seasons/2022/races/22-abu-dhabi/race-results.yml",
+      "git_blob": "257a02321832bb12c6d00c8c4064945a6353e3f5"
+    }
+  ],
+  "entrant_file_metadata": [
+    {
+      "season": 2018,
+      "path": "src/data/seasons/2018/entrants.yml",
+      "git_blob": "0b0235f78ab53e915c7a43ffbabca7303893071e"
+    },
+    {
+      "season": 2019,
+      "path": "src/data/seasons/2019/entrants.yml",
+      "git_blob": "2c0cf841db6724f92877f8ea4f5b7dad6d5b66c3"
+    },
+    {
+      "season": 2020,
+      "path": "src/data/seasons/2020/entrants.yml",
+      "git_blob": "4383767eaaa3f7a673cca9dd8775a49be62b60b0"
+    },
+    {
+      "season": 2021,
+      "path": "src/data/seasons/2021/entrants.yml",
+      "git_blob": "a8c0e753c439a3a6ced7782c2b2f1759b2a85265"
+    },
+    {
+      "season": 2022,
+      "path": "src/data/seasons/2022/entrants.yml",
+      "git_blob": "ede69f36b8b3c9e1f0c90547503feed82a4e6ca8"
+    }
+  ],
+  "race_file_counts": {
+    "2018": 21,
+    "2019": 21,
+    "2020": 17,
+    "2021": 22,
+    "2022": 22
+  },
+  "licence_label": "CC BY 4.0",
+  "data_licence_approval_received": false,
+  "data_record_bodies_acquired": false,
+  "actual_record_coverage_verified": false,
+  "physical_supplier_mapping_verified": false,
+  "preweekend_history_verified": false,
+  "winner_fit": false,
+  "source_lead_qualified_for_model": false
+}
