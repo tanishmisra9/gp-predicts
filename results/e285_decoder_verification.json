@@ -1,0 +1,54 @@
+{
+  "experiment": "E285",
+  "date": "2026-11-23",
+  "approval_received": true,
+  "checks": [
+    {
+      "module": "tests.test_heigit_proposal",
+      "exit_code": 0,
+      "stdout_sha256": "4c342f24e4540c9e8e7dbe1e092418f9e7a08506d115de832181332e62369550"
+    },
+    {
+      "module": "tests.test_heigit_acquire",
+      "exit_code": 0,
+      "stdout_sha256": "60f9e68bcc3493d5c9d8e25b487cbd267e5da3d123c49b6eee97371e37c098dd"
+    },
+    {
+      "module": "tests.test_heigit_decode",
+      "exit_code": 0,
+      "stdout_sha256": "a96377438c154d987d28bf7b809a5067cdebd197583aaf162d87748710085a1c"
+    }
+  ],
+  "immutable_preapproval_and_source_files": {
+    "results/e280_osm_query_proposal.json": "62f00d4e87ac68e19112123d82a0295da6a99c1e77617fe99618c6f2788a44fb",
+    "results/e285_heigit_query_proposal.json": "e3fe7f9b688bd87f9095568bc3803a22d22af8b3ff7c6829a860da4c10070851",
+    "results/e285_source_metadata.json": "231a735a6114fa58b78b751c1d8f79e0ae26eb90fbdf91df30dec3db404f099e",
+    "results/e280_source_summary.json": "bee73b04300eccf9b1f8020b4a245736f30258d07b6b13485b19c60533d7d4f5",
+    "experiments/e280_osm_acquire.py": "d8dfeadbffe6e73e309faaf48675d543b6ecec93fe6918b51482a2642d40fbf0",
+    "experiments/e280_osm_proposal.py": "b98e899938feeb9510e089a055e0c62eda2d6861fdd00ae64ffd56df070c0d0c",
+    "f1/profile.py": "8399a9908598b564874a45625b659f3368558bc7d16fe00ab92d35fd13f2011f"
+  },
+  "code_sha256": {
+    "experiments/e285_heigit_decode.py": "d763a2bec819bfd259e0f2cb8ae528f7bddfa9811fa4443223f215418d439d1e",
+    "experiments/e285_heigit_acquire.py": "045eda11eb0a737dab020efbcc1a6d021fca3736a81317cedcec698a6b6ab0e4",
+    "tests/test_heigit_decode.py": "72200b0d9c40f6f6d15914b56f2dc19abf072afba18a55d01364922098ef1f37",
+    "tests/test_heigit_acquire.py": "0f913026a8fa846e80c5085790d242f0573fc22fe94270e7e92d085fdfaf32f5"
+  },
+  "wheel_and_installed_notices_verified": true,
+  "shared_numpy_version": "1.26.4",
+  "shared_pyarrow_absent": true,
+  "actual_synthetic_parquet_tested": true,
+  "all_six_fake_responses_use_real_parquet_and_isolated_decoder": true,
+  "corrupted_contributor_column_unread_with_positive_control": true,
+  "actual_sdk_preparation_dummy_keychain_output_tested": true,
+  "actual_keychain_lookup_count": 0,
+  "actual_map_request_count": 0,
+  "actual_source_records_acquired": 0,
+  "user_account_quota_and_key_setup_confirmed": false,
+  "limitations": [
+    "Synthetic files are not provider schema/coverage proof",
+    "Keychain process mocked; real user setup/access not verified",
+    "No physical route, publication timing, model or accuracy result",
+    "No forecast feature changed; five guards last E277"
+  ]
+}

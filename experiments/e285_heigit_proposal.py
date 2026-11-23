@@ -87,8 +87,8 @@ def geometry(blob):
 def project(records, query, crs):
     """Decoded allowlisted records + independently verified file CRS -> projection.
 
-    Reject an entire malformed snapshot; never skip an unknown record. Actual
-    Parquet/CRS decoding is intentionally absent until dependency approval.
+    Reject an entire malformed snapshot; never skip an unknown record. The
+    caller must verify native Parquet CRS evidence before calling this projector.
     """
     assert crs in ('OGC:CRS84', 'EPSG:4326')
     snapshot, cutoff = utc(query['as_of']), utc(query['cutoff'])

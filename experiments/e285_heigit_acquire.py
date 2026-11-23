@@ -1,10 +1,10 @@
-"""E285 bounded runner, prepared with fake transport only; approval pending.
+"""E285 bounded runner; scoped approval recorded, user setup required before use.
 
-No CLI acquisition, real credential provider or Parquet decoder. Those last
-two integrations remain gated on explicit scope approval. approved=True is an
-operator assertion, never permission by itself. Tests inject dummy callbacks.
+No CLI acquisition. approved=True is an operator assertion, never permission
+by itself. Keychain integration tests use dummy subprocess output only.
 """
 import json
+import subprocess
 import time
 from datetime import datetime, timezone
 
@@ -12,12 +12,35 @@ from experiments.e280_osm_acquire import digest, save
 from experiments.e285_heigit_proposal import ROOT, ENDPOINT, project, proposal
 
 
+def keychain_key():
+    """Read only the dedicated login-Keychain item; never display its output."""
+    command = ['/usr/bin/security', 'find-generic-password', '-s', 'gp-predicts-heigit',
+               '-a', 'gp-predicts-research', '-w',
+               str(ROOT.parents[1]/'Library/Keychains/login.keychain-db')]
+    try:
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                check=False, timeout=30, env={})
+        assert result.returncode == 0
+        token = result.stdout.decode('utf-8').removesuffix('\n')
+        assert token and token.strip() == token and '\r' not in token and '\n' not in token
+        return token
+    except Exception:
+        raise RuntimeError('E285 task-specific Keychain item unavailable or invalid') from None
+
+
+def acquire_registered(directory, *, quota_confirmed=False):
+    """Use only after user confirms account/quota/dedicated-item setup complete."""
+    from experiments.e285_heigit_decode import decode_isolated
+    assert quota_confirmed is True, 'User dashboard/setup confirmation required'
+    return run(proposal(), directory, approved=True, key_provider=keychain_key,
+               decode=decode_isolated)
+
+
 def run(plan, directory, *, approved=False, key_provider=None, decode=None,
         session=None, wait=time.sleep):
     """Frozen plan + temporary source directory -> sticky, key-free receipts.
 
-    decode(bytes) must return (selected records, verified file CRS). It is not
-    supplied here: a fake decoder cannot establish actual Parquet validity.
+    decode(bytes) must return (selected records, verified file CRS).
     """
     assert approved is True, 'Explicit additional user approval required; goal continuation is not approval.'
     assert plan == proposal(), 'registered scope changed'
@@ -144,4 +167,4 @@ def run(plan, directory, *, approved=False, key_provider=None, decode=None,
 
 
 if __name__ == '__main__':
-    print('E285 offline runner only. Additional approval, real decoder and credential integration still required.')
+    print('E285 has no CLI acquisition. Approved scope recorded; user account/quota/Keychain setup required.')

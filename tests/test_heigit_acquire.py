@@ -3,12 +3,13 @@ import copy
 import io
 import json
 import tempfile
+import subprocess
 from contextlib import redirect_stdout
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from unittest.mock import Mock, patch
 
-from experiments.e285_heigit_acquire import run
+from experiments.e285_heigit_acquire import run, keychain_key, acquire_registered
 from experiments.e285_heigit_proposal import ENDPOINT, proposal
 from tests.test_heigit_proposal import line
 from tests.test_osm_acquire import Response, Session
@@ -193,12 +194,15 @@ def test_offline_request_preparation():
         folder = Path(temp)/'prepared'
         with patch('requests.Session', ProbeSession), \
              patch('requests.sessions.get_netrc_auth', side_effect=AssertionError('netrc lookup forbidden')) as netrc, \
-             patch('requests.sessions.get_environ_proxies', side_effect=AssertionError('proxy lookup forbidden')) as proxies:
+             patch('requests.sessions.get_environ_proxies', side_effect=AssertionError('proxy lookup forbidden')) as proxies, \
+             patch('experiments.e285_heigit_acquire.subprocess.run',
+                   return_value=subprocess.CompletedProcess([], 0, stdout=(DUMMY+'\n').encode())) as credential:
             stream = io.StringIO()
             with redirect_stdout(stream):
-                state = run(plan, folder, approved=True, key_provider=lambda: DUMMY, decode=decode)
+                state = run(plan, folder, approved=True, key_provider=keychain_key, decode=decode)
             assert len(captured) == 1 and state['receipts'][0]['state'] == 'failed'
             netrc.assert_not_called(); proxies.assert_not_called()
+            assert credential.call_count == 1
             assert DUMMY not in stream.getvalue()+json.dumps(state)
             for path in folder.iterdir():
                 assert DUMMY.encode() not in path.read_bytes()
@@ -215,9 +219,45 @@ def test_offline_request_preparation():
             dirty.close()
 
 
+def test_keychain_provider():
+    """Exact scoped command, dummy output; no security process or actual key read."""
+    expected = ['/usr/bin/security', 'find-generic-password', '-s', 'gp-predicts-heigit',
+                '-a', 'gp-predicts-research', '-w',
+                '/Users/tanishmisra/Library/Keychains/login.keychain-db']
+    for output in ((DUMMY+'\n').encode(), DUMMY.encode()):
+        with patch('experiments.e285_heigit_acquire.subprocess.run',
+                   return_value=subprocess.CompletedProcess([], 0, stdout=output)) as run_command:
+            assert keychain_key() == DUMMY
+            run_command.assert_called_once_with(expected, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                                                check=False, timeout=30, env={})
+    for output in (b'', b'\xff', b' leading\n', b'trailing \n', b'line\nline\n', b'line\r\n'):
+        with patch('experiments.e285_heigit_acquire.subprocess.run',
+                   return_value=subprocess.CompletedProcess([], 0, stdout=output)):
+            rejects(keychain_key, RuntimeError)
+    for error in (RuntimeError(DUMMY), subprocess.TimeoutExpired(DUMMY, 30, output=DUMMY)):
+        with patch('experiments.e285_heigit_acquire.subprocess.run', side_effect=error):
+            try:
+                keychain_key()
+            except RuntimeError as exc:
+                assert DUMMY not in str(exc) and exc.__suppress_context__
+            else:
+                raise AssertionError('credential backend failure accepted')
+    with patch('experiments.e285_heigit_acquire.subprocess.run',
+               return_value=subprocess.CompletedProcess([], 44, stdout=DUMMY.encode())):
+        rejects(keychain_key, RuntimeError)
+    with patch('experiments.e285_heigit_acquire.keychain_key') as key, \
+         patch('experiments.e285_heigit_acquire.run') as runner:
+        rejects(lambda: acquire_registered(Path('/tmp/not-used')))
+        key.assert_not_called(); runner.assert_not_called()
+        acquire_registered(Path('/tmp/not-used'), quota_confirmed=True)
+        assert runner.call_count == 1 and runner.call_args.kwargs['key_provider'] is key
+        key.assert_not_called()
+
+
 if __name__ == '__main__':
     with patch('requests.adapters.HTTPAdapter.send', side_effect=AssertionError('REAL HTTP FORBIDDEN')) as send:
         test_runner()
         test_offline_request_preparation()
+        test_keychain_provider()
         send.assert_not_called()
     print('E285 fake-only transport/checkpoint/resume/stop/cap/dummy-key redaction PASS; real HTTP and Parquet decodes ZERO')
