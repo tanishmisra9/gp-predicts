@@ -73,14 +73,20 @@ def main():
         deltas = [r["delta_pct"] for r in rows]; starts = [r["q1_seconds"] for r in rows]
         event = source[source.season.eq(receipt["season"]) & source["round"].eq(receipt["round"])].set_index("code")
         assert set(event[event.delta_pct.notna()].index) == {r["code"] for r in rows}
+        unknown = event.loc[~event.index.isin([r["code"] for r in rows])]
+        assert unknown.drop(columns=["season", "round", "team"]).isna().all().all()
+        recorded = {r["code"]: r for r in receipt["rows"]}
+        assert len(recorded) == len(receipt["rows"]) == len(rows) and set(recorded) == {r["code"] for r in rows}
         for r in rows:
             saved = event.loc[r["code"]]
-            assert saved.compound == r["compound"]
+            assert saved.compound == r["compound"] == recorded[r["code"]]["compound"]
             for c in ("q1_seconds", "q3_seconds", "q1_laps", "q3_laps", "delta_pct"):
                 np.testing.assert_allclose(saved[c], r[c], rtol=1e-13, atol=1e-13)
             for c, value in [("evolution_relative", r["delta_pct"]-np.median(deltas) if len(rows)>=6 else np.nan),
                              ("matched_q1_relative", 100*(r["q1_seconds"]-np.median(starts))/min(starts) if len(rows)>=6 else np.nan)]:
                 np.testing.assert_allclose(saved[c], value, rtol=1e-13, atol=1e-13, equal_nan=True)
+            for c in ["q1_seconds", "q3_seconds", "q1_laps", "q3_laps", "delta_pct", "evolution_relative", "matched_q1_relative"]:
+                np.testing.assert_allclose(saved[c], recorded[r["code"]][c], rtol=1e-13, atol=1e-13, equal_nan=True)
         if s._session_split_times:
             splits = s._session_split_times + [s.session_status.Time.iloc[-1]]
             for phase, index in [(q1, 0), (q3, 2)]:

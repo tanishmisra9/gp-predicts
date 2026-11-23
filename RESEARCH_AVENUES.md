@@ -508,3 +508,8 @@ A distinct full-inner common-section shape × prior circuit-demand test was regi
 ## E265 primary decay evidence (2026-11-22)
 
 Bonasorta's source verifies a post-qualifying podium method, not a new exact-winner result. Multiple tau/seed test-score reports and a test-inclusive XGBoost imputation branch limit transfer claims; the latter does not apply to its CatBoost headline. Actual adaptive selection history is unverified. No independent numerical decay gain established or E173 tuning reopened. See CREATOR_RESEARCH_AUDIT.md for pinned source/negative controls and the initial unfiltered paper's additional2026outcome exposure. No external model run or new accuracy;75%winner target remains unmet.
+
+
+## E266 qualifying-stage evolution: coverage failure (2026-11-22)
+
+A distinct same-compound actual Q1→Q3 relative change was measured across103cached sessions, without sector recombination.86events supplied sixpaired drivers, but2018provided118/210normalized observations (56.2%), below the registered60%year minimum. All other years passed. Independent all-session scalar/hash/phase-boundary audit and synthetic checks pass. No temporal prediction or winner feature followed; close the exact formulation without dropping2018or relaxingfilters/compound/phase/counts. Two diagnostic2018examples show blankQ1track-status/accuracy limitations; their cause is unverified. A native-source/parser audit could establish a real repair, but blankstatus cannot be assumedgreen. This source failure is not predictive evidence against every evolution measure.75%winner target remains unmet.
