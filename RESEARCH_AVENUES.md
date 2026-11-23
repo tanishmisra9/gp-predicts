@@ -498,3 +498,8 @@ Unlike E202's earlier empty race-car inventory, three fixed2019pilots now have e
 ## E263: lap-disjoint DRS contrast gate failed (2026-11-22)
 
 The813matchedpairs yield only4/5/6adequately repeated drivers in Spain/Hungary/Italy; registered rule needs6drivers in2pilots. Italy alone qualifies and hasnegative splitcorrelation(−.187). PositiveSpain/Hungary correlations(.908/.838)are belowrequiredsupport, notvalidatedrepeatability. IndependentSVD/union-find/rawframedisjointness/aggregationaudits pass. No response-window/partition/count/year rescue orwinnerfeature; noaccuracygain. E262sourceobservability/comparability remains true, buttheexactcontrastformulationisclosed.75%winnergoal remainsunmet.
+
+
+## E264 section-shape test: source access stopped (2026-11-22)
+
+A distinct full-inner common-section shape × prior circuit-demand test was registered, beyond earlier whole-profile scalar experiments. The first uncached position request (2018 R1) returned HTTP403; the registered stop prevented further retrieval. Only three cached feeds were obtained, below95/99 required. The95 unattempted feeds remain unknown, not absent. No profile or winner model ran, so predictive utility remains untested. Preserve the gate and stop without cohort/year/endpoint rescue; independently justified access evidence is required before a future source attempt. No accuracy gain or new ceiling established;75% exact-winner target remains unmet. See EXPERIMENTS.md E264 for scope, tests and receipts.

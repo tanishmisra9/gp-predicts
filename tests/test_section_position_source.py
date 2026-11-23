@@ -29,6 +29,13 @@ def main():
         assert all(x["stop_remaining"] for x in r[4:])
         before=status.read_bytes();acquire(inventory,status,session,positions,cache,lambda:auth.append(1),Sender,lambda:FLOOR+1)
         assert status.read_bytes()==before and len(calls)==1 and len(auth)==1
+    # A disk-floor stop must happen before auth or native requests.
+    before_calls=len(calls);before_auth=len(auth)
+    with tempfile.TemporaryDirectory() as d:
+        r=acquire(inventory,Path(d)/"status.json",session,positions,cache,lambda:auth.append(1),Sender,lambda:FLOOR-1)
+        assert len(calls)==before_calls and len(auth)==before_auth
+        assert all(x["stop_reason"]=="disk_floor" for x in r[4:])
+        assert not any(x["requests"] for x in r)
     for path,year in (("/static/2026/1_Race/",2026),("/static/2019/1_Qualifying/",2019)):
         try:allowed_urls(path,year)
         except AssertionError:pass
