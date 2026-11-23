@@ -1,3 +1,5 @@
+import io
+from unittest.mock import patch
 import numpy as np
 import pandas as pd
 from experiments.e263_drs_repeatability import acceleration,lap_components,aggregate,evaluate,correlation
@@ -46,6 +48,10 @@ def main():
     negative=positive.assign(half1=-positive.half1);result,_=evaluate(negative);assert not result["gate"]
     constant=positive.assign(half1=1.);result,_=evaluate(constant);assert not result["gate"] and result["bootstrap_finite"]==0 and result["bootstrap_ci"] is None
     result,_=evaluate(positive[positive.driver.ne("0")]);assert not result["coverage_gate"] and result["bootstrap_finite"]==0
+    with patch("numpy.random.default_rng",side_effect=AssertionError("coverage-failed branch must not resample")):
+        _,empty_score=evaluate(positive[positive.driver.ne("0")])
+    assert pd.read_csv(io.StringIO(empty_score.to_csv(index=False))).empty
+    assert {"x","y","half0","half1"}.issubset(empty_score.columns)
     assert correlation([1,1],[2,3]) is None
     print("E263 OLS/intercept/bounds/guards/graph/inputorder/lap disjointness/weights/missing/support/bootstrap/null tests PASS")
 

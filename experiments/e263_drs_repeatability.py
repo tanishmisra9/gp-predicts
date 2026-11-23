@@ -91,7 +91,9 @@ def evaluate(table):
     result=dict(pilots=pilots,coverage_gate=len(eligible)>=2,gate=False,bootstrap_finite=0,bootstrap_ci=None,
                 pooled_correlation=None,identity_null_tail=None,identity_null_finite=0)
     if len(eligible)<2:
-        result["reason"]="insufficient_lap_disjoint_support";return result,pd.DataFrame()
+        result["reason"]="insufficient_lap_disjoint_support"
+        empty=table.iloc[:0].copy();empty["x"]=pd.Series(dtype=float);empty["y"]=pd.Series(dtype=float)
+        return result,empty
     scored=pd.concat(eligible,ignore_index=True);r=correlation(scored.x,scored.y)
     rng=np.random.default_rng(263);boots=[]
     for indices in rng.integers(len(eligible),size=(4000,len(eligible))):

@@ -493,3 +493,8 @@ See CREATOR_RESEARCH_AUDIT.md. Primary F1-predict table ties championship43/87; 
 ## E262: spatially comparable recorded DRS states now supported (2026-11-22)
 
 Unlike E202's earlier empty race-car inventory, three fixed2019pilots now have explicit rawDRS states plus newly acquired nativeXY feeds. Registered5frame/samecar/stint/compound/gear/age/speed/nearbyXY/lapstarttraffic matching yields813pairs and8supporteddrivers perpilot; independent reconstruction passes. This qualifies a separately registered statecontrast/repeatability measurement, not a predictor or accuracy gain. Sourcegeometryscale is empirically inferred; physicalwing/drag causation and2026counterpart remainunverified. No winner/pace response was inspected; keep fullpreweekend target/previousnegative closures.
+
+
+## E263: lap-disjoint DRS contrast gate failed (2026-11-22)
+
+The813matchedpairs yield only4/5/6adequately repeated drivers in Spain/Hungary/Italy; registered rule needs6drivers in2pilots. Italy alone qualifies and hasnegative splitcorrelation(−.187). PositiveSpain/Hungary correlations(.908/.838)are belowrequiredsupport, notvalidatedrepeatability. IndependentSVD/union-find/rawframedisjointness/aggregationaudits pass. No response-window/partition/count/year rescue orwinnerfeature; noaccuracygain. E262sourceobservability/comparability remains true, buttheexactcontrastformulationisclosed.75%winnergoal remainsunmet.
