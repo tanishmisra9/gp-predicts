@@ -550,3 +550,8 @@ FastF1primarydocs andinstalledcoreAST/independentlinechecksverify Deleted/Delete
 ## E273 numeric withdrawal pilot failed support (2026-11-23)
 
 Explicitpre-countsource-schemaamendment: nativeinitialphasearraysacceptedonlyasunknown/reset, originaldict-onlyrunaborted. Threecached2019Qpilots have85/86/70validPBupdates andzeroqualifiedupwardrestorations; registered100update/2restoringcars/6overall/2event/4drivergatefails. Independentallraw/indexedprefix/count/hash/audit andsyntheticpositivecasesPASS, zeroHTTP/tokenlookup. No deletioncompleteness/causalerror/winnerutilityclaim ormodel; donotrelaxphase/reset/restore/counts/years. E27132/61winnerresultunchanged,75%goalactive/unmet.
+
+
+## E274 cached biographical source qualifies a distinct age hypothesis (2026-11-23)
+
+Existing24official2018–22resultcachepagesalreadycontainDOB:2060/2060entries/34driversvalidconsistent, nofetch. Strictpastdriverrecords supply1212/1220innerDOBs (337/340,437/440,438/440), firstappearancesremainunknown. Originalcachehashunchanged/zeroHTTP; independentallraw/date/identity/count/history/hashes/actualpoison/prefixchecksPASS. No ageperformance/forecastfit measured. E70experience/rookieandE139/E255relatednegativesremain; agecannotbeassumedcausalusefulorpath75%. Needsseparatefixedage-vs-matchedexperiencecontrol/full61inner/null/paired/sourcepoison/freshguardsprotocol; historicalpublicationtimeunverified.
