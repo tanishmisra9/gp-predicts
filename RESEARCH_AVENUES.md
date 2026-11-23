@@ -540,3 +540,8 @@ One fixed strictpast recorded-brand peer-points history test is registered in EX
 ## E271 completed: recorded-brand peer feature failed (2026-11-23)
 
 All61inner candidate32/61tieslegacy32/E16832 withALLwinnernamesunchanged;points29,ens30,null1. No37hit/allfourpositivepairedlowerboundpass; noouter/2026score/promotionorparameterrescue. Independentallsource/2060feature/rawfuturepoison/prefix/earlierresponse/fittedscore/all61metric/bootstrap/reference/hash/directfitchecksandfreshfiveguardspass. SourcecoverageE270remainsvalid,butphysicalOEM/publicationtiming unverified andnoprovenwinnergain. Closeexactpeerpoints/same-season/latestmembership/ownteam-exclusion/HL10/5prior/E168formulation;E193staysclosed.75%goalactive/unmet.
+
+
+## E272 apparent deletion column is not an independent numeric source (2026-11-23)
+
+FastF1primarydocs andinstalledcoreAST/independentlinechecksverify Deleted/DeletedReason arederivedfromracecontrolMessage free-text, excludedfrominputsunder currentrules. Noeventdata/modelacquired;missingflagsarenotlegal/zeroerrorlabels. PartialnumericBestLapTime correction doesnotqualify completedeletiontruth; newnumericrevocationpilotrequiresa separate frozenprotocolbeforevalues. E214dispersion/E205anomalyroutesnotrepeated. Technicalfacts/hashes/negativecontrols under e272; winneraccuracyunchanged,75%goalactive/unmet.
