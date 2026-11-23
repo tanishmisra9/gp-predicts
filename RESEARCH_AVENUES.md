@@ -560,3 +560,8 @@ Existing24official2018–22resultcachepagesalreadycontainDOB:2060/2060entries/34
 ## E275 fixed age/experience winner check registered (2026-11-23)
 
 OneE168candidate adds observed-entrycount/rookie and prior-recordage/age² versusnestedexperience-onlycontrol+E168/points/ens/nullseed275. StrictpastDOBonly,currentfirstappearancesunknown, trainmedian, noagepeak/bins/interaction/modelsearch; all61inner fixedpairedgate. Notimplemented/scored, noaccuracygainyet. Needactualraw24pageDOBpoison/prefix/earlierresponse, independentfeatures/metrics/directfits/freshfiveguards beforefit. Originalhistoricalpublicationtimingunverified; noouter/2026or75%promotionfromsourcecoverage.
+
+
+## E275 age beyond observed-entry experience failed winner test (2026-11-23)
+
+All61inner candidate30/61vsnestedexperience32/E16832/points29/ens30/null2;twochangedwinnernameslosebothhits. Fixed37hit/allfourpositivepairedlowerboundgatefails,noouter/2026/promotionortuning. All2060scalarfeatures/actual24rawsourcepoison/prefix/earlierresponse/fittedscores/full61metrics/reference/hash/directfitchecksandfreshfiveguardsPASS. RecordedDOBsourcepassE274isreal,butnoincrementalwinnergain. Closeexactageyears+square/observedentrycount+rookie/E168formulation;historicalpublicationtime/rosterassumptionsremain.75%goalactive/unmet.

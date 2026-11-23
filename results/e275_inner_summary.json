@@ -1,0 +1,609 @@
+{
+  "models": {
+    "age_null": {
+      "winners": 2,
+      "winner_rate": 0.03278688524590164,
+      "overlap": 0.0273224043715847,
+      "by_season": {
+        "2020": 0,
+        "2021": 0,
+        "2022": 2
+      },
+      "team_hits": 3,
+      "logloss": 3.166850372961621,
+      "brier": 0.9675690573704049
+    },
+    "age_win": {
+      "winners": 30,
+      "winner_rate": 0.4918032786885246,
+      "overlap": 0.6338797814207648,
+      "by_season": {
+        "2020": 11,
+        "2021": 6,
+        "2022": 13
+      },
+      "team_hits": 35,
+      "logloss": 1.5650303707656668,
+      "brier": 0.6833830376884577
+    },
+    "ens": {
+      "winners": 30,
+      "winner_rate": 0.4918032786885246,
+      "overlap": 0.628415300546448,
+      "by_season": {
+        "2020": 9,
+        "2021": 9,
+        "2022": 12
+      },
+      "team_hits": 37
+    },
+    "experience_win": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "overlap": 0.6393442622950818,
+      "by_season": {
+        "2020": 11,
+        "2021": 8,
+        "2022": 13
+      },
+      "team_hits": 37,
+      "logloss": 1.5657231764330215,
+      "brier": 0.6839556609352717
+    },
+    "pre_logit": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "overlap": 0.6393442622950819,
+      "by_season": {
+        "2020": 10,
+        "2021": 9,
+        "2022": 13
+      },
+      "team_hits": 38,
+      "logloss": 1.7236921940522445,
+      "brier": 0.7496303854405131
+    },
+    "standings": {
+      "winners": 29,
+      "winner_rate": 0.47540983606557374,
+      "overlap": 0.6065573770491802,
+      "by_season": {
+        "2020": 9,
+        "2021": 8,
+        "2022": 12
+      },
+      "team_hits": 37
+    },
+    "win_logit": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "overlap": 0.6393442622950818,
+      "by_season": {
+        "2020": 11,
+        "2021": 8,
+        "2022": 13
+      },
+      "team_hits": 37,
+      "logloss": 1.5647789667190999,
+      "brier": 0.6832594266759052
+    }
+  },
+  "paired": {
+    "experience_win": {
+      "diff": -0.03278688524590164,
+      "ci": [
+        -0.08196721311475409,
+        0.0
+      ],
+      "p_nonpositive": 1.0
+    },
+    "win_logit": {
+      "diff": -0.03278688524590164,
+      "ci": [
+        -0.08196721311475409,
+        0.0
+      ],
+      "p_nonpositive": 1.0
+    },
+    "standings": {
+      "diff": 0.01639344262295082,
+      "ci": [
+        -0.09836065573770492,
+        0.13114754098360656
+      ],
+      "p_nonpositive": 0.4512
+    },
+    "ens": {
+      "diff": 0.0,
+      "ci": [
+        -0.08196721311475409,
+        0.08196721311475409
+      ],
+      "p_nonpositive": 0.5756
+    }
+  },
+  "candidate": "age_win",
+  "gate": false,
+  "base_features": [
+    "d3_order",
+    "d3_q_pos",
+    "d3_q_gap",
+    "d3_pts_n",
+    "d3_dnf",
+    "d3_gain",
+    "d3_pace_gap",
+    "t3_order",
+    "t3_q_pos",
+    "t3_q_gap",
+    "t3_pts_n",
+    "t3_dnf",
+    "t3_gain",
+    "t3_pace_gap",
+    "d10_order",
+    "d10_q_pos",
+    "d10_q_gap",
+    "d10_pts_n",
+    "d10_dnf",
+    "d10_gain",
+    "d10_pace_gap",
+    "t10_order",
+    "t10_q_pos",
+    "t10_q_gap",
+    "t10_pts_n",
+    "t10_dnf",
+    "t10_gain",
+    "t10_pace_gap",
+    "d_season_pts",
+    "t_season_pts",
+    "season_races",
+    "circ_grid_corr",
+    "circ_pole_win",
+    "era_round",
+    "field",
+    "prev_order",
+    "t_circ_res",
+    "d_circ_res"
+  ],
+  "candidate_features": [
+    "d3_order",
+    "d3_q_pos",
+    "d3_q_gap",
+    "d3_pts_n",
+    "d3_dnf",
+    "d3_gain",
+    "d3_pace_gap",
+    "t3_order",
+    "t3_q_pos",
+    "t3_q_gap",
+    "t3_pts_n",
+    "t3_dnf",
+    "t3_gain",
+    "t3_pace_gap",
+    "d10_order",
+    "d10_q_pos",
+    "d10_q_gap",
+    "d10_pts_n",
+    "d10_dnf",
+    "d10_gain",
+    "d10_pace_gap",
+    "t10_order",
+    "t10_q_pos",
+    "t10_q_gap",
+    "t10_pts_n",
+    "t10_dnf",
+    "t10_gain",
+    "t10_pace_gap",
+    "d_season_pts",
+    "t_season_pts",
+    "season_races",
+    "circ_grid_corr",
+    "circ_pole_win",
+    "era_round",
+    "field",
+    "prev_order",
+    "t_circ_res",
+    "d_circ_res",
+    "observed_entry_count",
+    "observed_rookie_flag",
+    "prior_age_years",
+    "prior_age_squared"
+  ],
+  "experience_features": [
+    "d3_order",
+    "d3_q_pos",
+    "d3_q_gap",
+    "d3_pts_n",
+    "d3_dnf",
+    "d3_gain",
+    "d3_pace_gap",
+    "t3_order",
+    "t3_q_pos",
+    "t3_q_gap",
+    "t3_pts_n",
+    "t3_dnf",
+    "t3_gain",
+    "t3_pace_gap",
+    "d10_order",
+    "d10_q_pos",
+    "d10_q_gap",
+    "d10_pts_n",
+    "d10_dnf",
+    "d10_gain",
+    "d10_pace_gap",
+    "t10_order",
+    "t10_q_pos",
+    "t10_q_gap",
+    "t10_pts_n",
+    "t10_dnf",
+    "t10_gain",
+    "t10_pace_gap",
+    "d_season_pts",
+    "t_season_pts",
+    "season_races",
+    "circ_grid_corr",
+    "circ_pole_win",
+    "era_round",
+    "field",
+    "prev_order",
+    "t_circ_res",
+    "d_circ_res",
+    "observed_entry_count",
+    "observed_rookie_flag"
+  ],
+  "winner_changes": {
+    "experience_win": 2,
+    "win_logit": 2,
+    "standings": 17,
+    "ens": 9
+  },
+  "unknown_by_event": [
+    {
+      "season": 2020,
+      "round": 1,
+      "dob_unknown": 0.05
+    },
+    {
+      "season": 2020,
+      "round": 2,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 3,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 4,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 5,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 6,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 7,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 8,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 9,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 10,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 11,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 12,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 13,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 14,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 15,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2020,
+      "round": 16,
+      "dob_unknown": 0.1
+    },
+    {
+      "season": 2020,
+      "round": 17,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 1,
+      "dob_unknown": 0.15
+    },
+    {
+      "season": 2021,
+      "round": 2,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 3,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 4,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 5,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 6,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 7,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 8,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 9,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 10,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 11,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 12,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 13,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 14,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 15,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 16,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 17,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 18,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 19,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 20,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 21,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2021,
+      "round": 22,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 1,
+      "dob_unknown": 0.05
+    },
+    {
+      "season": 2022,
+      "round": 2,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 3,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 4,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 5,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 6,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 7,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 8,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 9,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 10,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 11,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 12,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 13,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 14,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 15,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 16,
+      "dob_unknown": 0.05
+    },
+    {
+      "season": 2022,
+      "round": 17,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 18,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 19,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 20,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 21,
+      "dob_unknown": 0.0
+    },
+    {
+      "season": 2022,
+      "round": 22,
+      "dob_unknown": 0.0
+    }
+  ],
+  "unknown_by_season": [
+    {
+      "season": 2020,
+      "dob_unknown": 0.008823529411764706
+    },
+    {
+      "season": 2021,
+      "dob_unknown": 0.006818181818181818
+    },
+    {
+      "season": 2022,
+      "dob_unknown": 0.004545454545454545
+    }
+  ],
+  "historical_publication_time_verified": false,
+  "outer_evaluated": false,
+  "evaluated_2026": false,
+  "evaluated_races": 61,
+  "forecast_entrants": 1220,
+  "model_config": {
+    "C": 0.03,
+    "max_iter": 500,
+    "training_half_life": 100,
+    "null_seed": 275
+  },
+  "code_hashes": {
+    "experiments/e275_age_winner.py": "bb6ffc03e34023281d098f7241658162e1720be284211716d371d8dd320047e1",
+    "experiments/e274_birth_source.py": "c52106d4f3bb87c67aefa307ec7bb0cb93d8bef2a4ddd1aa9da70b940f2b0b6b",
+    "experiments/e168_winner.py": "fc5ed816d7d01c1b61d77386293a8f3dc52326a0c6f715bdba15086becfc71e6",
+    "f1/features.py": "52689439651984cd6720b44765dc37e8bc4dbbaf045b3f0e7eb8929e629c54c4",
+    "f1/walkforward.py": "72068b932a2a2004e59c9750574c1559e87774d2c19ef5da3f585e53bcb20223"
+  },
+  "input_hashes": {
+    "results_through_2022": "2bf37b4cdbeb6d2a3ef3f65420ac03110e4988f6bb14473dd17841e78ad21ad3",
+    "pace_through_2022": "8a12d45b8f6ae7c912ec39c8e225529fa8486aa1e3da3cce7ed7084ccd4117d8",
+    "birth_source": "2f3a95a2dae47094ab40919cbde9c385423955289fd1d43dadbbf6d9bed36a98"
+  },
+  "artifact_hashes": {
+    "e275_features.csv": "db5f6c426988da55fcef1cd2c6759f9d3fba25800a4a0b1e7d597dbbce17b80e",
+    "e275_inner_per_race.csv": "7e5f15e0c53d7c36460b43ed673cbbef5764fd3b27f920551a77bb0b04e95bba",
+    "e275_inner_probability_metrics.csv": "9e56c0c5bb6614e85a54f50384d5571bb06025487bf59b5f224a8659cdfde544",
+    "e275_inner_predictions.csv": "7434228135b8f16050811f23c1d5dcbc8c310e53a257458deebff37d025432d8"
+  }
+}
