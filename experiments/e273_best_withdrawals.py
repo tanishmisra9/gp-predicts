@@ -143,6 +143,7 @@ def main():
         assert sends.call_count == tokens.call_count == 0
     assert hashlib.sha256(identities_path.read_bytes()).hexdigest() == identities_hash
     result = dict(sources=reports, source_support_gate=gate(reports), actual_http_sends=0, token_lookups=0,
+                  source_contract_amended=True, amendment_commit='9066158', phase_array_policy='reset_to_unknown',
                   identities_sha256=identities_hash, deletion_cause_verified=False, completeness_verified=False,
                   historical_publication_time_verified=False, winner_fit=False, outer_evaluated=False, evaluated_2026=False)
     projection_path = ROOT / 'results/e273_numeric_projection.json'

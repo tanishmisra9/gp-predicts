@@ -24,10 +24,12 @@ def fails(fn):
 
 
 def main():
+    from tests.test_best_withdrawals_artifact import indexed_analysis
     roster = {'1': 'AAA'}
     patches = [best('1:30.000', 0), best('1:20.000'), best('1:30.000'),
                best('1:20.000'), best('1:30.000'), best('1:30.000')]
     projected = project(body(patches), roster); result = analyse(projected, roster)
+    assert indexed_analysis(projected, roster) == result
     assert result['valid_best_updates'] == 6 and result['upward_events'] == 2
     assert result['unique_restorations'] == 1 and result['events'][1]['duplicate']
     assert result['events'][0]['old_ms'] == 80000 and result['events'][0]['new_ms'] == 90000
@@ -41,6 +43,9 @@ def main():
     assert analyse(project(body(unknown), roster), roster)['unique_restorations'] == 0
     two_phases = patches[:3]+[best('1:30.000', 1), best('1:20.000'), best('1:30.000')]
     assert analyse(project(body(two_phases), roster), roster)['unique_restorations'] == 2
+    for raw in [body(two_phases), body([{'BestLapTimes': [{}, {}, {}]}]+patches), body(unknown)]:
+        projection = project(raw, roster)
+        assert indexed_analysis(projection, roster) == analyse(projection, roster)
     poison = [dict(p, Message={'poison': [999]}, Position=-999, Grid=999) for p in patches]
     assert project(body(poison), roster) == projected
     late = patches+[best('1:11.111')]

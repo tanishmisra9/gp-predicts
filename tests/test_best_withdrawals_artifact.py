@@ -99,6 +99,8 @@ def indexed_analysis(projection, roster):
 def main():
     directory = ROOT / 'results'
     summary = json.loads((directory / 'e273_withdrawal_summary.json').read_text())
+    assert summary['source_contract_amended'] and summary['amendment_commit'] == '9066158'
+    assert summary['phase_array_policy'] == 'reset_to_unknown'
     saved = json.loads((directory / 'e273_numeric_projection.json').read_text())
     assert hashlib.sha256((directory / 'e273_numeric_projection.json').read_bytes()).hexdigest() == summary['projection_sha256']
     assert hashlib.sha256((directory / 'e270_identity_audit.json').read_bytes()).hexdigest() == summary['identities_sha256']

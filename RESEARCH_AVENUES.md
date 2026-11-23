@@ -545,3 +545,8 @@ All61inner candidate32/61tieslegacy32/E16832 withALLwinnernamesunchanged;points2
 ## E272 apparent deletion column is not an independent numeric source (2026-11-23)
 
 FastF1primarydocs andinstalledcoreAST/independentlinechecksverify Deleted/DeletedReason arederivedfromracecontrolMessage free-text, excludedfrominputsunder currentrules. Noeventdata/modelacquired;missingflagsarenotlegal/zeroerrorlabels. PartialnumericBestLapTime correction doesnotqualify completedeletiontruth; newnumericrevocationpilotrequiresa separate frozenprotocolbeforevalues. E214dispersion/E205anomalyroutesnotrepeated. Technicalfacts/hashes/negativecontrols under e272; winneraccuracyunchanged,75%goalactive/unmet.
+
+
+## E273 numeric withdrawal pilot failed support (2026-11-23)
+
+Explicitpre-countsource-schemaamendment: nativeinitialphasearraysacceptedonlyasunknown/reset, originaldict-onlyrunaborted. Threecached2019Qpilots have85/86/70validPBupdates andzeroqualifiedupwardrestorations; registered100update/2restoringcars/6overall/2event/4drivergatefails. Independentallraw/indexedprefix/count/hash/audit andsyntheticpositivecasesPASS, zeroHTTP/tokenlookup. No deletioncompleteness/causalerror/winnerutilityclaim ormodel; donotrelaxphase/reset/restore/counts/years. E27132/61winnerresultunchanged,75%goalactive/unmet.
