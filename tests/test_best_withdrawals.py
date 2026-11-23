@@ -33,7 +33,8 @@ def main():
     assert result['events'][0]['old_ms'] == 80000 and result['events'][0]['new_ms'] == 90000
     for ending in [best('1:40.000'), best('1:30.000', 1), best('1:20.000'), best('1:10.000')]:
         assert analyse(project(body(patches[:2]+[ending]), roster), roster)['unique_restorations'] == 0
-    for reset in [best(''), {'BestLapTime': {}}, {'BestLapTimes': {}}, {'BestLapTimes': {'0': {}, '1': {}}}]:
+    for reset in [best(''), {'BestLapTime': {}}, {'BestLapTimes': {}}, {'BestLapTimes': {'0': {}, '1': {}}},
+                  {'BestLapTimes': [{'Value': '1:00.000'}, {'Value': '2:00.000'}, {}]}]:
         changed = patches[:2]+[reset, best('1:30.000')]
         assert analyse(project(body(changed), roster), roster)['unique_restorations'] == 0
     unknown = [best('1:30.000'), best('1:20.000'), best('1:30.000')]
@@ -53,6 +54,7 @@ def main():
     fails(lambda: project(body(patches), {'1': 'AAA', '2': 'AAA'}))
     fails(lambda: project(b'00:00:01.000[]\r\n', roster))
     fails(lambda: project(body([{'BestLapTimes': {'3': {}}}]), roster))
+    fails(lambda: project(body([{'BestLapTimes': True}]), roster))
     fails(lambda: project(body([{'BestLapTime': True}]), roster))
     fails(lambda: project(b'00:00:02.000{}\r\n00:00:01.000{}\r\n', roster))
     tied = body(patches[:3]).replace(b'00:00:01.000', b'00:00:00.000')

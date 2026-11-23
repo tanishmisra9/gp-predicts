@@ -44,7 +44,7 @@ def independent_projection(body, roster):
             a, b = 'BestLapTimes' in row, 'BestLapTime' in row
             if not a and not b:
                 continue
-            phases = sorted(row['BestLapTimes']) if a else None
+            phases = (sorted(row['BestLapTimes']) if isinstance(row.get('BestLapTimes'), dict) else []) if a else None
             if phases is not None:
                 assert set(phases) <= {'0', '1', '2'}
             value = row['BestLapTime'].get('Value') if b else None

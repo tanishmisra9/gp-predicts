@@ -40,7 +40,9 @@ def project(body, roster):
                 continue
             phase = data.get('BestLapTimes')
             if 'BestLapTimes' in data:
-                assert isinstance(phase, dict) and set(phase) <= {'0', '1', '2'}
+                assert isinstance(phase, (dict, list))
+                if isinstance(phase, dict):
+                    assert set(phase) <= {'0', '1', '2'}
             best = data.get('BestLapTime')
             if 'BestLapTime' in data:
                 assert isinstance(best, dict)
@@ -50,7 +52,7 @@ def project(body, roster):
                 best_ms = None
             rows.append(dict(record=records, time_ms=time, car=car,
                              phase_present='BestLapTimes' in data,
-                             phase_keys=sorted(phase) if phase is not None else None,
+                             phase_keys=sorted(phase) if isinstance(phase, dict) else [] if isinstance(phase, list) else None,
                              best_present='BestLapTime' in data, best_ms=best_ms))
         records += 1
     return dict(records=records, updates=rows)
