@@ -26,7 +26,9 @@ def rows(path, first=2018, last=2022):
 
 def calendar(entries):
     events = {}
+    code_identity = {}
     for r in entries:
+        assert code_identity.setdefault(r['code'], r['driver']) == r['driver']
         key = (int(r['season']), int(r['round']))
         day = date.fromisoformat(r['date'])
         assert day.year == key[0] and key[1] > 0

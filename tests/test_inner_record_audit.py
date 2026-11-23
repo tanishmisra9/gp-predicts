@@ -46,6 +46,8 @@ def test_scalar_and_edges():
     rejects(lambda: calendar([]))
     rejects(lambda: calendar(rows+[rows[0]]))
     rejects(lambda: calendar(rows[1:]))
+    bad = fixture(); bad[3]['driver'] = 'different-driver-with-reused-code'
+    rejects(lambda: calendar(bad))
     for field, value in (('code', 'B'), ('driver', 'b'), ('order', '2'),
                          ('date', '2021-01-05'), ('date', 'not-a-date')):
         bad = fixture(); bad[0] = dict(bad[0], **{field: value})
