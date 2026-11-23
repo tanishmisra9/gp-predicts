@@ -5,6 +5,7 @@ import json
 import tempfile
 from contextlib import redirect_stdout
 from pathlib import Path
+from urllib.parse import parse_qs, urlsplit
 from unittest.mock import Mock, patch
 
 from experiments.e285_heigit_acquire import run
@@ -170,8 +171,53 @@ def test_runner():
         assert not no_key.called and not client.calls
 
 
+def test_offline_request_preparation():
+    """Real SDK preparation with a dummy header; send never reaches an adapter."""
+    from requests import Request, Session as RequestsSession
+    plan = proposal(); captured = []
+    class ProbeSession(RequestsSession):
+        def send(self, prepared, **kwargs):
+            captured.append(prepared)
+            assert prepared.headers['Authorization'] == DUMMY
+            assert prepared.method == 'GET' and prepared.body is None
+            assert kwargs['allow_redirects'] is False and kwargs['timeout'] == (10, 35)
+            assert kwargs['stream'] is True
+            assert self.trust_env is False and self.get_adapter(prepared.url).max_retries.total == 0
+            parsed = urlsplit(prepared.url)
+            assert parsed.scheme == 'https' and parsed.netloc == 'api.heigit.org'
+            assert parsed.path == '/ohsome-api/v2/extraction/features.parquet' and not parsed.fragment
+            assert parse_qs(parsed.query) == {k: [v] for k, v in plan['queries'][0]['request']['params'].items()}
+            assert DUMMY not in prepared.url
+            raise TimeoutError('synthetic preparation-only failure: '+DUMMY)
+    with tempfile.TemporaryDirectory() as temp:
+        folder = Path(temp)/'prepared'
+        with patch('requests.Session', ProbeSession), \
+             patch('requests.sessions.get_netrc_auth', side_effect=AssertionError('netrc lookup forbidden')) as netrc, \
+             patch('requests.sessions.get_environ_proxies', side_effect=AssertionError('proxy lookup forbidden')) as proxies:
+            stream = io.StringIO()
+            with redirect_stdout(stream):
+                state = run(plan, folder, approved=True, key_provider=lambda: DUMMY, decode=decode)
+            assert len(captured) == 1 and state['receipts'][0]['state'] == 'failed'
+            netrc.assert_not_called(); proxies.assert_not_called()
+            assert DUMMY not in stream.getvalue()+json.dumps(state)
+            for path in folder.iterdir():
+                assert DUMMY.encode() not in path.read_bytes()
+        # Positive controls prove both lookup spies detect trust_env being enabled.
+        dirty = RequestsSession()
+        try:
+            with patch('requests.sessions.get_netrc_auth', side_effect=AssertionError('detected')) as netrc:
+                rejects(lambda: dirty.prepare_request(Request('GET', ENDPOINT)))
+                assert netrc.call_count == 1
+            with patch('requests.sessions.get_environ_proxies', side_effect=AssertionError('detected')) as proxies:
+                rejects(lambda: dirty.merge_environment_settings(ENDPOINT, {}, False, None, None))
+                assert proxies.call_count == 1
+        finally:
+            dirty.close()
+
+
 if __name__ == '__main__':
     with patch('requests.adapters.HTTPAdapter.send', side_effect=AssertionError('REAL HTTP FORBIDDEN')) as send:
         test_runner()
+        test_offline_request_preparation()
         send.assert_not_called()
     print('E285 fake-only transport/checkpoint/resume/stop/cap/dummy-key redaction PASS; real HTTP and Parquet decodes ZERO')

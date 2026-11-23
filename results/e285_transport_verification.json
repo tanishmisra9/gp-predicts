@@ -15,7 +15,7 @@
   "approval_received": false,
   "code_sha256": {
     "experiments/e285_heigit_acquire.py": "4796a955d30986afd861b3114d6f9be85e24dcade3353436a3730493858d43f2",
-    "tests/test_heigit_acquire.py": "7b2a690f8711be0269d71cb1f1bdd794bac5238ff4a436be87fbbcf613134e9d"
+    "tests/test_heigit_acquire.py": "bd59c690d9359293358f248da4b2c20159bcb37167d1f70cb9840c6a5d5bfa5b"
   },
   "checks": [
     "Fake exact six requests/header/timeout/spacing",
@@ -25,12 +25,22 @@
     "Orphan/corrupt/cache-path and concurrent-lock rejection before send",
     "Interrupted attempt retains started checkpoint; no automatic retry",
     "Dummy authorization values excluded from receipt/files/stdout/exception diagnostics",
-    "Default Session trust_env false and HTTPS retries zero"
+    "Default Session trust_env false and HTTPS retries zero",
+    "Real Requests prepare/merge path with dummy Authorization; no netrc/proxy calls; trust_env-enabled positive controls trigger spies"
   ],
   "limitations": [
     "Fake envelopes are not Parquet; no actual decoder/CRS-file/column-selection integration tested.",
-    "Dummy provider is not a Keychain or actual credential integration.",
+    "Dummy SDK header preparation verified; no actual Keychain/key/authenticated service integration.",
     "No additional user approval received; no account, wheel or map action.",
     "No source coverage, geometry validation, forecast feature or performance result."
-  ]
+  ],
+  "installed_sdk_dummy_request_preparation": {
+    "prepared_requests": 1,
+    "http_adapter_calls": 0,
+    "actual_credentials_used": false,
+    "URL_parameters_and_header_verified": true,
+    "real_netrc_or_proxy_helpers_executed": false,
+    "positive_controls_detect_enabled_trust_env": true,
+    "exception_echo_redacted": true
+  }
 }
