@@ -59,6 +59,7 @@ def main():
         assert not parts.fragment and parse_qs(parts.query) == {'data':[q['query']]} and transport['method'] == 'GET'
         assert transport['status_code'] == r.get('status_code')
         row = dict(index=i, circuit=q['circuit'], season=q['season'], state=r['state'], available=r['state']=='success')
+        row.update(status_code=r.get('status_code'), error_type=r.get('error_type'))
         if r['state'] == 'failed': assert i == len(receipts)-1
         if 'raw_file' in r:
             raw = (RAW/r['raw_file']).read_bytes()
@@ -91,6 +92,7 @@ def main():
     gate = len(receipts) == 6 and all(r['state'] == 'success' for r in receipts)
     result = dict(source_gate=gate, query_count=6, attempted=len(actual), available=len(projected), unattempted=6-len(actual),
                   accepted_raw_json_bytes=total, all_snapshot_counts=counts, independently_projected=len(projected),
+                  request_receipts=receipts, transport_receipts=actual,
                   actual_raw_poison_response_checks=poisoned, source_immutable=True, raw_hashes=before,
                   code_hashes={n:hashlib.sha256((ROOT/n).read_bytes()).hexdigest() for n in
                                ['experiments/e280_osm_proposal.py','experiments/e280_osm_acquire.py','tests/test_osm_source_artifact.py']},

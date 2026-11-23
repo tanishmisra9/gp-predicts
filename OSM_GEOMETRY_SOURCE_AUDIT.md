@@ -1,6 +1,8 @@
 # Historical mapped-circuit geometry — E280 approval proposal
 
-**Status: user approved the six-snapshot pilot on 2026-11-23: “Approve the six-snapshot OSM pilot”. Acquisition has not started at this checkpoint.** This is separate from the F1DB supplier approval. No further permission is needed within the scope below.
+**Completed 2026-11-23: source gate failed at the first request.** User approval was explicit: “Approve the six-snapshot OSM pilot”. The registered Catalunya 2019 query ended in `ReadTimeout` without an HTTP response. The global stop prevented the other five requests. Zero map bodies/records were acquired. Their availability remains unknown; this is not evidence that historical geometry is absent. No retry, alternate endpoint, longer timeout or changed query was attempted.
+
+The [independent source audit](results/e280_source_summary.json) verifies the one attempted exact URL, terminal failure, five unattempted snapshots, zero body bytes and unchanged receipt files. Actual geometry/projection/poison checks could not run because no source body was received. The empty [projection artifact](results/e280_osm_projection.json) carries attribution/licence context only. The original proposal and approved scope below remain recorded for provenance; their pending/next-step statements are historical and superseded by this result. The fixed pilot is closed without rescue.
 
 The proposed next step is a small source audit, not a forecast experiment. Historical mapped geometry could add information about circuit changes that current static descriptors omit. We do not yet know whether the maps identify the Grand Prix layout accurately, whether any differences represent physical changes, or whether this could improve winner prediction. E278 showed a need for new correct winning-team choices; it did not establish this source's usefulness.
 
