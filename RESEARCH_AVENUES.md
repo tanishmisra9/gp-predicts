@@ -530,3 +530,8 @@ A distinct untried CatBoost ordered learner on existing numeric histories plus i
 ## E269 structured supplier metadata: source lead, licence approval pending (2026-11-22)
 
 F1DB's pinned technical schemas include race-specific engine-manufacturer IDs; filemetadata listsall1032018–22races plus5annualentrantfiles. Noactualrecordsacquired orcoverage/physicalbrand/timingvalidated. TheexistingmanualPUmapleaves606/2060rowsunmapped; evenmappedassignmentsareunverified. Thisqualifiesa concretepotentialdatarepair audit, notamodelinput/gain orE193simulatorrescue. See ENGINE_SUPPLIER_SOURCE_AUDIT.md forpinnedsourceandproposedscope. ActualdatauseunderitsCCBY4.0licencerequiresuserapprovalpermissionhardrule; awaitexplicitreplybeforefirstbody. Noaccount/payment/newnativeF1call/fantasyretry/feature/2026evaluation. E268inner54.1%tiesGBM;75%remainsunmet.
+
+
+## E271 registered, no performance result (2026-11-23)
+
+One fixed strictpast recorded-brand peer-points history test is registered in EXPERIMENTS.md following E270coveragepass. Latest earlier SAMEseason raw-team record supplies membership, unknown0 at seasonstart/missing; leave-own-team-out peers, noannual or targetsupplier lookup orrebadge collapse. Matchedlegacy feature isolates source qualification from ordinary learnerchange. FixedE168/all61inner/points/ens/legacy/null/pairedgate and freshsourcepoison/fiveguards required. Historical publication timing remains assumed/unverified; no retrospective gain can alone establish deployable75%success. Notimplemented/scored; noouter/2026access orE193simulatorreopening.
