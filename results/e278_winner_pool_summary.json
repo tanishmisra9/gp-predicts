@@ -1,0 +1,138 @@
+{
+  "races": 61,
+  "entrants": 1220,
+  "models": {
+    "standings": {
+      "winners": 29,
+      "winner_rate": 0.47540983606557374,
+      "team_hits": 37,
+      "strict_podium_overlap": 0.6065573770491803
+    },
+    "ens": {
+      "winners": 30,
+      "winner_rate": 0.4918032786885246,
+      "team_hits": 37,
+      "strict_podium_overlap": 0.628415300546448
+    },
+    "win_logit": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "team_hits": 37,
+      "strict_podium_overlap": 0.639344262295082
+    },
+    "gbm_base": {
+      "winners": 33,
+      "winner_rate": 0.5409836065573771,
+      "team_hits": 36,
+      "strict_podium_overlap": 0.6065573770491803
+    },
+    "ordered_ids": {
+      "winners": 33,
+      "winner_rate": 0.5409836065573771,
+      "team_hits": 36,
+      "strict_podium_overlap": 0.6174863387978141
+    }
+  },
+  "oracle_winners": 39,
+  "oracle_rate": 0.639344262295082,
+  "numerical_75_count": 46,
+  "pool_reaches_numerical_75": false,
+  "partitions": {
+    "disagreement_any_correct": 16,
+    "unanimous_correct": 23,
+    "unanimous_wrong": 16,
+    "disagreement_none_correct": 6
+  },
+  "misses": {
+    "winning_team_absent": 17,
+    "winning_team_covered_wrong_driver": 5
+  },
+  "by_season": {
+    "2020": {
+      "races": 17,
+      "oracle_winners": 12,
+      "partitions": {
+        "disagreement_any_correct": 3,
+        "unanimous_correct": 9,
+        "unanimous_wrong": 5
+      },
+      "misses": {
+        "winning_team_absent": 4,
+        "winning_team_covered_wrong_driver": 1
+      }
+    },
+    "2021": {
+      "races": 22,
+      "oracle_winners": 12,
+      "partitions": {
+        "unanimous_correct": 4,
+        "unanimous_wrong": 6,
+        "disagreement_none_correct": 4,
+        "disagreement_any_correct": 8
+      },
+      "misses": {
+        "winning_team_absent": 8,
+        "winning_team_covered_wrong_driver": 2
+      }
+    },
+    "2022": {
+      "races": 22,
+      "oracle_winners": 15,
+      "partitions": {
+        "disagreement_none_correct": 2,
+        "disagreement_any_correct": 5,
+        "unanimous_wrong": 5,
+        "unanimous_correct": 10
+      },
+      "misses": {
+        "winning_team_absent": 5,
+        "winning_team_covered_wrong_driver": 2
+      }
+    }
+  },
+  "hindsight_paired_headroom": {
+    "standings": {
+      "diff": 0.16393442622950818,
+      "ci": [
+        0.08196721311475409,
+        0.26229508196721313
+      ],
+      "p_nonpositive": 0.0
+    },
+    "ens": {
+      "diff": 0.14754098360655737,
+      "ci": [
+        0.06557377049180328,
+        0.2459016393442623
+      ],
+      "p_nonpositive": 0.0
+    },
+    "win_logit": {
+      "diff": 0.11475409836065574,
+      "ci": [
+        0.03278688524590164,
+        0.19672131147540983
+      ],
+      "p_nonpositive": 0.0006
+    }
+  },
+  "diagnostic_only": true,
+  "trained_selector": false,
+  "outer_evaluated": false,
+  "evaluated_2026": false,
+  "universal_accuracy_ceiling": false,
+  "pool": [
+    "standings",
+    "ens",
+    "win_logit",
+    "gbm_base",
+    "ordered_ids"
+  ],
+  "source_hashes": {
+    "results.csv": "e2adf0fefe92ba2d53c3c1cf8cbc4642abc0d843a3b9540ef2a1c99c5fce813b",
+    "e268_inner_predictions.csv": "f15ccbb6ec68dde83be3cf4dfde303730021445cf1c60def0aade0622cbbda7d"
+  },
+  "source_immutable": true,
+  "code_sha256": "698314cbce7ba09dc93ff2ba4ca3a5793122d2742d413d54e2ea42ae2f06af1a",
+  "events_sha256": "04fbd414fabaea5d31cd0af11e4665629cd6259e8bc1b81003bff37a9a58bfa3"
+}
