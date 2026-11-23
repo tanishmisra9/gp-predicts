@@ -483,3 +483,8 @@ Three sustained RPM/speed departures across two of three fixed2019pilots pass so
 ## E259/E260: ratio pattern reached a winner test and failed (2026-11-22)
 
 Native packet provenance passed for the three fixed pilot episodes; physical fault meaning remains unverified. Expanded unchanged measurement supplies187episodes over99available2018–22events. One prior-team rate feature leaves all61innerwinnernames identical toE168:32/61 versuspoints29/61,ens30/61. Probability gains are unestablished too. Close the exact source/history/prior/model formulation without tuning rescue. Allsource/feature/ranking/leak audits pass; noouter/2026look. User-supplied creator research HTML is now available for primary-method and novelty review; its proposed empirical ceilings must not be treated as proven bounds.
+
+
+## E261 supplied creator report audit (2026-11-22)
+
+See CREATOR_RESEARCH_AUDIT.md. Primary F1-predict table ties championship43/87; its missing-snapshot/unnamed-winner exclusions differ from our full-race target. Its joint simulated-grid/race code is an implementation distinction, but does not override E134's closed conditional-grid follow-up without new qualifying information. Weather, recency and reset recommendations overlap completed negative experiments; event-document inputs remain excluded. The report's empirical frontier is not a universal ceiling. No new admissible predictive source or accuracy gain qualified.
