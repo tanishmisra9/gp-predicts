@@ -1,5 +1,7 @@
 # Historical engine-supplier source audit — E269
 
+**Update 2026-11-23 (E270):** The user explicitly approved the proposed historical supplier-data use. E269’s pending-approval statements below record its earlier state. E270 was registered/pushed before acquisition (dc0f4ec); all108 permitted pinned bodies are now locally cached and pass Git hash/projection checks. The first full identity audit exited on a wrong local checksum filename; the verified correction uses `_extended_timing_data.ff1pkl`. Full identity/coverage audit has not yet been rerun, so no source pass or prediction gain is established. See TAKEOVER_PROMPT.md for exact resume instructions and results/e270_SOURCE_NOTICE.md for attribution.
+
 Reviewed 2026-11-22. **No F1DB data-record bodies have been acquired or used.** This is a technical-source and file-metadata audit, pending the user's licence approval.
 
 ## Why this is worth checking

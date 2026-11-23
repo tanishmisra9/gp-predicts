@@ -103,7 +103,7 @@ def main():
             session = fastf1.get_session(year, rnd, 'Q')
             session.load(laps=True, telemetry=False, weather=False, messages=False)
             identity = identities(session.laps)
-            timing = Path(fastf1.Cache._get_cache_file_path(session.api_path, 'timing_data'))
+            timing = Path(fastf1.Cache._get_cache_file_path(session.api_path, '_extended_timing_data'))
             timing_hash = hashlib.sha256(timing.read_bytes()).hexdigest()
         event = official[official.season.eq(year) & official['round'].eq(rnd)]
         by_code = {}; unmatched = []
