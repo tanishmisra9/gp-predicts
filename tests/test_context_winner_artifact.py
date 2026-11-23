@@ -24,6 +24,8 @@ def main():
     assert P.groupby('model').size().eq(1220).all() and R.groupby('model').size().eq(61).all()
     assert not P.duplicated(['season', 'round', 'driver', 'model']).any()
     assert summary['features'] == F and summary['config'] == CONFIG
+    assert CONFIG == dict(width=8, l2=.01, half_life=100, init_seed=0, null_seed=277,
+                          maxiter=300, maxfun=10000, ftol=1e-10, gtol=1e-6)
     assert summary['evaluated_races'] == 61 and summary['forecast_entrants'] == 1220
     assert not any(summary[n] for n in ['outer_evaluated', 'evaluated_2026', 'historical_roster_publication_verified'])
     assert set(summary['paired']) == set(CONTROLS)
@@ -103,6 +105,23 @@ def main():
         np.testing.assert_array_equal(direct, saved.loc[current.driver, 'score'])
         original = next(r for r in receipts if r['season'] == 2022 and r['round'] == 10 and r['context'] == context and r['shuffled'] == shuffled)
         assert receipt == {k: v for k, v in original.items() if k not in ['season', 'round']}
+        # Independent actual training labels/null and scalar training objective.
+        prior = train.sort_values(['k', 'driver']).reset_index(drop=True)
+        values = prior[F].to_numpy()
+        medians = np.array([np.median(col[np.isfinite(col)]) if np.isfinite(col).any() else 0 for col in values.T])
+        imputed = np.where(np.isnan(values), medians, values); scale = imputed.std(axis=0); scale[scale == 0] = 1
+        A = (imputed-imputed.mean(axis=0))/scale
+        rng = np.random.default_rng(277); event_losses = []; event_weights = []
+        for event, rows in prior.groupby('k', sort=True):
+            indices = rows.index.to_numpy()
+            chosen = int(rng.integers(len(indices))) if shuffled else int(np.flatnonzero(rows.win.to_numpy() == 1)[0])
+            assert rows.win.sum() == 1
+            utility = scalar_forward(receipt['theta'], A[indices], context)
+            maximum = max(utility)
+            event_losses.append(maximum+math.log(math.fsum(math.exp(float(u)-maximum) for u in utility))-utility[chosen])
+            event_weights.append(2.**((event-prior.k.max())/100))
+        loss = sum(w*l for w, l in zip(event_weights, event_losses))/math.fsum(event_weights)+.005*math.fsum(t*t for t in receipt['theta'])
+        np.testing.assert_allclose(loss, receipt['loss'], atol=1e-12, rtol=1e-12)
     for name, frame in [('results_through_2022', results), ('pace_through_2022', pace)]:
         assert summary['input_hashes'][name] == hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest()
     for name, digest in summary['artifact_hashes'].items(): assert hashlib.sha256((directory / name).read_bytes()).hexdigest() == digest

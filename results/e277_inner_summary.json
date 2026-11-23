@@ -1,0 +1,223 @@
+{
+  "candidate": "context_win",
+  "features": [
+    "d3_order",
+    "d3_q_pos",
+    "d3_q_gap",
+    "d3_pts_n",
+    "d3_dnf",
+    "d3_gain",
+    "d3_pace_gap",
+    "t3_order",
+    "t3_q_pos",
+    "t3_q_gap",
+    "t3_pts_n",
+    "t3_dnf",
+    "t3_gain",
+    "t3_pace_gap",
+    "d10_order",
+    "d10_q_pos",
+    "d10_q_gap",
+    "d10_pts_n",
+    "d10_dnf",
+    "d10_gain",
+    "d10_pace_gap",
+    "t10_order",
+    "t10_q_pos",
+    "t10_q_gap",
+    "t10_pts_n",
+    "t10_dnf",
+    "t10_gain",
+    "t10_pace_gap",
+    "d_season_pts",
+    "t_season_pts",
+    "season_races",
+    "circ_grid_corr",
+    "circ_pole_win",
+    "era_round",
+    "field",
+    "prev_order",
+    "t_circ_res",
+    "d_circ_res"
+  ],
+  "config": {
+    "width": 8,
+    "l2": 0.01,
+    "half_life": 100,
+    "init_seed": 0,
+    "null_seed": 277,
+    "maxiter": 300,
+    "maxfun": 10000,
+    "ftol": 1e-10,
+    "gtol": 1e-06
+  },
+  "models": {
+    "context_null": {
+      "winners": 2,
+      "winner_rate": 0.03278688524590164,
+      "overlap": 0.16939890710382516,
+      "by_season": {
+        "2020": 1,
+        "2021": 1,
+        "2022": 0
+      },
+      "team_hits": 5,
+      "logloss": 9.29704890023664,
+      "brier": 1.5451792416605452
+    },
+    "context_win": {
+      "winners": 21,
+      "winner_rate": 0.3442622950819672,
+      "overlap": 0.4262295081967213,
+      "by_season": {
+        "2020": 7,
+        "2021": 6,
+        "2022": 8
+      },
+      "team_hits": 27,
+      "logloss": 4.4852184154581245,
+      "brier": 1.0500934960472839
+    },
+    "ens": {
+      "winners": 30,
+      "winner_rate": 0.4918032786885246,
+      "overlap": 0.628415300546448,
+      "by_season": {
+        "2020": 9,
+        "2021": 9,
+        "2022": 12
+      },
+      "team_hits": 37
+    },
+    "gbm_win": {
+      "winners": 33,
+      "winner_rate": 0.5409836065573771,
+      "overlap": 0.6065573770491802,
+      "by_season": {
+        "2020": 12,
+        "2021": 8,
+        "2022": 13
+      },
+      "team_hits": 36,
+      "logloss": 1.609161480304261,
+      "brier": 0.6710991265394947
+    },
+    "pre_logit": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "overlap": 0.6393442622950819,
+      "by_season": {
+        "2020": 10,
+        "2021": 9,
+        "2022": 13
+      },
+      "team_hits": 38,
+      "logloss": 1.7236921940522445,
+      "brier": 0.7496303854405131
+    },
+    "row_win": {
+      "winners": 17,
+      "winner_rate": 0.2786885245901639,
+      "overlap": 0.3989071038251366,
+      "by_season": {
+        "2020": 6,
+        "2021": 4,
+        "2022": 7
+      },
+      "team_hits": 23,
+      "logloss": 4.6229731914891286,
+      "brier": 1.1945056239730598
+    },
+    "standings": {
+      "winners": 29,
+      "winner_rate": 0.47540983606557374,
+      "overlap": 0.6065573770491802,
+      "by_season": {
+        "2020": 9,
+        "2021": 8,
+        "2022": 12
+      },
+      "team_hits": 37
+    },
+    "win_logit": {
+      "winners": 32,
+      "winner_rate": 0.5245901639344263,
+      "overlap": 0.6393442622950818,
+      "by_season": {
+        "2020": 11,
+        "2021": 8,
+        "2022": 13
+      },
+      "team_hits": 37,
+      "logloss": 1.5647789667190999,
+      "brier": 0.6832594266759052
+    }
+  },
+  "paired": {
+    "row_win": {
+      "diff": 0.06557377049180328,
+      "ci": [
+        -0.03278688524590164,
+        0.18032786885245902
+      ],
+      "p_nonpositive": 0.144
+    },
+    "gbm_win": {
+      "diff": -0.19672131147540983,
+      "ci": [
+        -0.3114754098360656,
+        -0.09836065573770492
+      ],
+      "p_nonpositive": 1.0
+    },
+    "win_logit": {
+      "diff": -0.18032786885245902,
+      "ci": [
+        -0.3114754098360656,
+        -0.06557377049180328
+      ],
+      "p_nonpositive": 0.9986
+    },
+    "standings": {
+      "diff": -0.13114754098360656,
+      "ci": [
+        -0.26229508196721313,
+        -0.01639344262295082
+      ],
+      "p_nonpositive": 0.989
+    },
+    "ens": {
+      "diff": -0.14754098360655737,
+      "ci": [
+        -0.2786885245901639,
+        -0.01639344262295082
+      ],
+      "p_nonpositive": 0.9928
+    }
+  },
+  "gate": false,
+  "evaluated_races": 61,
+  "forecast_entrants": 1220,
+  "outer_evaluated": false,
+  "evaluated_2026": false,
+  "historical_roster_publication_verified": false,
+  "optimizer_status_counts": {
+    "1": 183
+  },
+  "code_hashes": {
+    "experiments/e277_context_winner.py": "7fc7c555540e4ab5faab5e8c69710e63bfe515cf0605e8406c89f6369e638f57",
+    "experiments/e168_winner.py": "fc5ed816d7d01c1b61d77386293a8f3dc52326a0c6f715bdba15086becfc71e6",
+    "f1/features.py": "52689439651984cd6720b44765dc37e8bc4dbbaf045b3f0e7eb8929e629c54c4",
+    "f1/walkforward.py": "72068b932a2a2004e59c9750574c1559e87774d2c19ef5da3f585e53bcb20223"
+  },
+  "input_hashes": {
+    "results_through_2022": "2bf37b4cdbeb6d2a3ef3f65420ac03110e4988f6bb14473dd17841e78ad21ad3",
+    "pace_through_2022": "8a12d45b8f6ae7c912ec39c8e225529fa8486aa1e3da3cce7ed7084ccd4117d8"
+  },
+  "artifact_hashes": {
+    "e277_inner_per_race.csv": "e4c5b2bf9fa02f39a9093fc0b34d9258dfca1daa6733a900b34b163eb034e293",
+    "e277_inner_probability_metrics.csv": "13fb67effe51ed94ea799b9d71a0e6e77e4f82610551292abae7acea39e2cfe4",
+    "e277_fit_receipts.json": "e235f597fe3b2d2430918f52717c898f235a66754347a07a85dabadce9b82af0",
+    "e277_inner_predictions.csv": "7323b2ab53e0988b77f3024d49f64ed208cb9ddaeb0381b130240789d401d0af"
+  }
+}
