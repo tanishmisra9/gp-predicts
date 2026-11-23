@@ -1,0 +1,69 @@
+{
+  "experiment": "E285",
+  "retrieved_on": "2026-11-23",
+  "public_docs": [
+    {
+      "url": "https://account.heigit.org/chunk-5NJKAECG.js",
+      "sha256": "b8295f10ccdb56f080601e433c50047d2473fa4e45b3e480d912451f8635349e",
+      "bytes": 14750,
+      "role": "public terms component"
+    },
+    {
+      "url": "https://account.heigit.org/chunk-NMSCJ3VV.js",
+      "sha256": "239d03a70e0309e4ceb0a6faf7ef83ac63626e323745265d6bd106ee28fc3d17",
+      "bytes": 52846,
+      "role": "public plan component"
+    },
+    {
+      "url": "https://account.heigit.org/chunk-3OWMNZTP.js",
+      "sha256": "e2165e552bb4bc71bcc77d433842d73d3b3680acd1c73b355b39b8fc06818e5b",
+      "bytes": 134041,
+      "role": "public signup component"
+    }
+  ],
+  "terms_route": "https://account.heigit.org/info/tos",
+  "plans_route": "https://account.heigit.org/info/plans",
+  "observations": {
+    "terms": "Public component covers ohsome services; one account per person, no abuse/overburdening, attribution and OSM terms. No consent submitted.",
+    "signup": "Public component requires identity/email/terms consent; email verification and challenge are normal signup steps. No signup/auth/challenge endpoints called or bypass attempted. User handles verification; newsletter stays off.",
+    "plan": "Static public standard extraction configuration advertises 250/day and 15/60seconds; FAQ independently states 15/minute. This is not verified remaining user quota.",
+    "status": "Provider public status page labels HTTP API v2 extraction operational. It is a provider status claim, not direct API access or source coverage evidence."
+  },
+  "references": [
+    "https://status.heigit.org/",
+    "https://docs.ohsome.org/ohsome-api/stable/faq.html",
+    "https://docs.ohsome.org/ohsome-api/stable/reference/api.html",
+    "https://docs.ohsome.org/ohsome-api/stable/reference/data_model.html",
+    "https://docs.ohsome.org/ohsome-api/v2/reference/time.html",
+    "https://docs.ohsome.org/ohsome-api/stable/migration_guide.html",
+    "https://ohsome.org/copyrights",
+    "https://arrow.apache.org/docs/python/generated/pyarrow.parquet.read_table.html",
+    "https://parquet.apache.org/docs/file-format/types/geospatial/",
+    "https://pypi.org/pypi/pyarrow/26.0.1/json"
+  ],
+  "decoder": {
+    "name": "pyarrow",
+    "version": "26.0.1",
+    "licence": "Apache-2.0",
+    "requires_python": ">=3.11",
+    "requires_dist": null,
+    "wheel": {
+      "filename": "pyarrow-26.0.1-cp312-cp312-macosx_12_0_arm64.whl",
+      "url": "https://files.pythonhosted.org/packages/61/81/dc5814d61f8c956363e81bcaba61b4712a5d227324d40c766b3858160711/pyarrow-26.0.1-cp312-cp312-macosx_12_0_arm64.whl",
+      "size": 37290209,
+      "digests": {
+        "blake2b_256": "6181dc5814d61f8c956363e81bcaba61b4712a5d227324d40c766b3858160711",
+        "md5": "179d9d3351d3f2c457a820164e5de6eb",
+        "sha256": "217497a51fd41abb74502ba2f4900872e0944c226945c02ee8a1cb4f81df3392"
+      }
+    }
+  },
+  "verification": {
+    "terms_and_plan_component_hashes_recomputed": true,
+    "static_policy_not_actual_entitlement": true,
+    "no_v1_liveness_inferred_from_v2_status": true,
+    "installed_decoder_or_actual_parquet_decode": false,
+    "actual_source_or_transport_tests": false
+  },
+  "no_account_or_authenticated_or_map_api_or_package_install_action": true
+}

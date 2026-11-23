@@ -58,3 +58,9 @@ Next, commit the tested runner before these exact requests, then independently v
 HeiGIT documents an OSM-history API with historical geometry extraction, but its current v2 requires an account/API key. The migration guide's planned v1 shutdown date does not prove present access; inspected v1 documentation URLs redirect to v2. No service health/metadata/extraction request, map body or account action occurred. Usage terms, quota, credentials and actual source coverage remain unqualified. See `results/e283_osm_access_screen.json` and E283 in EXPERIMENTS.md for primary references and the limited claim audit.
 
 E280 approval and failed-source stop remain unchanged. This documentation screen supplies no authority for extra requests, alternate hosts, new accounts or another acquisition. Any independently qualified future access requires its own concrete scope; no such proposal or approval request is made here.
+
+## E285 additional access proposal prepared (2026-11-23; pending)
+
+[HEIGIT_GEOMETRY_SOURCE_PROPOSAL.md](HEIGIT_GEOMETRY_SOURCE_PROPOSAL.md) now provides a separately scoped proposal for a user-owned free HeiGIT account/key, secure local key use, pinned PyArrow26.0.1 and six additional requests through the documented v2 extraction service. Public provider status and policy were checked; actual access/quota/source coverage remain untested. Pure query/projection tests passed; no account, dependency or map action occurred. Actual Parquet/auth/transport integration must pass after approval and before acquisition.
+
+This is a new authorization request. E280 approval remains recorded and limited to its original exact Overpass scope; its timeout stop is unchanged. No old endpoint, alternate Overpass host, extra snapshot or model input is authorized by the proposal itself.
