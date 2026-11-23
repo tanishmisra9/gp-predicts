@@ -565,3 +565,8 @@ OneE168candidate adds observed-entrycount/rookie and prior-recordage/age² versu
 ## E275 age beyond observed-entry experience failed winner test (2026-11-23)
 
 All61inner candidate30/61vsnestedexperience32/E16832/points29/ens30/null2;twochangedwinnernameslosebothhits. Fixed37hit/allfourpositivepairedlowerboundgatefails,noouter/2026/promotionortuning. All2060scalarfeatures/actual24rawsourcepoison/prefix/earlierresponse/fittedscores/full61metrics/reference/hash/directfitchecksandfreshfiveguardsPASS. RecordedDOBsourcepassE274isreal,butnoincrementalwinnergain. Closeexactageyears+square/observedentrycount+rookie/E168formulation;historicalpublicationtime/rosterassumptionsremain.75%goalactive/unmet.
+
+
+## E276 mapping substitute withdrawn before values (2026-11-23)
+
+CachedSpeedintegrationisalreadyusedinf1/telemetry._grid. ProposingitasthemapinsideE264doesnotprovideindependentnewinformation/accessandwouldrescueclosedsource/maprules. VerifiedactualE264sourcegate3available/falseandpreserved403stop/noacquisition. No profile/model/performance measured; notproofallmany-lapraceshapeslackutility. AST/negativecontrol/hash/stopruleevidence savedundere276. Seekindependentqualifiedinformation ratherthanrenamedmap/modelvariants;75%goalactive/unmet.
