@@ -1,6 +1,6 @@
 # Historical mapped-circuit geometry — E280 approval proposal
 
-**Status: prepared and tested offline; no OSM records acquired. Explicit user approval is required before acquisition.** Approval of the F1DB supplier audit does not cover this source. The user prohibited new licences without approval.
+**Status: user approved the six-snapshot pilot on 2026-11-23: “Approve the six-snapshot OSM pilot”. Acquisition has not started at this checkpoint.** This is separate from the F1DB supplier approval. No further permission is needed within the scope below.
 
 The proposed next step is a small source audit, not a forecast experiment. Historical mapped geometry could add information about circuit changes that current static descriptors omit. We do not yet know whether the maps identify the Grand Prix layout accurately, whether any differences represent physical changes, or whether this could improve winner prediction. E278 showed a need for new correct winning-team choices; it did not establish this source's usefulness.
 
@@ -43,6 +43,10 @@ Passing this gate would establish only a usable historical mapping projection. I
 
 [The offline builder/projector](experiments/e280_osm_proposal.py) has no HTTP acquisition entry point. [Tests](tests/test_osm_proposal.py) independently verify all six dates, rectangles and query strings; they check historical node/way consistency, a node moving without a way-version change, ignored-text poisoning, positive coordinate responsiveness and 14 malformed/history-unsafe cases. The manifest is explicitly marked `approval_received: false` and `acquisition_performed: false`.
 
-After approval, implement and test the bounded request runner before making these exact requests. Then independently verify all raw responses, request/hash receipts, projections, timestamps, references, counts and source gate. Approval is limited to this six-snapshot ODbL source audit; it does not authorize additional datasets, requests, licences, spending, accounts or production changes.
+The [bounded runner](experiments/e280_osm_acquire.py) was prepared offline while approval was pending. [Fake-response tests](tests/test_osm_acquire.py) cover all six exact requests, spacing, complete/prefix-cache reuse, pre-send checkpointing, interrupted attempts, concurrent/stale locks, sticky failures, redirects/denials/timeouts, response closure and the inclusive 2 MiB accepted-body boundary. Actual HTTP is forbidden during tests. The command-line entry point does not acquire data; an operator confirmation flag cannot itself supply user permission. The user's explicit response above supplies permission for this scope.
 
-**Approval requested:** “Approve the six-snapshot OSM geometry pilot under ODbL.” Until that explicit response, no OSM data request will be made. The 75% exact pre-weekend winner goal remains active and unmet; this proposal supplies no accuracy gain.
+Requests' 35-second setting is its connection/read timeout, not a total wall-clock deadline. The 2 MiB cap bounds the accepted/stored decompressed JSON body; detecting an oversized response can read an additional chunk before closing, and transport buffering is not an exact wire-byte quota. These are implementation limitations, not relaxed source acceptance limits: every accepted body remains at most 2 MiB and at most six bodies can be accepted. No retry or source-gate change is authorized by this clarification.
+
+Next, commit the tested runner before these exact requests, then independently verify all raw responses, request/hash receipts, projections, timestamps, references, counts and source gate. Approval is limited to this six-snapshot ODbL source audit; it does not authorize additional datasets, requests, licences, spending, accounts or production changes.
+
+**Approval received:** “Approve the six-snapshot OSM pilot.” The immutable query proposal's `approval_received: false` records its pre-approval creation state; this dated update supersedes that status without changing the query manifest. The 75% exact pre-weekend winner goal remains active and unmet; approval supplies no accuracy gain.
