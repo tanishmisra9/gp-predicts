@@ -535,3 +535,8 @@ F1DB's pinned technical schemas include race-specific engine-manufacturer IDs; f
 ## E271 registered, no performance result (2026-11-23)
 
 One fixed strictpast recorded-brand peer-points history test is registered in EXPERIMENTS.md following E270coveragepass. Latest earlier SAMEseason raw-team record supplies membership, unknown0 at seasonstart/missing; leave-own-team-out peers, noannual or targetsupplier lookup orrebadge collapse. Matchedlegacy feature isolates source qualification from ordinary learnerchange. FixedE168/all61inner/points/ens/legacy/null/pairedgate and freshsourcepoison/fiveguards required. Historical publication timing remains assumed/unverified; no retrospective gain can alone establish deployable75%success. Notimplemented/scored; noouter/2026access orE193simulatorreopening.
+
+
+## E271 completed: recorded-brand peer feature failed (2026-11-23)
+
+All61inner candidate32/61tieslegacy32/E16832 withALLwinnernamesunchanged;points29,ens30,null1. No37hit/allfourpositivepairedlowerboundpass; noouter/2026score/promotionorparameterrescue. Independentallsource/2060feature/rawfuturepoison/prefix/earlierresponse/fittedscore/all61metric/bootstrap/reference/hash/directfitchecksandfreshfiveguardspass. SourcecoverageE270remainsvalid,butphysicalOEM/publicationtiming unverified andnoprovenwinnergain. Closeexactpeerpoints/same-season/latestmembership/ownteam-exclusion/HL10/5prior/E168formulation;E193staysclosed.75%goalactive/unmet.
