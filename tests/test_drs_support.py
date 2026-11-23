@@ -31,11 +31,22 @@ def main():
     assert centers(laps,car,pos.assign(Status="OffTrack"),origin,"AAA").empty
     assert centers(laps.assign(Compound="INTERMEDIATE"),car,pos,origin,"AAA").empty
     assert centers(laps,car.iloc[:4],pos,origin,"AAA").empty
+    assert len(centers(laps,car.iloc[:5],pos,origin,"AAA"))==1
+    mixed=car.copy();mixed.loc[1:5,"DRS"]=10
+    assert len(centers(laps,mixed,pos,origin,"AAA"))==len(found)
+    for step,expected in ((500_000_000,True),(500_000_001,False)):
+        dates=origin+pd.to_timedelta(np.arange(150)*step,unit="ns")
+        altered_car=car.assign(Date=dates,Time=dates-origin)
+        altered_pos=pos.assign(Date=dates,Time=dates-origin)
+        assert (len(centers(laps,altered_car,altered_pos,origin,"AAA"))>0)==expected
+
     broken=car.copy();broken.loc[70:,"Date"]+=pd.Timedelta(seconds=1)
     broken_centers=centers(laps,broken,pos,origin,"AAA")
     assert not broken_centers.native_index.between(68,71).any()
     off=found.iloc[:1].copy();off["state"]=0;off["native_index"]=1;off["lap"]=3;off["age"]=7
     on=found.iloc[:1].copy();on["native_index"]=100;on["x"]=off.x.iloc[0]+10;on["speed"]=255
+    exact_lap=on.copy();exact_lap["lap"]=8
+    assert len(match(pd.concat([off,exact_lap]),10))==1
     pair=match(pd.concat([off,on]),10)
     assert len(pair)==1 and pair.iloc[0].distance==10 and pair.iloc[0].speed_difference==5 and pair.iloc[0].age_difference==2
     for col,val in [("x",off.x.iloc[0]+10.0001),("speed",255.001),("age",9.001),("lap",9),("gear",7),("compound","SOFT"),("stint",2),("close",True)]:

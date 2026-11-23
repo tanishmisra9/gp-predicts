@@ -488,3 +488,8 @@ Native packet provenance passed for the three fixed pilot episodes; physical fau
 ## E261 supplied creator report audit (2026-11-22)
 
 See CREATOR_RESEARCH_AUDIT.md. Primary F1-predict table ties championship43/87; its missing-snapshot/unnamed-winner exclusions differ from our full-race target. Its joint simulated-grid/race code is an implementation distinction, but does not override E134's closed conditional-grid follow-up without new qualifying information. Weather, recency and reset recommendations overlap completed negative experiments; event-document inputs remain excluded. The report's empirical frontier is not a universal ceiling. No new admissible predictive source or accuracy gain qualified.
+
+
+## E262: spatially comparable recorded DRS states now supported (2026-11-22)
+
+Unlike E202's earlier empty race-car inventory, three fixed2019pilots now have explicit rawDRS states plus newly acquired nativeXY feeds. Registered5frame/samecar/stint/compound/gear/age/speed/nearbyXY/lapstarttraffic matching yields813pairs and8supporteddrivers perpilot; independent reconstruction passes. This qualifies a separately registered statecontrast/repeatability measurement, not a predictor or accuracy gain. Sourcegeometryscale is empirically inferred; physicalwing/drag causation and2026counterpart remainunverified. No winner/pace response was inspected; keep fullpreweekend target/previousnegative closures.
