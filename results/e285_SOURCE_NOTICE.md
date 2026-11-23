@@ -9,3 +9,5 @@ Transformation proposed: select historical way identity/version/minor-version/ed
 Proposed decoder: PyArrow26.0.1, Apache-2.0, pinned compatible wheel/hash in e285_source_metadata.json. No package downloaded/installed, service terms accepted, account created, API key read or request sent. Keep package licence/notices and install receipt if explicitly approved.
 
 The local proposal/projector and its synthetic fixtures are newly authored research code; fixtures contain no acquired OSM records. Actual Parquet/transport/source checks remain unexecuted.
+
+2026-11-23 update: explicit scoped approval received. Same pinned Apache-2.0 wheel installed in isolated research .venv-e285 after shared NumPy1.x incompatibility; initial shared addition removed. Packaged licences/notices retained and hashed in e285_decoder_installation.json. No map data/account/key action yet; preceding text is historical preapproval status.

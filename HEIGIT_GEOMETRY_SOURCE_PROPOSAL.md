@@ -1,4 +1,8 @@
-# E285: scoped HeiGIT historical geometry pilot — approval pending
+# E285: scoped HeiGIT historical geometry pilot — approved, integration in progress
+
+**Approval received 2026-11-23:** user replied “Approve the scoped HeiGIT pilot” to the exact account/key, pinned dependency and six-request question below. Do not request that scope again. Original manifest/metadata remain immutable preapproval records; dated checkpoints supersede their historical status fields. No account/key or map request yet. User-owned account setup, dashboard confirmation of at least six remaining extraction requests and secure key provision remain required.
+
+**Dependency checkpoint:** the pinned wheel's byte count/SHA256 verified. Its METADATA declares no dependencies, but actual import rejects the project's NumPy1.26.4. Research `.venv` is a symlink to the original environment: the initially added PyArrow was removed from that shared environment, with NumPy unchanged. The same approved wheel now imports in a dedicated research `.venv-e285` without NumPy or additional dependencies. This isolation is an implementation adjustment, not a new package/licence/data scope. Package licences/notices remain installed; receipt: `results/e285_decoder_installation.json`. Actual Parquet decoding and Keychain integration are still pending. Historical proposal text below describes its preapproval state.
 
 This proposes a new, bounded access route to the same six OSM snapshots. Historical circuit geometry may eventually supply information about layout changes; no source coverage, correct Grand Prix route, physical change or winner benefit has been established. The goal remains 75% exact winners across all races before the weekend.
 
